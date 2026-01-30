@@ -39,14 +39,12 @@
       overflow-x:hidden;
     }
 
-    /* ==== Layout ==== */
     .wrap{
       width:min(var(--max), 94vw);
       margin:0 auto;
       padding: 22px 0 70px;
     }
 
-    /* ==== Header simple (como index, sin nav para evitar bloat) ==== */
     .hero{
       padding: 18px 0 10px;
       display:grid;
@@ -78,7 +76,7 @@
       margin-top: 6px;
     }
 
-    /* ==== Botones (igual a tu index) ==== */
+    /* Botones como index */
     .btn{
       display:inline-flex;
       align-items:center;
@@ -101,7 +99,6 @@
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
-    /* ==== Secciones (centradas como tu index) ==== */
     .section{ margin-top: 18px; }
     .section-head{
       display:flex;
@@ -116,7 +113,7 @@
       letter-spacing:.2px;
     }
 
-    /* ==== Grid responsive iPhone-first ==== */
+    /* Grid iPhone-first */
     .grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -129,7 +126,7 @@
       .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); }
     }
 
-    /* ==== Card (igual a tu index) ==== */
+    /* Card estilo index */
     .card{
       position: relative;
       border-radius: var(--r2);
@@ -143,21 +140,11 @@
       animation: riseIn .6s var(--ease) both;
     }
 
-    .card-inner{
-      display:flex;
-      flex-direction:column;
-      padding: 16px 16px 18px;
-      gap: 10px;
-      min-height: 100%;
-    }
-
-    /* Animación base (igual a index) */
     @keyframes riseIn{
       from{ opacity:0; transform: translateY(14px); }
       to{ opacity:1; transform: translateY(0); }
     }
 
-    /* Stagger por tarjetas (simple y estable) */
     .grid .card:nth-child(1){ animation-delay: .00s; }
     .grid .card:nth-child(2){ animation-delay: .06s; }
     .grid .card:nth-child(3){ animation-delay: .12s; }
@@ -167,9 +154,18 @@
     .grid .card:nth-child(7){ animation-delay: .36s; }
     .grid .card:nth-child(8){ animation-delay: .42s; }
 
-    /* Encabezados card */
+    /* ✅ Todo centrado en card */
+    .card-inner{
+      display:flex;
+      flex-direction:column;
+      padding: 18px 20px 20px;
+      gap: 10px;
+      min-height: 100%;
+      text-align: center;
+    }
+
     .tag{
-      align-self:flex-start;
+      align-self:center;
       font-size: 12px;
       font-weight: 900;
       padding: 6px 10px;
@@ -197,6 +193,7 @@
     .price{
       display:flex;
       align-items:baseline;
+      justify-content:center;
       gap:10px;
       margin-top: 2px;
     }
@@ -211,22 +208,26 @@
       font-size: 13px;
     }
 
+    /* ✅ Bullets a la izquierda pero sin pegarse al borde */
     ul{
-      margin: 6px 0 0;
-      padding-left: 18px;
+      margin: 8px auto 0;
+      padding-left: 20px;
+      max-width: 92%;
+      text-align:left;
       color: rgba(255,255,255,.86);
       font-size: 13px;
       line-height: 1.55;
     }
 
-    /* Botón dentro de card: usa .btn primary para consistencia */
     .card .btn{
-      margin-top: auto;
+      margin-top:auto;
       width: 100%;
+      max-width: 520px;
       justify-content:center;
+      margin-left:auto;
+      margin-right:auto;
     }
 
-    /* Featured: ligero highlight sin romper estilo */
     .featured{
       background:
         radial-gradient(520px 240px at 30% 0%, rgba(53,209,255,.16), transparent 60%),
@@ -256,7 +257,6 @@
       text-align:center;
     }
 
-    /* Accesibilidad */
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
     }
@@ -277,7 +277,6 @@
         </div>
       </header>
 
-      <!-- OFERTAS RÁPIDAS -->
       <section class="section" aria-label="Ofertas rápidas">
         <div class="section-head"><h2>Ofertas rápidas</h2></div>
 
@@ -353,7 +352,6 @@
         </div>
       </section>
 
-      <!-- PAQUETES WORDPRESS -->
       <section class="section" aria-label="Paquetes WordPress">
         <div class="section-head"><h2>Paquetes WordPress</h2></div>
 
