@@ -427,3 +427,27 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
   #rd-landing .blob,
   #rd-landing .headline .grad{ animation:none !important; }
 }
+/* ==== Drawer brand (logo + nombre arriba del menú) ==== */
+.drawer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 8px 6px 14px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+.drawer-brand img{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.05);
+}
+
+.drawer-brand span{
+  font-weight:900;
+  font-size:16px;
+  letter-spacing:.2px;
+}
+
