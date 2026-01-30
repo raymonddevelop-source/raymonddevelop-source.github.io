@@ -39,6 +39,7 @@
       overflow-x:hidden;
     }
 
+    /* ==== Full width real ==== */
     .stage{
       width:100vw;
       position:relative;
@@ -47,6 +48,7 @@
       min-height:100svh;
     }
 
+    /* ==== NAV ==== */
     .nav{
       position:sticky;
       top:0;
@@ -54,6 +56,7 @@
       padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
       background: rgba(7,9,20,.55);
       border-bottom: 1px solid rgba(255,255,255,.10);
+      -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
     }
 
@@ -63,6 +66,14 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
+      gap:10px;
+    }
+
+    .nav-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
     }
 
     .burger{
@@ -72,151 +83,450 @@
       background: rgba(255,255,255,.06);
       display:grid;
       place-items:center;
+      box-shadow: var(--shadow2);
       cursor:pointer;
+      user-select:none;
+      flex:0 0 auto;
     }
+    .burger svg{ width:18px; height:18px; opacity:.95; }
 
     .brand-mini{
       display:flex;
       align-items:center;
       gap:10px;
+      min-width:0;
     }
-
     .brand-mini img{
       width:28px; height:28px;
-      border-radius:10px;
+      border-radius: 10px;
+      display:block;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
     }
-
     .brand-mini .name{
       font-weight:900;
-      font-size:15px;
+      font-size: 15px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 52vw;
     }
 
+    /* ==== Drawer menu ==== */
+    .drawer-backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .22s var(--ease);
+      z-index:60;
+    }
+    .drawer-backdrop.open{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .drawer{
+      position:fixed;
+      top:0; left:0;
+      width:min(86vw, 340px);
+      height:100%;
+      background: rgba(10,12,28,.92);
+      border-right:1px solid rgba(255,255,255,.10);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      transform: translateX(-102%);
+      transition: transform .24s var(--ease);
+      z-index:70;
+      padding: calc(14px + env(safe-area-inset-top)) 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .drawer.open{ transform: translateX(0); }
+
+    .drawer a{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      text-decoration:none;
+      color: rgba(255,255,255,.88);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      font-weight: 900;
+    }
+    .drawer small{
+      color: rgba(255,255,255,.55);
+      font-weight:800;
+      margin-top: 8px;
+    }
+
+    /* ==== Layout ==== */
     .wrap{
       width:min(var(--max), 94vw);
       margin:0 auto;
       padding: 18px 0 70px;
     }
 
+    /* ==== HERO ==== */
     .hero{
       padding: 18px 0 10px;
       display:grid;
       gap: 14px;
+      align-items:center;
       justify-items:center;
       text-align:center;
     }
 
     .logo-big{
       width:min(74vw, 360px);
-      aspect-ratio:1/1;
-      border-radius:999px;
+      aspect-ratio: 1/1;
+      border-radius: 999px;
       background: rgba(255,255,255,.05);
       border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
       display:grid;
       place-items:center;
       overflow:hidden;
+
       transform: translateY(12px);
       opacity:0;
-      transition:.6s var(--ease);
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
     }
-    .logo-big.in{ transform:none; opacity:1; }
+    .logo-big.in{ transform: translateY(0); opacity:1; }
 
     .logo-big img{
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit: cover;
+      display:block;
     }
 
     .hero-title{
       font-size: clamp(22px, 5vw, 34px);
-      font-weight:1000;
+      font-weight: 1000;
+      letter-spacing: -0.03em;
+      margin: 2px 0 0;
+
+      transform: translateY(10px);
       opacity:0;
-      transform:translateY(10px);
-      transition:.6s var(--ease);
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
     }
-    .hero-title.in{ opacity:1; transform:none; }
+    .hero-title.in{ transform: translateY(0); opacity:1; }
 
     .hero-actions{
       display:flex;
+      gap:12px;
+      flex-wrap:wrap;
       justify-content:center;
-      margin-top:6px;
+      margin-top: 6px;
+
+      transform: translateY(10px);
       opacity:0;
-      transform:translateY(10px);
-      transition:.6s var(--ease);
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
     }
-    .hero-actions.in{ opacity:1; transform:none; }
+    .hero-actions.in{ transform: translateY(0); opacity:1; }
 
     .btn{
-      padding:14px 22px;
-      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      font-weight: 950;
+      font-size: 14px;
+      text-decoration:none;
+      box-shadow: var(--shadow2);
+      transition: transform .18s var(--ease), filter .18s var(--ease);
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .btn.primary{
       border:1px solid rgba(53,209,255,.26);
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
-      color:#fff;
-      font-weight:950;
-      text-decoration:none;
     }
 
-    .section{ margin-top:22px; }
+    /* ==== Secciones ==== */
+    .section{ margin-top: 18px; }
 
-    footer{
-      margin-top:22px;
-      padding:18px 0;
-      border-top:1px solid rgba(255,255,255,.10);
+    .section-head{
+      display:flex;
+      justify-content:center;
+      margin: 12px 0;
       text-align:center;
-      font-size:12px;
-      color:rgba(255,255,255,.55);
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size: 18px;
+      font-weight: 1000;
+      letter-spacing:.2px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    /* ==== Cards (iOS safe) ==== */
+    .card{
+      position: relative;
+      border-radius: var(--r2);
+      background: rgba(18, 20, 42, 0.95);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.10),
+        var(--shadow2);
+      overflow: hidden;
+      isolation: isolate;
+      animation: riseIn .6s var(--ease) both;
+    }
+
+    @keyframes riseIn{
+      from{ opacity:0; transform: translateY(14px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    /* Stagger cards (solo visual) */
+    .grid .card:nth-child(1){ animation-delay: .00s; }
+    .grid .card:nth-child(2){ animation-delay: .06s; }
+    .grid .card:nth-child(3){ animation-delay: .12s; }
+    .grid .card:nth-child(4){ animation-delay: .18s; }
+    .grid .card:nth-child(5){ animation-delay: .24s; }
+    .grid .card:nth-child(6){ animation-delay: .30s; }
+
+    .thumb{
+      width:100%;
+      aspect-ratio: 16/11;
+      background:
+        radial-gradient(900px 500px at 30% 20%, rgba(53,209,255,.18), transparent 55%),
+        radial-gradient(900px 500px at 80% 20%, rgba(255,79,216,.14), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:block;
+      overflow:hidden;
+    }
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+      transition: transform .35s var(--ease);
+    }
+    .card:hover .thumb img{ transform: scale(1.06); }
+
+    .card-body{
+      padding: 16px 16px 18px;
+      display:grid;
+      gap:6px;
+      text-align:left;
+    }
+
+    .card-body b{
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing:.1px;
+    }
+
+    .card-body span{
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 13px;
+      line-height:1.45;
+    }
+
+    /* ==== CONTACTO: 1 tarjeta + 3 botones con animación CSS ==== */
+    #contact .contact-card{
+      text-align:center;
+    }
+
+    #contact .contact-actions{
+      display:grid;
+      gap:12px;
+      justify-items:center;
+      margin-top: 4px;
+    }
+
+    #contact .contact-actions .btn{
+      width:100%;
+      max-width: 520px;
+      justify-content:center;
+
+      /* animación SOLO en botones */
+      animation: btnIn .55s var(--ease) both;
+    }
+
+    #contact .contact-actions .btn:nth-child(1){ animation-delay: .00s; }
+    #contact .contact-actions .btn:nth-child(2){ animation-delay: .08s; }
+    #contact .contact-actions .btn:nth-child(3){ animation-delay: .16s; }
+
+    @keyframes btnIn{
+      from{ opacity:0; transform: translateY(10px) scale(.98); }
+      to{ opacity:1; transform: translateY(0) scale(1); }
+    }
+
+    /* ==== Responsive ==== */
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+      .brand-mini .name{ max-width: 44vw; }
+    }
+
+    @media (max-width: 420px){
+      .logo-big{ width: min(84vw, 360px); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; }
+      .logo-big, .hero-title, .hero-actions{ transform:none !important; opacity:1 !important; }
+      .card{ opacity:1 !important; transform:none !important; }
+      #contact .contact-actions .btn{ opacity:1 !important; transform:none !important; }
     }
   </style>
 </head>
 
 <body>
+  <div class="drawer-backdrop" id="backdrop"></div>
 
-<header class="nav">
-  <div class="nav-inner">
-    <div class="burger">☰</div>
-    <div class="brand-mini">
-      <img src="logo.png" alt="Logo">
-      <div class="name">RaymondDevelop</div>
+  <aside class="drawer" id="drawer" aria-label="Menú">
+    <a href="#work">Portafolio</a>
+    <a href="planes.html">Planes y Ofertas</a>
+    <a href="#contact">Contacto</a>
+    <small>Tip: sube 3 imágenes a /assets/ para que esto se vea nivel agencia.</small>
+  </aside>
+
+
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="burger" id="burger" aria-label="Abrir menú" role="button" tabindex="0">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M5 7h14M5 12h14M5 17h14" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="brand-mini">
+          <img src="logo.png" alt="Logo Raymond Develop" />
+          <div class="name">RaymondDevelop</div>
+        </div>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<main class="stage">
-  <div class="wrap">
+  <main class="stage">
+    <div class="wrap">
+      <section class="hero" id="top">
+        <div class="logo-big" id="logoBig">
+          <img src="logo.png" alt="Raymond Develop" />
+        </div>
 
-    <section class="hero">
-      <div class="logo-big" id="logoBig">
-        <img src="logo.png" alt="Raymond Develop">
+        <h2 class="hero-title" id="heroTitle">Diseño de páginas web en Puerto Rico para tu negocio</h2>
+
+        <!-- ✅ CAMBIO: solo 1 botón centrado y con nuevo texto -->
+        <div class="hero-actions" id="heroActions">
+          <a class="btn primary" href="#contact">Contáctanos</a>
+        </div>
+      </section>
+
+      <section class="section" id="work">
+        <div class="section-head">
+          <h2>Portafolio</h2>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <a class="thumb" href="#" aria-label="Proyecto 1">
+              <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de landing moderna">
+            </a>
+            <div class="card-body">
+              <b>Landing de Negocio</b>
+              <span>Diseño limpio + CTA directo + estructura lista para SEO.</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <a class="thumb" href="#" aria-label="Proyecto 2">
+              <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de web de servicios">
+            </a>
+            <div class="card-body">
+              <b>Servicios Profesionales</b>
+              <span>Sección de servicios con tarjetas, testimonios y contacto rápido.</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <a class="thumb" href="#" aria-label="Proyecto 3">
+              <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de restaurante con menú">
+            </a>
+            <div class="card-body">
+              <b>Restaurante + Menú QR</b>
+              <span>Menú digital, mapa, WhatsApp, botón llamar y redes.</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ✅ CONTACTO: 1 card + 3 botones -->
+      <section class="section" id="contact">
+        <div class="section-head">
+          <h2>Contáctanos</h2>
+        </div>
+
+        <div class="grid">
+          <article class="card contact-card">
+            <div class="card-body contact-actions">
+              <a class="btn primary" href="https://wa.me/17872241230" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+              <a class="btn primary" href="tel:+17872241230">Llamar</a>
+              <a class="btn primary" href="mailto:raymond@raymoddevelop.com">Email</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div style="margin-top:22px; padding:18px 0; border-top:1px solid rgba(255,255,255,.10); color:rgba(255,255,255,.55); font-weight:800; font-size:12px; text-align:center;">
+        © <span id="year"></span> Raymond Develop
       </div>
+    </div>
+  </main>
 
-      <h2 class="hero-title" id="heroTitle">
-        Diseño de páginas web en Puerto Rico para tu negocio
-      </h2>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-      <div class="hero-actions" id="heroActions">
-        <a class="btn" href="#contact">Contáctanos</a>
-      </div>
-    </section>
+    const drawer = document.getElementById('drawer');
+    const backdrop = document.getElementById('backdrop');
+    const burger = document.getElementById('burger');
 
-    <section class="section" id="contact">
-      <h2 style="text-align:center">Contáctanos</h2>
-      <p style="text-align:center">WhatsApp · Llamada · Email</p>
-    </section>
+    function openDrawer(){
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
-    <footer>
-      © <span id="year"></span> Raymond Develop
-    </footer>
+    burger.addEventListener('click', openDrawer);
+    burger.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openDrawer(); });
+    backdrop.addEventListener('click', closeDrawer);
+    drawer.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeDrawer(); });
 
-  </div>
-</main>
+    const logoBig = document.getElementById('logoBig');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroActions = document.getElementById('heroActions');
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-  requestAnimationFrame(()=>{
-    logoBig.classList.add('in');
-    heroTitle.classList.add('in');
-    heroActions.classList.add('in');
-  });
-</script>
-
+    requestAnimationFrame(()=>{
+      if (logoBig) logoBig.classList.add('in');
+      if (heroTitle) heroTitle.classList.add('in');
+      if (heroActions) heroActions.classList.add('in');
+    });
+  </script>
 </body>
 </html>
+
