@@ -302,15 +302,20 @@
     }
 
     .card{
-      border-radius: var(--r2);
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      transform: translateY(12px);
-      opacity:0;
-      transition: transform .6s var(--ease), opacity .6s var(--ease);
-    }
+  border-radius: var(--r2);
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: var(--shadow2);
+  overflow:hidden;
+
+  /* 🔧 FIX Safari iOS */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+
+  opacity:0;
+  transition: opacity .6s var(--ease);
+}
+
     .card.in{ transform: translateY(0); opacity:1; }
 
     .thumb{
