@@ -122,32 +122,9 @@
       flex:0 0 auto;
     }
 
-    .iconbtn{
-      width:40px; height:40px;
-      border-radius: 12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      display:grid;
-      place-items:center;
-      box-shadow: var(--shadow2);
-      cursor:pointer;
-      user-select:none;
-    }
-    .iconbtn svg{ width:18px; height:18px; opacity:.95; }
+    
 
-    .cta{
-      padding: 10px 14px;
-      border-radius: 999px;
-      border:1px solid rgba(53,209,255,.26);
-      background: linear-gradient(90deg, rgba(53,209,255,.16), rgba(124,77,255,.10));
-      color: rgba(255,255,255,.92);
-      font-weight: 950;
-      font-size: 13px;
-      text-decoration:none;
-      box-shadow: var(--shadow2);
-      transition: transform .18s var(--ease), filter .18s var(--ease);
-    }
-    .cta:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    
 
     /* ==== Drawer menu ==== */
     .drawer-backdrop{
@@ -416,13 +393,8 @@
       </div>
 
       <div class="nav-right">
-        <a class="cta" href="#contact">Cotizar</a>
-        <div class="iconbtn" id="toTop" aria-label="Ir arriba" role="button" tabindex="0">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 5l6 6M12 5l-6 6" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 5v14" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </div>
+        
+        
       </div>
     </div>
   </header>
@@ -589,12 +561,7 @@
       if(e.target.tagName === 'A') closeDrawer();
     });
 
-    // Scroll top
-    const toTop = document.getElementById('toTop');
-    function goTop(){ window.scrollTo({ top: 0, behavior: 'smooth' }); }
-    toTop.addEventListener('click', goTop);
-    toTop.addEventListener('keydown', (e)=>{ if(e.key==='Enter') goTop(); });
-
+    
     // Hero entry (suave y estable)
     const logoBig = document.getElementById('logoBig');
     const heroTitle = document.getElementById('heroTitle');
