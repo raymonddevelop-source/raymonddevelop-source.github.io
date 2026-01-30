@@ -308,13 +308,15 @@
   box-shadow: var(--shadow2);
   overflow:hidden;
 
-  /* 🔧 FIX Safari iOS */
+  -webkit-transform: translateZ(0);
   transform: translateZ(0);
   backface-visibility: hidden;
 
+  transform: translateY(12px);
   opacity:0;
-  transition: opacity .6s var(--ease);
+  transition: transform .6s var(--ease), opacity .6s var(--ease);
 }
+
 
     .card.in{ transform: translateY(0); opacity:1; }
 
