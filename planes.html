@@ -26,6 +26,7 @@
 
     *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
     html,body{ height:100%; }
+    html{ scroll-behavior:smooth; }
 
     body{
       margin:0;
@@ -39,18 +40,177 @@
       overflow-x:hidden;
     }
 
-    /* ✅ MENOS ESPACIO A LOS LADOS EN iPhone */
+    /* === Noise sutil (premium) === */
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:9999;
+      opacity:.55;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    }
+
+    /* ==== Full width real ==== */
+    .stage{
+      width:100vw;
+      position:relative;
+      left:50%;
+      transform:translateX(-50%);
+      min-height:100svh;
+    }
+
+    /* ==== NAV (igual vibra index) ==== */
+    .nav{
+      position:sticky;
+      top:0;
+      z-index:50;
+      padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
+      background: rgba(7,9,20,.52);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-inner{
+      width:min(var(--max), 94vw);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .nav-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+
+    .burger{
+      width:40px; height:40px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      display:grid;
+      place-items:center;
+      box-shadow: var(--shadow2);
+      cursor:pointer;
+      user-select:none;
+      flex:0 0 auto;
+      transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
+      will-change: transform;
+    }
+    .burger:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+    .burger:active{ transform: translateY(1px) scale(.98); }
+    .burger svg{ width:18px; height:18px; opacity:.95; }
+
+    .brand-mini{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .brand-mini .name{
+      font-weight:900;
+      font-size: 15px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 52vw;
+    }
+
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:0 0 auto;
+    }
+
+    /* ==== Drawer menu ==== */
+    .drawer-backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .22s var(--ease);
+      z-index:60;
+    }
+    .drawer-backdrop.open{ opacity:1; pointer-events:auto; }
+
+    .drawer{
+      position:fixed;
+      top:0; left:0;
+      width:min(86vw, 340px);
+      height:100%;
+      background: rgba(10,12,28,.90);
+      border-right:1px solid rgba(255,255,255,.10);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      transform: translateX(-102%);
+      transition: transform .24s var(--ease);
+      z-index:70;
+      padding: calc(14px + env(safe-area-inset-top)) 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .drawer.open{ transform: translateX(0); }
+
+    .drawer-brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 8px 6px 14px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .drawer-brand img{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      display:block;
+      object-fit:cover;
+    }
+    .drawer-brand span{
+      font-weight:900;
+      font-size:16px;
+      letter-spacing:.2px;
+      color: rgba(255,255,255,.92);
+    }
+
+    .drawer a{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      text-decoration:none;
+      color: rgba(255,255,255,.88);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      font-weight: 900;
+      transition: filter .16s var(--ease), transform .16s var(--ease);
+    }
+    .drawer a:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+    .drawer a:active{ transform: translateY(1px) scale(.99); }
+
+    /* ==== Layout (menos espacio iPhone) ==== */
     .wrap{
       width:min(var(--max), 98vw);
       margin:0 auto;
-      padding: 18px 8px 70px;  /* <— antes 94vw + padding grande */
+      padding: 18px 8px 86px;
     }
     @media (min-width: 520px){
       .wrap{ padding-left: 14px; padding-right: 14px; }
     }
 
+    /* ==== HERO ==== */
     .hero{
-      padding: 18px 0 8px;
+      padding: 16px 0 10px;
       display:grid;
       gap: 10px;
       justify-items:center;
@@ -61,6 +221,7 @@
       font-size: clamp(22px, 5vw, 34px);
       font-weight: 1000;
       letter-spacing: -0.03em;
+      line-height:1.08;
     }
     .hero p{
       margin:0;
@@ -70,15 +231,41 @@
       max-width: 60ch;
     }
 
-    .top-actions{
+    /* ==== Chips (tabs) ==== */
+    .chips{
+      margin-top: 8px;
       display:flex;
       gap:10px;
       flex-wrap:wrap;
       justify-content:center;
-      margin-top: 6px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.90);
+      text-decoration:none;
+      font-weight: 950;
+      font-size: 13px;
+      box-shadow: var(--shadow2);
+      transition: transform .16s var(--ease), filter .16s var(--ease);
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+      cursor:pointer;
+    }
+    .chip:hover{ transform: translateY(-1px); filter: brightness(1.06); }
+    .chip:active{ transform: translateY(1px) scale(.99); }
+    .chip[aria-current="true"]{
+      border:1px solid rgba(53,209,255,.26);
+      background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
-    /* Botones base (igual vibra index) */
+    /* ==== Botones base ==== */
     .btn{
       position: relative;
       display:inline-flex;
@@ -94,18 +281,24 @@
       font-size: 14px;
       text-decoration:none;
       box-shadow: var(--shadow2);
-      transition: transform .18s var(--ease), filter .18s var(--ease);
+      transition: transform .18s var(--ease), filter .18s var(--ease), box-shadow .18s var(--ease);
       overflow:hidden;
       isolation:isolate;
+      cursor:pointer;
     }
-    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 14px 34px rgba(0,0,0,.42); }
+    .btn:active{ transform: translateY(1px) scale(.99); filter: brightness(1.03); }
+    .btn:focus-visible{
+      outline: 2px solid rgba(53,209,255,.65);
+      outline-offset: 3px;
+    }
     .btn.primary{
       border:1px solid rgba(53,209,255,.26);
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
-    /* ✅ Animación sutil tipo “sheen” en botones */
-    .btn::after{
+    /* Sheen elegante */
+    .btn::after, .chip::after{
       content:"";
       position:absolute;
       inset:-2px;
@@ -120,14 +313,16 @@
       mix-blend-mode: screen;
       opacity:.9;
     }
-    .btn:hover::after{ transform: translateX(120%); }
-    .btn:active{ transform: translateY(0); filter: brightness(1.03); }
+    .btn:hover::after, .chip:hover::after{ transform: translateX(120%); }
 
+    /* ==== Secciones ==== */
     .section{ margin-top: 14px; }
     .section-head{
       display:flex;
-      justify-content:center;
-      margin: 16px 0 10px;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      margin: 14px 0 10px;
       text-align:center;
     }
     .section-head h2{
@@ -136,8 +331,14 @@
       font-weight: 1000;
       letter-spacing:.2px;
     }
+    .section-head .hint{
+      margin:0;
+      color: var(--muted2);
+      font-weight: 850;
+      font-size: 12.5px;
+    }
 
-    /* ✅ Grid iPhone-first con gap más “tight” */
+    /* Grid responsive */
     .grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -150,22 +351,24 @@
       .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
     }
 
-    /* ✅ Cards más “premium” y menos secas */
+    /* ==== Cards premium ==== */
     .card{
       position: relative;
       border-radius: var(--r2);
       background: rgba(18, 20, 42, 0.94);
       overflow:hidden;
       isolation:isolate;
-
       box-shadow:
         0 18px 55px rgba(0,0,0,.45),
         inset 0 0 0 1px rgba(255,255,255,.10);
 
-      animation: riseIn .6s var(--ease) both;
+      /* scroll reveal */
+      opacity:0;
+      transform: translateY(14px);
+      will-change: transform, opacity;
     }
 
-    /* glow superior suave */
+    /* Glow ambiental */
     .card::before{
       content:"";
       position:absolute;
@@ -174,44 +377,54 @@
         radial-gradient(520px 220px at 18% 8%, rgba(53,209,255,.16), transparent 60%),
         radial-gradient(520px 220px at 85% 0%, rgba(124,77,255,.14), transparent 62%),
         radial-gradient(520px 220px at 55% 100%, rgba(255,79,216,.10), transparent 65%);
-      opacity:.85;
+      opacity:.90;
       pointer-events:none;
     }
-
-    /* brillo interno suave */
+    /* brillo interno */
     .card::after{
       content:"";
       position:absolute;
       inset:0;
-      background: linear-gradient(180deg, rgba(255,255,255,.08), transparent 40%, rgba(0,0,0,.10));
+      background: linear-gradient(180deg, rgba(255,255,255,.08), transparent 40%, rgba(0,0,0,.12));
       opacity:.55;
       pointer-events:none;
     }
+
+    /* borde glow al hover (impresiona pero fino) */
+    .card .ring{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius:inherit;
+      background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(124,77,255,.26),
+        rgba(53,209,255,.22),
+        transparent 70%
+      );
+      opacity:0;
+      transition: opacity .35s var(--ease);
+      pointer-events:none;
+      z-index:0;
+    }
+    .card:hover .ring{ opacity:.55; }
 
     @keyframes riseIn{
       from{ opacity:0; transform: translateY(14px) scale(.995); }
       to{ opacity:1; transform: translateY(0) scale(1); }
     }
+    .card.in-view{ animation: riseIn .6s var(--ease) both; }
 
-    .grid .card:nth-child(1){ animation-delay: .00s; }
-    .grid .card:nth-child(2){ animation-delay: .06s; }
-    .grid .card:nth-child(3){ animation-delay: .12s; }
-    .grid .card:nth-child(4){ animation-delay: .18s; }
-    .grid .card:nth-child(5){ animation-delay: .24s; }
-    .grid .card:nth-child(6){ animation-delay: .30s; }
-    .grid .card:nth-child(7){ animation-delay: .36s; }
-    .grid .card:nth-child(8){ animation-delay: .42s; }
-
-    /* ✅ Contenido centrado */
     .card-inner{
       position:relative;
       z-index:1;
       display:flex;
       flex-direction:column;
-      padding: 18px 16px 18px; /* <— menos padding lateral */
+      padding: 18px 16px 18px;
       gap: 10px;
       min-height: 100%;
-      text-align: center;
+      text-align:center;
     }
     @media (min-width: 520px){
       .card-inner{ padding-left: 18px; padding-right: 18px; }
@@ -220,12 +433,13 @@
     .tag{
       align-self:center;
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 1000;
       padding: 6px 10px;
       border-radius: 999px;
       background: rgba(255,255,255,.10);
       border: 1px solid rgba(255,255,255,.14);
       color: rgba(255,255,255,.90);
+      letter-spacing:.2px;
     }
 
     .card h3{
@@ -233,14 +447,29 @@
       font-size: 18px;
       font-weight: 1000;
       letter-spacing: -0.01em;
+      line-height:1.15;
     }
 
     .sub{
       margin:0;
       color: var(--muted);
-      font-weight: 750;
+      font-weight: 800;
       font-size: 13.5px;
-      line-height: 1.5;
+      line-height: 1.45;
+    }
+
+    /* “Ideal para” (vende rápido) */
+    .ideal{
+      margin:0;
+      color: rgba(255,255,255,.86);
+      font-weight: 900;
+      font-size: 12.6px;
+      opacity:.92;
+    }
+    .ideal span{
+      color: var(--muted2);
+      font-weight: 950;
+      margin-right:6px;
     }
 
     .price{
@@ -260,12 +489,15 @@
       font-weight: 900;
       font-size: 13px;
     }
+    @media (max-width: 390px){
+      .money{ font-size: 34px; }
+    }
 
-    /* ✅ Bullets a la izquierda pero “centrados” dentro de la card */
+    /* Bullets izquierda pero centrados dentro */
     ul{
       margin: 8px auto 0;
       padding-left: 18px;
-      width: min(430px, 92%);   /* <— esto evita que queden a la izquierda del todo */
+      width: min(430px, 92%);
       text-align:left;
       color: rgba(255,255,255,.86);
       font-size: 13.2px;
@@ -273,7 +505,6 @@
     }
     ul li{ margin: 2px 0; }
 
-    /* Botón principal dentro de card (ancho lindo) */
     .card .btn{
       margin-top: 10px;
       width: 100%;
@@ -286,6 +517,7 @@
       border: 1px solid rgba(53,209,255,.26);
     }
 
+    /* Featured (más pro) */
     .featured{
       box-shadow:
         0 18px 60px rgba(0,0,0,.50),
@@ -294,13 +526,36 @@
     .featured::before{
       opacity: 1;
       background:
-        radial-gradient(640px 260px at 20% 0%, rgba(53,209,255,.22), transparent 60%),
-        radial-gradient(640px 260px at 85% 0%, rgba(124,77,255,.20), transparent 62%),
-        radial-gradient(640px 260px at 55% 100%, rgba(255,79,216,.12), transparent 65%);
+        radial-gradient(680px 260px at 18% 0%, rgba(53,209,255,.22), transparent 60%),
+        radial-gradient(680px 260px at 85% 0%, rgba(124,77,255,.20), transparent 62%),
+        radial-gradient(680px 260px at 55% 100%, rgba(255,79,216,.12), transparent 65%);
+    }
+
+    /* Shine continuo SOLO para featured (impresiona) */
+    .featured .shine{
+      position:absolute;
+      inset:-40% -20%;
+      background: linear-gradient(120deg,
+        transparent 0%,
+        rgba(255,255,255,.14) 20%,
+        transparent 42%
+      );
+      transform: translateX(-70%) rotate(6deg);
+      animation: sweep 4.8s var(--ease) infinite;
+      opacity:.9;
+      pointer-events:none;
+      mix-blend-mode: screen;
+      z-index:0;
+    }
+    @keyframes sweep{
+      0%{ transform: translateX(-70%) rotate(6deg); opacity:.15; }
+      25%{ opacity:.55; }
+      50%{ transform: translateX(70%) rotate(6deg); opacity:.20; }
+      100%{ transform: translateX(70%) rotate(6deg); opacity:.10; }
     }
 
     .note{
-      margin-top: 18px;
+      margin-top: 16px;
       color: var(--muted);
       font-weight: 750;
       font-size: 13px;
@@ -319,35 +574,148 @@
       text-align:center;
     }
 
+    /* ==== Sticky CTA abajo (vende y se ve pro) ==== */
+    .cta{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      width: min(var(--max), 94vw);
+      z-index:80;
+      pointer-events:none;
+    }
+    .cta-inner{
+      pointer-events:auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      padding: 10px 10px;
+      border-radius: 999px;
+      background: rgba(10,12,28,.62);
+      border:1px solid rgba(255,255,255,.10);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+    }
+    .cta-inner .txt{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+      padding-left:6px;
+    }
+    .cta-inner .txt b{
+      font-size: 13px;
+      font-weight: 1000;
+      letter-spacing:.1px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .cta-inner .txt span{
+      font-size: 12px;
+      font-weight: 850;
+      color: var(--muted2);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .cta-actions{
+      display:flex;
+      gap:10px;
+      flex:0 0 auto;
+    }
+    .cta .btn{ padding: 11px 14px; font-size: 13px; }
+    @media (max-width: 420px){
+      .cta-inner .txt{ display:none; } /* en iPhone pequeño, solo botones */
+    }
+
+    /* Mobile micro-feedback */
+    @media (hover:none){
+      .btn:active{ transform: scale(.97); }
+      .burger:active{ transform: scale(.97); }
+      .drawer a:active{ transform: scale(.99); }
+      .chip:active{ transform: scale(.98); }
+    }
+
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
+      body::after{ display:none !important; }
+      .card{ opacity:1 !important; transform:none !important; }
+      .card.in-view{ animation:none !important; }
+      .featured .shine{ display:none !important; }
+      html{ scroll-behavior:auto; }
     }
   </style>
 </head>
 
 <body>
+  <!-- Drawer -->
+  <div class="drawer-backdrop" id="backdrop" aria-hidden="true"></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menú">
+    <div class="drawer-brand">
+      <img src="logo.png" alt="Raymond Develop">
+      <span>RaymondDevelop</span>
+    </div>
+
+    <a href="index.html">Inicio</a>
+    <a href="#ofertas">Ofertas</a>
+    <a href="#wp">Paquetes WordPress</a>
+    <a href="#top">Arriba</a>
+  </aside>
+
+  <!-- Nav -->
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="burger" id="burger" aria-label="Abrir menú" role="button" tabindex="0" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 7h14M5 12h14M5 17h14" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brand-mini">
+          <div class="name">Planes y Ofertas</div>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <a class="btn primary" href="https://wa.me/17872241230?text=Hola%20Raymond%20Develop%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20y%20ofertas." target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </header>
+
   <main class="stage">
     <div class="wrap">
 
-      <header class="hero">
+      <header class="hero" id="top">
         <h1>Planes y Ofertas</h1>
         <p>Soluciones digitales profesionales para negocios en Puerto Rico.</p>
 
-        <div class="top-actions">
-          <a class="btn" href="index.html">Volver al inicio</a>
-          <a class="btn primary" href="https://wa.me/17872241230" target="_blank" rel="noopener">Contáctanos por WhatsApp</a>
+        <div class="chips" role="navigation" aria-label="Secciones">
+          <a class="chip" id="chipOfertas" href="#ofertas" aria-current="true">Ofertas</a>
+          <a class="chip" id="chipWP" href="#wp" aria-current="false">WordPress</a>
+          <a class="chip" href="index.html" aria-current="false">Volver</a>
         </div>
       </header>
 
-      <section class="section" aria-label="Ofertas">
-        <div class="section-head"><h2>Ofertas</h2></div>
+      <!-- OFERTAS -->
+      <section class="section" id="ofertas" aria-label="Ofertas">
+        <div class="section-head">
+          <h2>Ofertas</h2>
+          <p class="hint">Elige una opción rápida y empieza hoy.</p>
+        </div>
 
         <div class="grid">
-          <article class="card featured">
+          <article class="card featured" data-title="Página Web Simple $160">
+            <div class="shine" aria-hidden="true"></div>
+            <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <span class="tag">Más popular</span>
               <h3>Página Web Simple</h3>
               <p class="sub">Tu presencia digital profesional</p>
+              <p class="ideal"><span>Ideal para:</span> negocios que quieren verse pro rápido</p>
 
               <div class="price">
                 <span class="money">$160</span>
@@ -362,14 +730,16 @@
                 <li>Optimizado para móviles</li>
               </ul>
 
-              <a class="btn primary" href="https://wa.me/17872241230" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="Página Web Simple $160" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" data-title="Sellos QR Adicionales $30">
+            <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Sellos QR Adicionales</h3>
               <p class="sub">30 stickers con tu QR</p>
+              <p class="ideal"><span>Ideal para:</span> mesas, productos, cajas o mostrador</p>
 
               <div class="price">
                 <span class="money">$30</span>
@@ -385,14 +755,16 @@
                 <li>Fácil aplicación</li>
               </ul>
 
-              <a class="btn primary" href="https://wa.me/17872241230" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="Sellos QR Adicionales $30" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" data-title="Plan de Actualizaciones $200/año">
+            <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Plan de Actualizaciones</h3>
               <p class="sub">1 actualización mensual</p>
+              <p class="ideal"><span>Ideal para:</span> mantener menú y precios siempre al día</p>
 
               <div class="price">
                 <span class="money">$200</span>
@@ -408,20 +780,26 @@
                 <li>Respaldo de datos</li>
               </ul>
 
-              <a class="btn primary" href="https://wa.me/17872241230" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="Plan de Actualizaciones $200/año" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
         </div>
       </section>
 
-      <section class="section" aria-label="Paquetes WordPress">
-        <div class="section-head"><h2>Paquetes WordPress</h2></div>
+      <!-- WORDPRESS -->
+      <section class="section" id="wp" aria-label="Paquetes WordPress">
+        <div class="section-head">
+          <h2>Paquetes WordPress</h2>
+          <p class="hint">Para reservas, tienda online y crecimiento.</p>
+        </div>
 
         <div class="grid">
-          <article class="card">
+          <article class="card" data-title="Web con Reservas $700">
+            <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Web con Reservas</h3>
               <p class="sub">Ideal para salones, estética, barberías, spa</p>
+              <p class="ideal"><span>Ideal para:</span> agenda online + anticipo</p>
 
               <div class="price">
                 <span class="money">$700</span>
@@ -439,14 +817,16 @@
                 <li>Mantenimiento: $40 / mes (opcional)</li>
               </ul>
 
-              <a class="btn primary" href="https://wa.me/17872241230" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="Web con Reservas $700" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" data-title="Tienda Online WordPress $800">
+            <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Tienda Online WordPress</h3>
               <p class="sub">Productos físicos o digitales</p>
+              <p class="ideal"><span>Ideal para:</span> vender 24/7 con carrito y pago</p>
 
               <div class="price">
                 <span class="money">$800</span>
@@ -463,15 +843,18 @@
                 <li>Mantenimiento: $40 / mes (opcional)</li>
               </ul>
 
-              <a class="btn primary" href="https://wa.me/17872241230" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="Tienda Online WordPress $800" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
 
-          <article class="card featured">
+          <article class="card featured" data-title="Reservas + Promoción $950">
+            <div class="shine" aria-hidden="true"></div>
+            <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <span class="tag">Crecimiento</span>
               <h3>Reservas + Promoción</h3>
               <p class="sub">Para atraer más clientes</p>
+              <p class="ideal"><span>Ideal para:</span> crecer con SEO + presencia en Google</p>
 
               <div class="price">
                 <span class="money">$950</span>
@@ -488,7 +871,7 @@
                 <li>Mantenimiento: $60 / mes (opcional)</li>
               </ul>
 
-              <a class="btn primary" href="https://wa.me/17872241230" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="Reservas + Promoción $950" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
         </div>
@@ -505,8 +888,127 @@
     </div>
   </main>
 
+  <!-- Sticky CTA (siempre vendiendo) -->
+  <div class="cta" aria-hidden="false">
+    <div class="cta-inner">
+      <div class="txt">
+        <b id="ctaTitle">¿Listo para empezar?</b>
+        <span id="ctaSub">Elige un plan y te orientamos por WhatsApp.</span>
+      </div>
+      <div class="cta-actions">
+        <a class="btn" href="#ofertas">Ofertas</a>
+        <a class="btn primary" href="https://wa.me/17872241230?text=Hola%20Raymond%20Develop%2C%20quiero%20cotizar%20y%20empezar%20mi%20proyecto." target="_blank" rel="noopener">Contáctanos</a>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Año
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Drawer
+    const drawer = document.getElementById('drawer');
+    const backdrop = document.getElementById('backdrop');
+    const burger = document.getElementById('burger');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      burger.setAttribute('aria-expanded','true');
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+      burger.setAttribute('aria-expanded','false');
+    }
+    burger.addEventListener('click', openDrawer);
+    burger.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openDrawer(); });
+    backdrop.addEventListener('click', closeDrawer);
+    drawer.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeDrawer(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeDrawer(); });
+
+    // WhatsApp por plan (mensaje pre-escrito)
+    const phone = "17872241230";
+    const waBtns = document.querySelectorAll('.wa');
+    waBtns.forEach(btn=>{
+      const plan = btn.getAttribute('data-plan') || "un plan";
+      const msg = `Hola Raymond Develop, quiero el plan: ${plan}. ¿Qué necesitas de mi negocio para comenzar?`;
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+      btn.setAttribute('href', url);
+    });
+
+    // Scroll reveal premium
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!reduceMotion){
+      const cards = document.querySelectorAll('.card');
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            const i = Number(entry.target.dataset.i || 0);
+            entry.target.style.animationDelay = `${i * 0.08}s`;
+            entry.target.classList.add('in-view');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      cards.forEach((card, i)=>{
+        card.dataset.i = i;
+        obs.observe(card);
+      });
+    }else{
+      document.querySelectorAll('.card').forEach(c=>{
+        c.style.opacity = 1;
+        c.style.transform = 'none';
+      });
+    }
+
+    // Chips active según sección visible
+    const chipOfertas = document.getElementById('chipOfertas');
+    const chipWP = document.getElementById('chipWP');
+    const secOfertas = document.getElementById('ofertas');
+    const secWP = document.getElementById('wp');
+
+    function setChip(which){
+      chipOfertas.setAttribute('aria-current', which === 'ofertas' ? 'true' : 'false');
+      chipWP.setAttribute('aria-current', which === 'wp' ? 'true' : 'false');
+    }
+
+    const secObs = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          if(entry.target.id === 'ofertas') setChip('ofertas');
+          if(entry.target.id === 'wp') setChip('wp');
+        }
+      });
+    }, { threshold: 0.35 });
+
+    secObs.observe(secOfertas);
+    secObs.observe(secWP);
+
+    // CTA cambia texto según dónde esté el usuario (detalle pro)
+    const ctaTitle = document.getElementById('ctaTitle');
+    const ctaSub = document.getElementById('ctaSub');
+
+    const ctaObs = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          if(entry.target.id === 'ofertas'){
+            ctaTitle.textContent = "Ofertas listas para hoy";
+            ctaSub.textContent = "Escoge una opción rápida y empezamos.";
+          }
+          if(entry.target.id === 'wp'){
+            ctaTitle.textContent = "WordPress para crecer";
+            ctaSub.textContent = "Reservas, tienda online y promoción.";
+          }
+        }
+      });
+    }, { threshold: 0.55 });
+
+    ctaObs.observe(secOfertas);
+    ctaObs.observe(secWP);
   </script>
 </body>
 </html>
