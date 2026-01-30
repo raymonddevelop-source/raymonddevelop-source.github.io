@@ -39,6 +39,17 @@
       overflow-x:hidden;
     }
 
+    /* === Noise sutil (premium) === */
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:9999;
+      opacity:.55; /* controla intensidad global */
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    }
+
     /* ==== Full width real ==== */
     .stage{
       width:100vw;
@@ -48,16 +59,16 @@
       min-height:100svh;
     }
 
-    /* ==== NAV ==== */
+    /* ==== NAV (glass) ==== */
     .nav{
       position:sticky;
       top:0;
       z-index:50;
       padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
-      background: rgba(7,9,20,.55);
+      background: rgba(7,9,20,.52);
       border-bottom: 1px solid rgba(255,255,255,.10);
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
     }
 
     .nav-inner{
@@ -87,7 +98,11 @@
       cursor:pointer;
       user-select:none;
       flex:0 0 auto;
+      transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
+      will-change: transform;
     }
+    .burger:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+    .burger:active{ transform: translateY(1px) scale(.98); }
     .burger svg{ width:18px; height:18px; opacity:.95; }
 
     .brand-mini{
@@ -124,10 +139,10 @@
       top:0; left:0;
       width:min(86vw, 340px);
       height:100%;
-      background: rgba(10,12,28,.92);
+      background: rgba(10,12,28,.90);
       border-right:1px solid rgba(255,255,255,.10);
-      -webkit-backdrop-filter: blur(14px);
-      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
       transform: translateX(-102%);
       transition: transform .24s var(--ease);
       z-index:70;
@@ -138,7 +153,6 @@
     }
     .drawer.open{ transform: translateX(0); }
 
-    /* Encabezado del drawer (mini logo + nombre) */
     .drawer-brand{
       display:flex;
       align-items:center;
@@ -154,6 +168,7 @@
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.05);
       display:block;
+      object-fit:cover;
     }
     .drawer-brand span{
       font-weight:900;
@@ -173,13 +188,16 @@
       background: rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.10);
       font-weight: 900;
+      transition: filter .16s var(--ease), transform .16s var(--ease);
     }
+    .drawer a:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+    .drawer a:active{ transform: translateY(1px) scale(.99); }
 
     /* ==== Layout ==== */
     .wrap{
       width:min(var(--max), 94vw);
       margin:0 auto;
-      padding: 18px 0 70px;
+      padding: 18px 0 76px;
     }
 
     /* ==== HERO ==== */
@@ -209,6 +227,15 @@
     }
     .logo-big.in{ transform: translateY(0); opacity:1; }
 
+    /* Floating ultra sutil (premium silencioso) */
+    @keyframes float{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-6px); }
+    }
+    .logo-big.in{
+      animation: float 6s ease-in-out infinite;
+    }
+
     .logo-big img{
       width:100%;
       height:100%;
@@ -228,7 +255,6 @@
     }
     .hero-title.in{ transform: translateY(0); opacity:1; }
 
-    /* Botones del hero uno debajo del otro */
     .hero-actions{
       display:flex;
       flex-direction:column;
@@ -258,34 +284,30 @@
       box-shadow: var(--shadow2);
       min-width: 220px;
 
-      /* respuesta visual */
       transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
       will-change: transform;
     }
-
-    /* Hover (desktop) */
     .btn:hover{
       transform: translateY(-1px);
       filter: brightness(1.06);
       box-shadow: 0 14px 34px rgba(0,0,0,.42);
     }
-
-    /* Active (tacto / click) */
     .btn:active{
       transform: translateY(1px) scale(.98);
       filter: brightness(0.98);
       box-shadow: 0 8px 18px rgba(0,0,0,.35);
     }
-
-    /* Focus accesible */
     .btn:focus-visible{
       outline: 2px solid rgba(53,209,255,.65);
       outline-offset: 3px;
     }
 
     .btn.primary{
-      border:1px solid rgba(53,209,255,.26);
-      background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
+      border:1px solid rgba(53,209,255,.22);
+      background:
+        linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     }
 
     /* ==== Secciones ==== */
@@ -297,7 +319,6 @@
       margin: 12px 0;
       text-align:center;
     }
-
     .section-head h2{
       margin:0;
       font-size: 18px;
@@ -311,22 +332,49 @@
       gap: 12px;
     }
 
-    /* ==== Cards ==== */
+    /* ==== Cards (glass + glow sutil) ==== */
     .card{
       position: relative;
       border-radius: var(--r2);
-      background: rgba(18, 20, 42, 0.95);
+      background: rgba(18, 20, 42, 0.92);
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.10),
         var(--shadow2);
       overflow: hidden;
       isolation: isolate;
-      animation: riseIn .6s var(--ease) both;
+
+      /* para scroll reveal */
+      opacity: 0;
+      transform: translateY(14px);
+      will-change: transform, opacity;
     }
 
+    /* Glow sutil al hover (premium, no escandaloso) */
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius:inherit;
+      background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(124,77,255,.26),
+        rgba(53,209,255,.22),
+        transparent 70%
+      );
+      opacity:0;
+      transition: opacity .35s var(--ease);
+      pointer-events:none;
+    }
+    .card:hover::before{ opacity:.55; }
+
+    /* animación final cuando entra en viewport */
     @keyframes riseIn{
       from{ opacity:0; transform: translateY(14px); }
       to{ opacity:1; transform: translateY(0); }
+    }
+    .card.in-view{
+      animation: riseIn .6s var(--ease) both;
     }
 
     .thumb{
@@ -372,46 +420,45 @@
 
     /* ==== CONTACTO ==== */
     #contact .contact-card{ text-align:center; }
-
     #contact .contact-actions{
       display:grid;
       gap:12px;
       justify-items:center;
       margin-top: 4px;
     }
-
     #contact .contact-actions .btn{
       width:100%;
       max-width: 520px;
       justify-content:center;
-      animation: btnIn .55s var(--ease) both;
-    }
-
-    #contact .contact-actions .btn:nth-child(1){ animation-delay: .00s; }
-    #contact .contact-actions .btn:nth-child(2){ animation-delay: .08s; }
-    #contact .contact-actions .btn:nth-child(3){ animation-delay: .16s; }
-
-    @keyframes btnIn{
-      from{ opacity:0; transform: translateY(10px) scale(.98); }
-      to{ opacity:1; transform: translateY(0) scale(1); }
     }
 
     /* ==== Responsive ==== */
     @media (max-width: 980px){
       .grid{ grid-template-columns: 1fr; }
       .brand-mini .name{ max-width: 44vw; }
+      .wrap{ padding-bottom: 84px; }
     }
 
     @media (max-width: 420px){
       .logo-big{ width: min(84vw, 360px); }
       .btn{ min-width: 200px; }
+      .card-body{ padding: 15px 14px 16px; }
+    }
+
+    /* ==== Mobile micro-feedback (se siente app) ==== */
+    @media (hover:none){
+      .btn:active{ transform: scale(.97); }
+      .burger:active{ transform: scale(.97); }
+      .drawer a:active{ transform: scale(.99); }
     }
 
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
+      body::after{ display:none !important; }
       .logo-big, .hero-title, .hero-actions{ transform:none !important; opacity:1 !important; }
+      .logo-big.in{ animation:none !important; }
       .card{ opacity:1 !important; transform:none !important; }
-      #contact .contact-actions .btn{ opacity:1 !important; transform:none !important; }
+      .card.in-view{ animation:none !important; }
     }
   </style>
 </head>
@@ -434,7 +481,7 @@
     <div class="nav-inner">
       <div class="nav-left">
         <div class="burger" id="burger" aria-label="Abrir menú" role="button" tabindex="0">
-          <svg viewBox="0 0 24 24" fill="none">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M5 7h14M5 12h14M5 17h14" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
         </div>
@@ -464,15 +511,12 @@
       <section class="section" id="work">
         <div class="section-head">
           <h2>¿Por qué elegirnos?</h2>
-                    <h2>    </h2>
-
         </div>
 
         <div class="grid">
           <article class="card">
-            <a class="thumb" href="#" aria-label="Proyecto 1">
-              <img src="Inteligente.png"
->
+            <a class="thumb" href="#" aria-label="Automatización Inteligente">
+              <img src="Inteligente.png" alt="Automatización inteligente">
             </a>
             <div class="card-body">
               <b>Automatización Inteligente</b>
@@ -482,8 +526,8 @@
           </article>
 
           <article class="card">
-            <a class="thumb" href="#" aria-label="Proyecto 2">
-              <img src="simple.png">
+            <a class="thumb" href="#" aria-label="Simplicidad total para el cliente">
+              <img src="simple.png" alt="Simplicidad total">
             </a>
             <div class="card-body">
               <b>Simplicidad total para el cliente</b>
@@ -493,11 +537,11 @@
           </article>
 
           <article class="card">
-            <a class="thumb" href="#" aria-label="Proyecto 3">
-              <img src="locales.png">
+            <a class="thumb" href="#" aria-label="Enfoque real en tu negocio">
+              <img src="locales.png" alt="Enfoque en negocios locales">
             </a>
             <div class="card-body">
-              <b>Enfoque real en tu negocios</b>
+              <b>Enfoque real en tu negocio</b>
               <span>Diseñamos para negocios reales.</span>
               <span>Entendemos tu mercado, tus clientes y cómo se trabaja aquí.</span>
             </div>
@@ -528,8 +572,10 @@
   </main>
 
   <script>
+    // Año
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // Drawer
     const drawer = document.getElementById('drawer');
     const backdrop = document.getElementById('backdrop');
     const burger = document.getElementById('burger');
@@ -538,27 +584,56 @@
       drawer.classList.add('open');
       backdrop.classList.add('open');
       document.body.style.overflow = 'hidden';
+      burger.setAttribute('aria-expanded', 'true');
     }
     function closeDrawer(){
       drawer.classList.remove('open');
       backdrop.classList.remove('open');
       document.body.style.overflow = '';
+      burger.setAttribute('aria-expanded', 'false');
     }
 
     burger.addEventListener('click', openDrawer);
     burger.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openDrawer(); });
     backdrop.addEventListener('click', closeDrawer);
     drawer.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeDrawer(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeDrawer(); });
 
+    // Entrada inicial hero
     const logoBig = document.getElementById('logoBig');
     const heroTitle = document.getElementById('heroTitle');
     const heroActions = document.getElementById('heroActions');
-
     requestAnimationFrame(()=>{
       if (logoBig) logoBig.classList.add('in');
       if (heroTitle) heroTitle.classList.add('in');
       if (heroActions) heroActions.classList.add('in');
     });
+
+    // Scroll reveal (stagger) para cards (premium silencioso)
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!reduceMotion){
+      const cards = document.querySelectorAll('.card');
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach((entry)=>{
+          if(entry.isIntersecting){
+            const idx = Number(entry.target.dataset.i || 0);
+            entry.target.style.animationDelay = `${idx * 0.08}s`;
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      cards.forEach((card, i)=>{
+        card.dataset.i = i;
+        observer.observe(card);
+      });
+    }else{
+      document.querySelectorAll('.card').forEach(c=>{
+        c.style.opacity = 1;
+        c.style.transform = 'none';
+      });
+    }
   </script>
 </body>
 </html>
