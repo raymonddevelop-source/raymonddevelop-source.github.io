@@ -60,7 +60,7 @@
       min-height:100svh;
     }
 
-    /* ==== NAV (FIJO para que nunca desaparezca) ==== */
+    /* ==== NAV fijo (WhatsApp arriba NO se va) ==== */
     .nav{
       position:fixed;
       top:0; left:0; right:0;
@@ -125,7 +125,7 @@
       flex:0 0 auto;
     }
 
-    /* ==== Drawer menu ==== */
+    /* ==== Drawer ==== */
     .drawer-backdrop{
       position:fixed; inset:0;
       background: rgba(0,0,0,.55);
@@ -195,11 +195,10 @@
     .drawer a:hover{ filter: brightness(1.06); transform: translateY(-1px); }
     .drawer a:active{ transform: translateY(1px) scale(.99); }
 
-    /* ==== Layout (menos espacio iPhone) ==== */
+    /* ==== Layout ==== */
     .wrap{
       width:min(var(--max), 98vw);
       margin:0 auto;
-      /* 👇 dejamos espacio arriba para el NAV fijo */
       padding: calc(18px + 70px + env(safe-area-inset-top)) 8px 96px;
     }
     @media (min-width: 520px){
@@ -229,7 +228,7 @@
       max-width: 60ch;
     }
 
-    /* ==== Chips (renombramos WordPress a algo que el cliente entienda) ==== */
+    /* ==== Chips (QUITÉ el botón “Ofertas” del medio) ==== */
     .chips{
       margin-top: 8px;
       display:flex;
@@ -263,7 +262,7 @@
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
-    /* ==== Botones base ==== */
+    /* ==== Botones ==== */
     .btn{
       position: relative;
       display:inline-flex;
@@ -296,7 +295,6 @@
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
-    /* Sheen elegante */
     .btn::after, .chip::after{
       content:"";
       position:absolute;
@@ -337,7 +335,6 @@
       font-size: 12.5px;
     }
 
-    /* Grid responsive */
     .grid{
       display:grid;
       grid-template-columns: 1fr;
@@ -350,7 +347,7 @@
       .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
     }
 
-    /* ==== Cards premium ==== */
+    /* ==== Cards ==== */
     .card{
       position: relative;
       border-radius: var(--r2);
@@ -360,7 +357,6 @@
       box-shadow:
         0 18px 55px rgba(0,0,0,.45),
         inset 0 0 0 1px rgba(255,255,255,.10);
-
       opacity:0;
       transform: translateY(14px);
       will-change: transform, opacity;
@@ -564,7 +560,7 @@
       text-align:center;
     }
 
-    /* ==== Sticky CTA abajo (SIN botón "Ofertas") ==== */
+    /* ==== Sticky CTA abajo (SOLO LLAMAR, sin WhatsApp y sin “Ofertas”) ==== */
     .cta{
       position:fixed;
       left:50%;
@@ -651,7 +647,6 @@
     </div>
 
     <a href="index.html">Inicio</a>
-    <a href="#ofertas">Ofertas</a>
     <a href="#tiendas">Tiendas y Reservas</a>
     <a href="tel:+17872241230">Llamar: (787) 224-1230</a>
     <a href="#top">Arriba</a>
@@ -672,6 +667,7 @@
       </div>
 
       <div class="nav-right">
+        <!-- WhatsApp ARRIBA (se queda fijo) -->
         <a class="btn primary" href="https://wa.me/17872241230?text=Hola%20Raymond%20Develop%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20y%20ofertas." target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
@@ -684,22 +680,25 @@
         <h1>Planes y Ofertas</h1>
         <p>Soluciones digitales profesionales para negocios en Puerto Rico.</p>
 
+        <!-- BOTÓN OFERTAS REMOVIDO -->
         <div class="chips" role="navigation" aria-label="Secciones">
-          <a class="chip" id="chipOfertas" href="#ofertas" aria-current="true">Ofertas</a>
-          <a class="chip" id="chipTiendas" href="#tiendas" aria-current="false">Tiendas y Reservas</a>
+          <a class="chip" id="chipTiendas" href="#tiendas" aria-current="true">Tiendas y Reservas</a>
           <a class="chip" href="index.html" aria-current="false">Volver</a>
         </div>
       </header>
 
-      <!-- OFERTAS -->
+      <!-- OFERTAS (se mantienen en página, pero sin chip) -->
       <section class="section" id="ofertas" aria-label="Ofertas">
         <div class="section-head">
           <h2>Ofertas</h2>
-          <p class="hint">Elige una opción rápida y empieza hoy.</p>
+          <p class="hint">Opciones rápidas para empezar hoy.</p>
         </div>
 
         <div class="grid">
-          <article class="card featured" data-cta-title="El mejor precio" data-cta-sub="Empieza con una web pro por $160." data-title="Página Web Simple $160">
+          <article class="card featured"
+            data-cta-title="El mejor precio"
+            data-cta-sub="Empieza con una web pro por $160."
+            data-title="Página Web Simple $160">
             <div class="shine" aria-hidden="true"></div>
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
@@ -725,7 +724,10 @@
             </div>
           </article>
 
-          <article class="card" data-cta-title="Añádelo a tu restaurante" data-cta-sub="Stickers QR para mesas y mostrador." data-title="Sellos QR Adicionales $30">
+          <article class="card"
+            data-cta-title="Añádelo a tu restaurante"
+            data-cta-sub="Stickers QR para mesas y mostrador."
+            data-title="Sellos QR Adicionales $30">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Sellos QR Adicionales</h3>
@@ -740,7 +742,6 @@
               <ul>
                 <li>30 sellos QR personalizados</li>
                 <li>Diseño con tu logo</li>
-                <li>Ideal para mesas</li>
                 <li>Material resistente</li>
                 <li>Enlace directo a tu menú</li>
                 <li>Fácil aplicación</li>
@@ -750,7 +751,10 @@
             </div>
           </article>
 
-          <article class="card" data-cta-title="No te quedes sin soporte" data-cta-sub="Actualizamos tu menú y precios todo el año." data-title="Plan de Actualizaciones $200/año">
+          <article class="card"
+            data-cta-title="No te quedes sin soporte"
+            data-cta-sub="Actualizamos tu menú y precios todo el año."
+            data-title="Plan de Actualizaciones $200/año">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Plan de Actualizaciones</h3>
@@ -777,15 +781,18 @@
         </div>
       </section>
 
-      <!-- TIENDAS Y RESERVAS (antes WordPress) -->
+      <!-- TIENDAS Y RESERVAS -->
       <section class="section" id="tiendas" aria-label="Tiendas y Reservas">
         <div class="section-head">
           <h2>Tiendas y Reservas</h2>
-          <p class="hint">Para reservas, ventas online y crecimiento.</p>
+          <p class="hint">Reservas, ventas online y crecimiento.</p>
         </div>
 
         <div class="grid">
-          <article class="card" data-cta-title="Tu web trabaja para ti" data-cta-sub="Reservas online + anticipo automáticamente." data-title="Web con Reservas $700">
+          <article class="card"
+            data-cta-title="Tu web trabaja para ti"
+            data-cta-sub="Reservas online + anticipo automáticamente."
+            data-title="Web con Reservas $700">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Web con Reservas</h3>
@@ -812,7 +819,10 @@
             </div>
           </article>
 
-          <article class="card" data-cta-title="Ventas online" data-cta-sub="Tienda lista para cobrar 24/7." data-title="Tienda Online $800">
+          <article class="card"
+            data-cta-title="Ventas online"
+            data-cta-sub="Tienda lista para cobrar 24/7."
+            data-title="Tienda Online $800">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Tienda Online</h3>
@@ -837,7 +847,10 @@
             </div>
           </article>
 
-          <article class="card featured" data-cta-title="Para que tu negocio crezca" data-cta-sub="SEO local + presencia en Google." data-title="Reservas + Promoción $950">
+          <article class="card featured"
+            data-cta-title="Para que tu negocio crezca"
+            data-cta-sub="SEO local + presencia en Google."
+            data-title="Reservas + Promoción $950">
             <div class="shine" aria-hidden="true"></div>
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
@@ -878,7 +891,7 @@
     </div>
   </main>
 
-  <!-- Sticky CTA abajo (WhatsApp + Llamar) -->
+  <!-- CTA abajo: SOLO LLAMAR -->
   <div class="cta" aria-hidden="false">
     <div class="cta-inner">
       <div class="txt">
@@ -886,8 +899,7 @@
         <span id="ctaSub">Empieza con una web pro por $160.</span>
       </div>
       <div class="cta-actions">
-        <a class="btn" href="tel:+17872241230">Llamar</a>
-        <a class="btn primary" id="ctaWhatsApp" href="https://wa.me/17872241230?text=Hola%20Raymond%20Develop%2C%20quiero%20cotizar%20y%20empezar%20mi%20proyecto." target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn primary" href="tel:+17872241230">Llamar</a>
       </div>
     </div>
   </div>
@@ -919,40 +931,27 @@
     drawer.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeDrawer(); });
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeDrawer(); });
 
-    // WhatsApp por plan (mensaje pre-escrito) + CTA también se ajusta
+    // WhatsApp por plan (solo en botones de cada tarjeta)
     const phone = "17872241230";
-    const waBtns = document.querySelectorAll('.wa');
-    const ctaWA = document.getElementById('ctaWhatsApp');
-
-    function waUrlFor(plan){
-      const msg = `Hola Raymond Develop, quiero el plan: ${plan}. ¿Qué necesitas de mi negocio para comenzar?`;
-      return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-    }
-
-    waBtns.forEach(btn=>{
+    document.querySelectorAll('.wa').forEach(btn=>{
       const plan = btn.getAttribute('data-plan') || "un plan";
-      btn.setAttribute('href', waUrlFor(plan));
+      const msg = `Hola Raymond Develop, quiero el plan: ${plan}. ¿Qué necesitas de mi negocio para comenzar?`;
+      btn.setAttribute('href', `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`);
     });
 
-    // Scroll reveal premium
+    // Scroll reveal (animación) - estable en iPhone
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(!reduceMotion){
       const cards = document.querySelectorAll('.card');
       const obs = new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
           if(entry.isIntersecting){
-            const i = Number(entry.target.dataset.i || 0);
-            entry.target.style.animationDelay = `${i * 0.08}s`;
             entry.target.classList.add('in-view');
             obs.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.15 });
-
-      cards.forEach((card, i)=>{
-        card.dataset.i = i;
-        obs.observe(card);
-      });
+      }, { threshold: 0.12 });
+      cards.forEach(c => obs.observe(c));
     }else{
       document.querySelectorAll('.card').forEach(c=>{
         c.style.opacity = 1;
@@ -960,64 +959,58 @@
       });
     }
 
-    // Chips active según sección visible
-    const chipOfertas = document.getElementById('chipOfertas');
-    const chipTiendas = document.getElementById('chipTiendas');
-    const secOfertas = document.getElementById('ofertas');
-    const secTiendas = document.getElementById('tiendas');
-
-    function setChip(which){
-      chipOfertas.setAttribute('aria-current', which === 'ofertas' ? 'true' : 'false');
-      chipTiendas.setAttribute('aria-current', which === 'tiendas' ? 'true' : 'false');
-    }
-
-    const secObs = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          if(entry.target.id === 'ofertas') setChip('ofertas');
-          if(entry.target.id === 'tiendas') setChip('tiendas');
-        }
-      });
-    }, { threshold: 0.35 });
-
-    secObs.observe(secOfertas);
-    secObs.observe(secTiendas);
-
-    // ✅ CTA cambia según LA TARJETA visible (lo que pediste)
+    // ✅ CTA cambia “en el lugar correcto” en iPhone:
+    // usamos la tarjeta más cerca del centro de la pantalla (sin depender de IntersectionObserver)
     const ctaTitle = document.getElementById('ctaTitle');
     const ctaSub = document.getElementById('ctaSub');
-
-    const cards = document.querySelectorAll('.card');
+    const cardsForCta = Array.from(document.querySelectorAll('.card'));
 
     function setCtaFromCard(card){
       const t = card.getAttribute('data-cta-title') || "¿Listo para empezar?";
-      const s = card.getAttribute('data-cta-sub') || "Te orientamos por WhatsApp o llamada.";
+      const s = card.getAttribute('data-cta-sub') || "Llámanos y te orientamos.";
       ctaTitle.textContent = t;
       ctaSub.textContent = s;
-
-      // y el WhatsApp del CTA se ajusta al plan de esa tarjeta
-      const plan = card.getAttribute('data-title') || "un plan";
-      ctaWA.setAttribute('href', waUrlFor(plan));
     }
 
-    // Observa cada card: cuando esté al centro de la pantalla, cambia CTA
-    const ctaCardObs = new IntersectionObserver((entries)=>{
-      // elegimos la card con mayor intersección
-      let best = null;
-      for(const e of entries){
-        if(e.isIntersecting){
-          if(!best || e.intersectionRatio > best.intersectionRatio) best = e;
+    let ticking = false;
+    function updateCta(){
+      ticking = false;
+
+      const centerY = window.innerHeight * 0.50; // centro real
+      let bestCard = null;
+      let bestDist = Infinity;
+
+      for(const card of cardsForCta){
+        const r = card.getBoundingClientRect();
+        const cardCenter = r.top + (r.height / 2);
+        const dist = Math.abs(cardCenter - centerY);
+
+        // solo cuenta si está visible algo
+        const visible = (r.bottom > 90) && (r.top < window.innerHeight - 90);
+        if(visible && dist < bestDist){
+          bestDist = dist;
+          bestCard = card;
         }
       }
-      if(best && best.target){
-        setCtaFromCard(best.target);
-      }
-    }, { threshold: [0.25,0.35,0.45,0.55,0.65] });
 
-    cards.forEach(card => ctaCardObs.observe(card));
+      if(bestCard) setCtaFromCard(bestCard);
+    }
 
-    // CTA inicial (primera card)
-    if(cards[0]) setCtaFromCard(cards[0]);
+    function onScroll(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateCta);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('resize', onScroll);
+    window.addEventListener('orientationchange', onScroll);
+
+    // CTA inicial
+    if(cardsForCta[0]) setCtaFromCard(cardsForCta[0]);
+    // forzar cálculo real cuando cargue todo (imágenes pueden cambiar alturas)
+    window.addEventListener('load', ()=>{ onScroll(); });
+    setTimeout(()=>{ onScroll(); }, 350);
   </script>
 </body>
 </html>
