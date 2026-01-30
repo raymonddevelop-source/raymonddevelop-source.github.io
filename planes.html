@@ -60,18 +60,17 @@
       min-height:100svh;
     }
 
-    /* ==== NAV (igual vibra index) ==== */
+    /* ==== NAV (FIJO para que nunca desaparezca) ==== */
     .nav{
-      position:sticky;
-      top:0;
-      z-index:50;
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:80;
       padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
       background: rgba(7,9,20,.52);
       border-bottom: 1px solid rgba(255,255,255,.10);
       -webkit-backdrop-filter: blur(14px);
       backdrop-filter: blur(14px);
     }
-
     .nav-inner{
       width:min(var(--max), 94vw);
       margin:0 auto;
@@ -80,14 +79,12 @@
       justify-content:space-between;
       gap:10px;
     }
-
     .nav-left{
       display:flex;
       align-items:center;
       gap:10px;
       min-width:0;
     }
-
     .burger{
       width:40px; height:40px;
       border-radius: 12px;
@@ -202,7 +199,8 @@
     .wrap{
       width:min(var(--max), 98vw);
       margin:0 auto;
-      padding: 18px 8px 86px;
+      /* 👇 dejamos espacio arriba para el NAV fijo */
+      padding: calc(18px + 70px + env(safe-area-inset-top)) 8px 96px;
     }
     @media (min-width: 520px){
       .wrap{ padding-left: 14px; padding-right: 14px; }
@@ -210,7 +208,7 @@
 
     /* ==== HERO ==== */
     .hero{
-      padding: 16px 0 10px;
+      padding: 6px 0 10px;
       display:grid;
       gap: 10px;
       justify-items:center;
@@ -231,7 +229,7 @@
       max-width: 60ch;
     }
 
-    /* ==== Chips (tabs) ==== */
+    /* ==== Chips (renombramos WordPress a algo que el cliente entienda) ==== */
     .chips{
       margin-top: 8px;
       display:flex;
@@ -285,6 +283,7 @@
       overflow:hidden;
       isolation:isolate;
       cursor:pointer;
+      white-space:nowrap;
     }
     .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 14px 34px rgba(0,0,0,.42); }
     .btn:active{ transform: translateY(1px) scale(.99); filter: brightness(1.03); }
@@ -362,13 +361,11 @@
         0 18px 55px rgba(0,0,0,.45),
         inset 0 0 0 1px rgba(255,255,255,.10);
 
-      /* scroll reveal */
       opacity:0;
       transform: translateY(14px);
       will-change: transform, opacity;
     }
 
-    /* Glow ambiental */
     .card::before{
       content:"";
       position:absolute;
@@ -380,7 +377,6 @@
       opacity:.90;
       pointer-events:none;
     }
-    /* brillo interno */
     .card::after{
       content:"";
       position:absolute;
@@ -390,9 +386,7 @@
       pointer-events:none;
     }
 
-    /* borde glow al hover (impresiona pero fino) */
     .card .ring{
-      content:"";
       position:absolute;
       inset:-1px;
       border-radius:inherit;
@@ -458,7 +452,6 @@
       line-height: 1.45;
     }
 
-    /* “Ideal para” (vende rápido) */
     .ideal{
       margin:0;
       color: rgba(255,255,255,.86);
@@ -493,7 +486,6 @@
       .money{ font-size: 34px; }
     }
 
-    /* Bullets izquierda pero centrados dentro */
     ul{
       margin: 8px auto 0;
       padding-left: 18px;
@@ -517,7 +509,6 @@
       border: 1px solid rgba(53,209,255,.26);
     }
 
-    /* Featured (más pro) */
     .featured{
       box-shadow:
         0 18px 60px rgba(0,0,0,.50),
@@ -531,7 +522,6 @@
         radial-gradient(680px 260px at 55% 100%, rgba(255,79,216,.12), transparent 65%);
     }
 
-    /* Shine continuo SOLO para featured (impresiona) */
     .featured .shine{
       position:absolute;
       inset:-40% -20%;
@@ -574,14 +564,14 @@
       text-align:center;
     }
 
-    /* ==== Sticky CTA abajo (vende y se ve pro) ==== */
+    /* ==== Sticky CTA abajo (SIN botón "Ofertas") ==== */
     .cta{
       position:fixed;
       left:50%;
       transform:translateX(-50%);
       bottom: calc(12px + env(safe-area-inset-bottom));
       width: min(var(--max), 94vw);
-      z-index:80;
+      z-index:85;
       pointer-events:none;
     }
     .cta-inner{
@@ -627,11 +617,11 @@
       flex:0 0 auto;
     }
     .cta .btn{ padding: 11px 14px; font-size: 13px; }
+
     @media (max-width: 420px){
-      .cta-inner .txt{ display:none; } /* en iPhone pequeño, solo botones */
+      .cta-inner .txt{ display:none; }
     }
 
-    /* Mobile micro-feedback */
     @media (hover:none){
       .btn:active{ transform: scale(.97); }
       .burger:active{ transform: scale(.97); }
@@ -662,7 +652,8 @@
 
     <a href="index.html">Inicio</a>
     <a href="#ofertas">Ofertas</a>
-    <a href="#wp">Paquetes WordPress</a>
+    <a href="#tiendas">Tiendas y Reservas</a>
+    <a href="tel:+17872241230">Llamar: (787) 224-1230</a>
     <a href="#top">Arriba</a>
   </aside>
 
@@ -695,7 +686,7 @@
 
         <div class="chips" role="navigation" aria-label="Secciones">
           <a class="chip" id="chipOfertas" href="#ofertas" aria-current="true">Ofertas</a>
-          <a class="chip" id="chipWP" href="#wp" aria-current="false">WordPress</a>
+          <a class="chip" id="chipTiendas" href="#tiendas" aria-current="false">Tiendas y Reservas</a>
           <a class="chip" href="index.html" aria-current="false">Volver</a>
         </div>
       </header>
@@ -708,7 +699,7 @@
         </div>
 
         <div class="grid">
-          <article class="card featured" data-title="Página Web Simple $160">
+          <article class="card featured" data-cta-title="El mejor precio" data-cta-sub="Empieza con una web pro por $160." data-title="Página Web Simple $160">
             <div class="shine" aria-hidden="true"></div>
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
@@ -734,7 +725,7 @@
             </div>
           </article>
 
-          <article class="card" data-title="Sellos QR Adicionales $30">
+          <article class="card" data-cta-title="Añádelo a tu restaurante" data-cta-sub="Stickers QR para mesas y mostrador." data-title="Sellos QR Adicionales $30">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Sellos QR Adicionales</h3>
@@ -759,12 +750,12 @@
             </div>
           </article>
 
-          <article class="card" data-title="Plan de Actualizaciones $200/año">
+          <article class="card" data-cta-title="No te quedes sin soporte" data-cta-sub="Actualizamos tu menú y precios todo el año." data-title="Plan de Actualizaciones $200/año">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Plan de Actualizaciones</h3>
               <p class="sub">1 actualización mensual</p>
-              <p class="ideal"><span>Ideal para:</span> mantener menú y precios siempre al día</p>
+              <p class="ideal"><span>Ideal para:</span> mantener todo siempre al día</p>
 
               <div class="price">
                 <span class="money">$200</span>
@@ -786,15 +777,15 @@
         </div>
       </section>
 
-      <!-- WORDPRESS -->
-      <section class="section" id="wp" aria-label="Paquetes WordPress">
+      <!-- TIENDAS Y RESERVAS (antes WordPress) -->
+      <section class="section" id="tiendas" aria-label="Tiendas y Reservas">
         <div class="section-head">
-          <h2>Paquetes WordPress</h2>
-          <p class="hint">Para reservas, tienda online y crecimiento.</p>
+          <h2>Tiendas y Reservas</h2>
+          <p class="hint">Para reservas, ventas online y crecimiento.</p>
         </div>
 
         <div class="grid">
-          <article class="card" data-title="Web con Reservas $700">
+          <article class="card" data-cta-title="Tu web trabaja para ti" data-cta-sub="Reservas online + anticipo automáticamente." data-title="Web con Reservas $700">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <h3>Web con Reservas</h3>
@@ -807,7 +798,7 @@
               </div>
 
               <ul>
-                <li>Sitio web profesional en WordPress</li>
+                <li>Sitio web profesional</li>
                 <li>Diseño responsive</li>
                 <li>Sistema de reservas online</li>
                 <li>Cobro de anticipo</li>
@@ -821,10 +812,10 @@
             </div>
           </article>
 
-          <article class="card" data-title="Tienda Online WordPress $800">
+          <article class="card" data-cta-title="Ventas online" data-cta-sub="Tienda lista para cobrar 24/7." data-title="Tienda Online $800">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
-              <h3>Tienda Online WordPress</h3>
+              <h3>Tienda Online</h3>
               <p class="sub">Productos físicos o digitales</p>
               <p class="ideal"><span>Ideal para:</span> vender 24/7 con carrito y pago</p>
 
@@ -834,20 +825,19 @@
               </div>
 
               <ul>
-                <li>Tienda con WooCommerce</li>
+                <li>Tienda completa (carrito y checkout)</li>
                 <li>Diseño profesional</li>
                 <li>Hasta 50 productos</li>
-                <li>Carrito y checkout</li>
-                <li>Stripe, PayPal y ATH Móvil</li>
+                <li>Pagos: Stripe, PayPal y ATH Móvil</li>
                 <li>Entrega: 10–14 días</li>
                 <li>Mantenimiento: $40 / mes (opcional)</li>
               </ul>
 
-              <a class="btn primary wa" data-plan="Tienda Online WordPress $800" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="Tienda Online $800" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
 
-          <article class="card featured" data-title="Reservas + Promoción $950">
+          <article class="card featured" data-cta-title="Para que tu negocio crezca" data-cta-sub="SEO local + presencia en Google." data-title="Reservas + Promoción $950">
             <div class="shine" aria-hidden="true"></div>
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
@@ -888,16 +878,16 @@
     </div>
   </main>
 
-  <!-- Sticky CTA (siempre vendiendo) -->
+  <!-- Sticky CTA abajo (WhatsApp + Llamar) -->
   <div class="cta" aria-hidden="false">
     <div class="cta-inner">
       <div class="txt">
-        <b id="ctaTitle">¿Listo para empezar?</b>
-        <span id="ctaSub">Elige un plan y te orientamos por WhatsApp.</span>
+        <b id="ctaTitle">El mejor precio</b>
+        <span id="ctaSub">Empieza con una web pro por $160.</span>
       </div>
       <div class="cta-actions">
-        <a class="btn" href="#ofertas">Ofertas</a>
-        <a class="btn primary" href="https://wa.me/17872241230?text=Hola%20Raymond%20Develop%2C%20quiero%20cotizar%20y%20empezar%20mi%20proyecto." target="_blank" rel="noopener">Contáctanos</a>
+        <a class="btn" href="tel:+17872241230">Llamar</a>
+        <a class="btn primary" id="ctaWhatsApp" href="https://wa.me/17872241230?text=Hola%20Raymond%20Develop%2C%20quiero%20cotizar%20y%20empezar%20mi%20proyecto." target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
   </div>
@@ -929,14 +919,19 @@
     drawer.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeDrawer(); });
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeDrawer(); });
 
-    // WhatsApp por plan (mensaje pre-escrito)
+    // WhatsApp por plan (mensaje pre-escrito) + CTA también se ajusta
     const phone = "17872241230";
     const waBtns = document.querySelectorAll('.wa');
+    const ctaWA = document.getElementById('ctaWhatsApp');
+
+    function waUrlFor(plan){
+      const msg = `Hola Raymond Develop, quiero el plan: ${plan}. ¿Qué necesitas de mi negocio para comenzar?`;
+      return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    }
+
     waBtns.forEach(btn=>{
       const plan = btn.getAttribute('data-plan') || "un plan";
-      const msg = `Hola Raymond Develop, quiero el plan: ${plan}. ¿Qué necesitas de mi negocio para comenzar?`;
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-      btn.setAttribute('href', url);
+      btn.setAttribute('href', waUrlFor(plan));
     });
 
     // Scroll reveal premium
@@ -967,48 +962,62 @@
 
     // Chips active según sección visible
     const chipOfertas = document.getElementById('chipOfertas');
-    const chipWP = document.getElementById('chipWP');
+    const chipTiendas = document.getElementById('chipTiendas');
     const secOfertas = document.getElementById('ofertas');
-    const secWP = document.getElementById('wp');
+    const secTiendas = document.getElementById('tiendas');
 
     function setChip(which){
       chipOfertas.setAttribute('aria-current', which === 'ofertas' ? 'true' : 'false');
-      chipWP.setAttribute('aria-current', which === 'wp' ? 'true' : 'false');
+      chipTiendas.setAttribute('aria-current', which === 'tiendas' ? 'true' : 'false');
     }
 
     const secObs = new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{
         if(entry.isIntersecting){
           if(entry.target.id === 'ofertas') setChip('ofertas');
-          if(entry.target.id === 'wp') setChip('wp');
+          if(entry.target.id === 'tiendas') setChip('tiendas');
         }
       });
     }, { threshold: 0.35 });
 
     secObs.observe(secOfertas);
-    secObs.observe(secWP);
+    secObs.observe(secTiendas);
 
-    // CTA cambia texto según dónde esté el usuario (detalle pro)
+    // ✅ CTA cambia según LA TARJETA visible (lo que pediste)
     const ctaTitle = document.getElementById('ctaTitle');
     const ctaSub = document.getElementById('ctaSub');
 
-    const ctaObs = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          if(entry.target.id === 'ofertas'){
-            ctaTitle.textContent = "Ofertas listas para hoy";
-            ctaSub.textContent = "Escoge una opción rápida y empezamos.";
-          }
-          if(entry.target.id === 'wp'){
-            ctaTitle.textContent = "WordPress para crecer";
-            ctaSub.textContent = "Reservas, tienda online y promoción.";
-          }
-        }
-      });
-    }, { threshold: 0.55 });
+    const cards = document.querySelectorAll('.card');
 
-    ctaObs.observe(secOfertas);
-    ctaObs.observe(secWP);
+    function setCtaFromCard(card){
+      const t = card.getAttribute('data-cta-title') || "¿Listo para empezar?";
+      const s = card.getAttribute('data-cta-sub') || "Te orientamos por WhatsApp o llamada.";
+      ctaTitle.textContent = t;
+      ctaSub.textContent = s;
+
+      // y el WhatsApp del CTA se ajusta al plan de esa tarjeta
+      const plan = card.getAttribute('data-title') || "un plan";
+      ctaWA.setAttribute('href', waUrlFor(plan));
+    }
+
+    // Observa cada card: cuando esté al centro de la pantalla, cambia CTA
+    const ctaCardObs = new IntersectionObserver((entries)=>{
+      // elegimos la card con mayor intersección
+      let best = null;
+      for(const e of entries){
+        if(e.isIntersecting){
+          if(!best || e.intersectionRatio > best.intersectionRatio) best = e;
+        }
+      }
+      if(best && best.target){
+        setCtaFromCard(best.target);
+      }
+    }, { threshold: [0.25,0.35,0.45,0.55,0.65] });
+
+    cards.forEach(card => ctaCardObs.observe(card));
+
+    // CTA inicial (primera card)
+    if(cards[0]) setCtaFromCard(cards[0]);
   </script>
 </body>
 </html>
