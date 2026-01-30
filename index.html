@@ -8,6 +8,7 @@
 </head>
 <body>
 
+  <!-- HERO (logo grande) -->
   <header class="hero">
     <div class="hero-inner">
       <img src="logo.png" alt="Raymond Develop logo" class="hero-logo">
@@ -15,6 +16,109 @@
       <p>Diseño de páginas web en Puerto Rico para pequeños negocios</p>
     </div>
   </header>
+
+  <!-- BLOQUE tipo Google Sites (debajo del logo) -->
+  <section id="rd-landing">
+    <div class="bg">
+      <div class="stars"></div>
+      <div class="aurora">
+        <div class="blob" style="left:-5%; top:-10%"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+      </div>
+      <div class="grain"></div>
+    </div>
+
+    <div class="wrap">
+      <!-- HERO -->
+      <div class="hero2">
+        <div class="eyebrow"><span class="dot"></span> Desarrollo web profesional</div>
+
+        <div class="hero-grid">
+          <div>
+            <div class="headline">Tu Negocio <span class="grad">En La Web</span></div>
+
+            <div class="sub">
+              Creamos páginas web rápidas, elegantes y optimizadas para que te encuentren en Google.
+              Ideal para restaurantes y negocios locales: menú digital, QR, botones de llamada,
+              WhatsApp, mapa y enlaces a redes sociales.
+            </div>
+
+            <div class="cta">
+              <a class="btn primary" href="#rd-demo">Ver demo</a>
+              <a class="btn" href="#rd-contacto">Solicitar cotización</a>
+            </div>
+
+            <div class="note">
+              Los planes y precios están disponibles en una página separada.
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <div class="section-title">
+              <h2>Entrega completa</h2>
+              <div class="hint">Listo para publicar</div>
+            </div>
+
+            <div class="list">
+              <div class="item">
+                <div class="ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M13 2L4 14h7l-1 8 10-14h-7l0-6Z" stroke="white" stroke-opacity=".9" stroke-width="1.8" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <b>Velocidad y estructura SEO</b>
+                  <p>Experiencia móvil limpia y base preparada para Google.</p>
+                </div>
+              </div>
+
+              <div class="item">
+                <div class="ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="white" stroke-opacity=".9" stroke-width="1.8"/>
+                    <path d="M9 7h6" stroke="white" stroke-opacity=".9" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <b>Diseño moderno y responsivo</b>
+                  <p>Coherencia visual y claridad en cualquier pantalla.</p>
+                </div>
+              </div>
+
+              <div class="item">
+                <div class="ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="white" stroke-opacity=".9" stroke-width="1.8"/>
+                    <path d="M8 12h8" stroke="white" stroke-opacity=".9" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <b>Contacto y QR</b>
+                  <p>Acciones directas para convertir visitas en clientes.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- /hero2 -->
+
+      <!-- Aquí luego ponemos servicios / demo / contacto -->
+      <div id="rd-demo"></div>
+      <div id="rd-contacto"></div>
+
+      <div class="footer">
+        © <span id="rd-year"></span> Raymond Develop
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function(){
+      var el = document.getElementById('rd-year');
+      if(el) el.textContent = new Date().getFullYear();
+    })();
+  </script>
 
 </body>
 </html>
