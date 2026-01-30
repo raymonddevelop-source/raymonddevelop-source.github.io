@@ -39,27 +39,29 @@
       overflow-x:hidden;
     }
 
+    /* ✅ MENOS ESPACIO A LOS LADOS EN iPhone */
     .wrap{
-      width:min(var(--max), 94vw);
+      width:min(var(--max), 98vw);
       margin:0 auto;
-      padding: 22px 0 70px;
+      padding: 18px 8px 70px;  /* <— antes 94vw + padding grande */
+    }
+    @media (min-width: 520px){
+      .wrap{ padding-left: 14px; padding-right: 14px; }
     }
 
     .hero{
-      padding: 18px 0 10px;
+      padding: 18px 0 8px;
       display:grid;
       gap: 10px;
       justify-items:center;
       text-align:center;
     }
-
     .hero h1{
       margin:0;
       font-size: clamp(22px, 5vw, 34px);
       font-weight: 1000;
       letter-spacing: -0.03em;
     }
-
     .hero p{
       margin:0;
       color: var(--muted);
@@ -70,14 +72,15 @@
 
     .top-actions{
       display:flex;
-      gap:12px;
+      gap:10px;
       flex-wrap:wrap;
       justify-content:center;
       margin-top: 6px;
     }
 
-    /* Botones como index */
+    /* Botones base (igual vibra index) */
     .btn{
+      position: relative;
       display:inline-flex;
       align-items:center;
       justify-content:center;
@@ -92,6 +95,8 @@
       text-decoration:none;
       box-shadow: var(--shadow2);
       transition: transform .18s var(--ease), filter .18s var(--ease);
+      overflow:hidden;
+      isolation:isolate;
     }
     .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
     .btn.primary{
@@ -99,11 +104,30 @@
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
-    .section{ margin-top: 18px; }
+    /* ✅ Animación sutil tipo “sheen” en botones */
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: linear-gradient(120deg,
+        transparent 0%,
+        rgba(255,255,255,.16) 22%,
+        transparent 45%
+      );
+      transform: translateX(-120%);
+      transition: transform .65s var(--ease);
+      pointer-events:none;
+      mix-blend-mode: screen;
+      opacity:.9;
+    }
+    .btn:hover::after{ transform: translateX(120%); }
+    .btn:active{ transform: translateY(0); filter: brightness(1.03); }
+
+    .section{ margin-top: 14px; }
     .section-head{
       display:flex;
       justify-content:center;
-      margin: 18px 0 12px;
+      margin: 16px 0 10px;
       text-align:center;
     }
     .section-head h2{
@@ -113,36 +137,60 @@
       letter-spacing:.2px;
     }
 
-    /* Grid iPhone-first */
+    /* ✅ Grid iPhone-first con gap más “tight” */
     .grid{
       display:grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 10px;
     }
     @media (min-width: 720px){
-      .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+      .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
     }
     @media (min-width: 1020px){
-      .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
     }
 
-    /* Card estilo index */
+    /* ✅ Cards más “premium” y menos secas */
     .card{
       position: relative;
       border-radius: var(--r2);
-      background: rgba(18, 20, 42, 0.95);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.10),
-        var(--shadow2);
+      background: rgba(18, 20, 42, 0.94);
       overflow:hidden;
       isolation:isolate;
+
+      box-shadow:
+        0 18px 55px rgba(0,0,0,.45),
+        inset 0 0 0 1px rgba(255,255,255,.10);
 
       animation: riseIn .6s var(--ease) both;
     }
 
+    /* glow superior suave */
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(520px 220px at 18% 8%, rgba(53,209,255,.16), transparent 60%),
+        radial-gradient(520px 220px at 85% 0%, rgba(124,77,255,.14), transparent 62%),
+        radial-gradient(520px 220px at 55% 100%, rgba(255,79,216,.10), transparent 65%);
+      opacity:.85;
+      pointer-events:none;
+    }
+
+    /* brillo interno suave */
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), transparent 40%, rgba(0,0,0,.10));
+      opacity:.55;
+      pointer-events:none;
+    }
+
     @keyframes riseIn{
-      from{ opacity:0; transform: translateY(14px); }
-      to{ opacity:1; transform: translateY(0); }
+      from{ opacity:0; transform: translateY(14px) scale(.995); }
+      to{ opacity:1; transform: translateY(0) scale(1); }
     }
 
     .grid .card:nth-child(1){ animation-delay: .00s; }
@@ -154,14 +202,19 @@
     .grid .card:nth-child(7){ animation-delay: .36s; }
     .grid .card:nth-child(8){ animation-delay: .42s; }
 
-    /* ✅ Todo centrado en card */
+    /* ✅ Contenido centrado */
     .card-inner{
+      position:relative;
+      z-index:1;
       display:flex;
       flex-direction:column;
-      padding: 18px 20px 20px;
+      padding: 18px 16px 18px; /* <— menos padding lateral */
       gap: 10px;
       min-height: 100%;
       text-align: center;
+    }
+    @media (min-width: 520px){
+      .card-inner{ padding-left: 18px; padding-right: 18px; }
     }
 
     .tag{
@@ -177,7 +230,7 @@
 
     .card h3{
       margin:0;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 1000;
       letter-spacing: -0.01em;
     }
@@ -185,8 +238,8 @@
     .sub{
       margin:0;
       color: var(--muted);
-      font-weight: 700;
-      font-size: 13px;
+      font-weight: 750;
+      font-size: 13.5px;
       line-height: 1.5;
     }
 
@@ -195,60 +248,69 @@
       align-items:baseline;
       justify-content:center;
       gap:10px;
-      margin-top: 2px;
+      margin-top: 4px;
     }
     .money{
-      font-size: 34px;
+      font-size: 38px;
       font-weight: 1000;
       letter-spacing: -0.03em;
     }
     .period{
       color: var(--muted2);
-      font-weight: 850;
+      font-weight: 900;
       font-size: 13px;
     }
 
-    /* ✅ Bullets a la izquierda pero sin pegarse al borde */
+    /* ✅ Bullets a la izquierda pero “centrados” dentro de la card */
     ul{
       margin: 8px auto 0;
-      padding-left: 20px;
-      max-width: 92%;
+      padding-left: 18px;
+      width: min(430px, 92%);   /* <— esto evita que queden a la izquierda del todo */
       text-align:left;
       color: rgba(255,255,255,.86);
-      font-size: 13px;
-      line-height: 1.55;
+      font-size: 13.2px;
+      line-height: 1.6;
     }
+    ul li{ margin: 2px 0; }
 
+    /* Botón principal dentro de card (ancho lindo) */
     .card .btn{
-      margin-top:auto;
+      margin-top: 10px;
       width: 100%;
       max-width: 520px;
-      justify-content:center;
       margin-left:auto;
       margin-right:auto;
     }
+    .card .btn.primary{
+      background: linear-gradient(90deg, rgba(53,209,255,.20), rgba(124,77,255,.14));
+      border: 1px solid rgba(53,209,255,.26);
+    }
 
     .featured{
-      background:
-        radial-gradient(520px 240px at 30% 0%, rgba(53,209,255,.16), transparent 60%),
-        radial-gradient(520px 240px at 80% 0%, rgba(124,77,255,.14), transparent 60%),
-        rgba(18, 20, 42, 0.95);
       box-shadow:
-        inset 0 0 0 1px rgba(96,165,250,.25),
-        var(--shadow2);
+        0 18px 60px rgba(0,0,0,.50),
+        inset 0 0 0 1px rgba(96,165,250,.28);
+    }
+    .featured::before{
+      opacity: 1;
+      background:
+        radial-gradient(640px 260px at 20% 0%, rgba(53,209,255,.22), transparent 60%),
+        radial-gradient(640px 260px at 85% 0%, rgba(124,77,255,.20), transparent 62%),
+        radial-gradient(640px 260px at 55% 100%, rgba(255,79,216,.12), transparent 65%);
     }
 
     .note{
-      margin-top: 20px;
+      margin-top: 18px;
       color: var(--muted);
       font-weight: 750;
       font-size: 13px;
       text-align:center;
       line-height: 1.6;
+      padding: 0 6px;
     }
 
     .footer{
-      margin-top:22px;
+      margin-top:18px;
       padding:18px 0;
       border-top:1px solid rgba(255,255,255,.10);
       color:rgba(255,255,255,.55);
