@@ -174,11 +174,6 @@
       border:1px solid rgba(255,255,255,.10);
       font-weight: 900;
     }
-    .drawer small{
-      color: rgba(255,255,255,.55);
-      font-weight:800;
-      margin-top: 8px;
-    }
 
     /* ==== Layout ==== */
     .wrap{
@@ -233,11 +228,12 @@
     }
     .hero-title.in{ transform: translateY(0); opacity:1; }
 
+    /* 🔧 Ajuste para que los botones del hero queden uno debajo del otro bonito */
     .hero-actions{
       display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      justify-content:center;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
       margin-top: 6px;
 
       transform: translateY(10px);
@@ -261,11 +257,19 @@
       text-decoration:none;
       box-shadow: var(--shadow2);
       transition: transform .18s var(--ease), filter .18s var(--ease);
+      min-width: 220px;
     }
     .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+
     .btn.primary{
       border:1px solid rgba(53,209,255,.26);
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
+    }
+
+    /* Botón secundario para ofertas */
+    .btn.secondary{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
     }
 
     /* ==== Secciones ==== */
@@ -350,7 +354,7 @@
       line-height:1.45;
     }
 
-    /* ==== CONTACTO: 1 tarjeta + 3 botones con animación CSS ==== */
+    /* ==== CONTACTO ==== */
     #contact .contact-card{ text-align:center; }
 
     #contact .contact-actions{
@@ -384,6 +388,7 @@
 
     @media (max-width: 420px){
       .logo-big{ width: min(84vw, 360px); }
+      .btn{ min-width: 200px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -434,8 +439,10 @@
 
         <h2 class="hero-title" id="heroTitle">Diseño de páginas web en Puerto Rico para tu negocio</h2>
 
+        <!-- ✅ 2 botones: Contáctanos + Ofertas -->
         <div class="hero-actions" id="heroActions">
           <a class="btn primary" href="#contact">Contáctanos</a>
+          <a class="btn secondary" href="planes.html">Ofertas</a>
         </div>
       </section>
 
