@@ -4,33 +4,29 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Raymond Develop</title>
-  <meta name="description" content="Diseño de páginas web en Puerto Rico. Sitios rápidos, modernos y optimizados para convertir visitas en clientes." />
-  <meta name="theme-color" content="#060816" />
+  <meta name="description" content="Diseño web en Puerto Rico. Landing pages, menús digitales, QR y sitios que convierten." />
+  <meta name="theme-color" content="#070914" />
 
   <style>
     :root{
-      --bg0:#050814;
-      --bg1:#070a1b;
-
+      --bg0:#070914;
+      --bg1:#0b0f24;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.12);
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.70);
-      --muted2: rgba(255,255,255,.55);
+      --muted2: rgba(255,255,255,.52);
 
       --c1:#35d1ff;
       --c2:#7c4dff;
       --c3:#ff4fd8;
 
-      --glassA: rgba(255,255,255,.08);
-      --glassB: rgba(255,255,255,.04);
-      --stroke: rgba(255,255,255,.14);
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --shadow2: 0 10px 28px rgba(0,0,0,.35);
 
-      --shadow: 0 22px 80px rgba(0,0,0,.60);
-      --shadow2: 0 12px 32px rgba(0,0,0,.35);
-
-      --r: 22px;
-      --r2: 30px;
+      --r: 18px;
+      --r2: 26px;
       --max: 1120px;
-
       --ease: cubic-bezier(.2,.9,.2,1);
     }
 
@@ -38,724 +34,532 @@
     html,body{ height:100%; }
     body{
       margin:0;
-      overflow-x:hidden;
       color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: linear-gradient(180deg, var(--bg0), var(--bg1) 55%, var(--bg0));
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 20% 0%, rgba(124,77,255,.18), transparent 60%),
+                  radial-gradient(900px 700px at 85% 0%, rgba(53,209,255,.14), transparent 58%),
+                  radial-gradient(900px 700px at 60% 90%, rgba(255,79,216,.10), transparent 55%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
     }
 
-    /* ====== FULL BLEED STAGE (evita el “encajonamiento”) ====== */
+    /* ==== Full width real ==== */
     .stage{
-      position:relative;
       width:100vw;
+      position:relative;
       left:50%;
       transform:translateX(-50%);
-      min-height: 100svh;
-      overflow:hidden;
-      isolation:isolate;
-
-      background:
-        radial-gradient(1200px 800px at 18% 10%, rgba(124,77,255,.22), transparent 62%),
-        radial-gradient(980px 820px at 85% 0%, rgba(53,209,255,.18), transparent 58%),
-        radial-gradient(1100px 900px at 70% 92%, rgba(255,79,216,.12), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 55%, var(--bg0));
+      min-height:100svh;
     }
 
-    /* ====== Background FX ====== */
-    .bg{
-      position:absolute;
-      inset:-20%;
-      pointer-events:none;
-      z-index:0;
-    }
-    .stars, .stars::before, .stars::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background-repeat:repeat;
-      background-position:center;
-      mix-blend-mode:screen;
-      filter: blur(.2px);
-      animation: drift 90s linear infinite;
-    }
-    .stars{
-      opacity:.68;
-      background-image:
-        radial-gradient(2px 2px at 18px 26px, rgba(255,255,255,.80), transparent 40%),
-        radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,.55), transparent 40%),
-        radial-gradient(1px 1px at 92px 118px, rgba(255,255,255,.45), transparent 40%),
-        radial-gradient(1px 1px at 150px 80px, rgba(255,255,255,.35), transparent 40%);
-      background-size: 220px 220px;
-    }
-    .stars::before{
-      opacity:.48;
-      background-image:
-        radial-gradient(1px 1px at 25px 55px, rgba(255,255,255,.55), transparent 40%),
-        radial-gradient(1px 1px at 110px 90px, rgba(255,255,255,.45), transparent 40%),
-        radial-gradient(2px 2px at 170px 130px, rgba(255,255,255,.65), transparent 40%);
-      background-size: 320px 320px;
-      animation-duration: 130s;
-      transform: translate3d(-60px,-40px,0);
-    }
-    .stars::after{
-      opacity:.28;
-      background-image:
-        radial-gradient(1px 1px at 60px 30px, rgba(255,255,255,.45), transparent 40%),
-        radial-gradient(1px 1px at 140px 160px, rgba(255,255,255,.35), transparent 40%),
-        radial-gradient(2px 2px at 190px 70px, rgba(255,255,255,.55), transparent 40%);
-      background-size: 420px 420px;
-      animation-duration: 170s;
-      transform: translate3d(40px,30px,0);
-    }
-    @keyframes drift{
-      from{ transform: translate3d(0,0,0) scale(1); }
-      to  { transform: translate3d(-140px,160px,0) scale(1.05); }
+    /* ==== NAV estilo Google Sites ==== */
+    .nav{
+      position:sticky;
+      top:0;
+      z-index:50;
+      padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
+      background: rgba(7,9,20,.55);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(12px);
     }
 
-    .aurora{
-      position:absolute;
-      inset:0;
-      filter: blur(42px) saturate(150%);
-      opacity:.85;
-    }
-    .blob{
-      position:absolute;
-      width: 560px; height: 560px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, rgba(53,209,255,.58), rgba(124,77,255,.18) 55%, transparent 72%);
-      animation: float1 12s ease-in-out infinite;
-    }
-    .blob.b2{
-      width: 720px; height: 720px;
-      left: 55%; top: 4%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,79,216,.50), rgba(124,77,255,.14) 55%, transparent 72%);
-      animation: float2 14s ease-in-out infinite;
-    }
-    .blob.b3{
-      width: 640px; height: 640px;
-      left: 8%; top: 62%;
-      background: radial-gradient(circle at 30% 30%, rgba(53,209,255,.22), rgba(124,77,255,.14) 55%, transparent 72%);
-      animation: float3 16s ease-in-out infinite;
-    }
-    @keyframes float1{ 0%,100%{ transform: translate(8%, 6%) scale(1); } 50%{ transform: translate(18%, 14%) scale(1.08);} }
-    @keyframes float2{ 0%,100%{ transform: translate(-10%, 6%) scale(1);} 50%{ transform: translate(-18%, 14%) scale(1.08);} }
-    @keyframes float3{ 0%,100%{ transform: translate(10%, -10%) scale(1);} 50%{ transform: translate(18%, -18%) scale(1.06);} }
-
-    .grain{
-      position:absolute; inset:0;
-      opacity:.09;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
-      mix-blend-mode: overlay;
-      pointer-events:none;
-    }
-
-    /* ====== Wrap ====== */
-    .wrap{
-      width: min(var(--max), 92vw);
-      margin: 0 auto;
-      position:relative;
-      z-index:2;
-      padding: calc(18px + env(safe-area-inset-top)) 0 80px;
-    }
-
-    /* ====== Top pill bar ====== */
-    .topbar{
+    .nav-inner{
+      width:min(var(--max), 94vw);
+      margin:0 auto;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
-      margin-bottom: 18px;
+      gap:10px;
     }
 
-    .pill{
-      display:inline-flex;
+    .nav-left{
+      display:flex;
       align-items:center;
       gap:10px;
-      padding: 10px 14px;
-      border-radius: 999px;
+      min-width:0;
+    }
+
+    .burger{
+      width:40px; height:40px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.14);
+      display:grid;
+      place-items:center;
       box-shadow: var(--shadow2);
-      backdrop-filter: blur(16px);
-      color: rgba(255,255,255,.78);
-      font-weight: 900;
-      font-size: 12px;
-      letter-spacing: .02em;
+      cursor:pointer;
+      user-select:none;
+      flex:0 0 auto;
+    }
+    .burger svg{ width:18px; height:18px; opacity:.95; }
+
+    .brand-mini{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .brand-mini img{
+      width:28px; height:28px;
+      border-radius: 10px;
+      display:block;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .brand-mini .name{
+      font-weight:900;
+      font-size: 15px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 52vw;
+    }
+
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:0 0 auto;
+    }
+
+    .iconbtn{
+      width:40px; height:40px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      display:grid;
+      place-items:center;
+      box-shadow: var(--shadow2);
+      cursor:pointer;
       user-select:none;
     }
-    .pill .dot{
-      width:10px; height:10px; border-radius:99px;
-      background: radial-gradient(circle at 30% 30%, rgba(53,209,255,.95), rgba(124,77,255,.6));
-      box-shadow: 0 0 18px rgba(53,209,255,.25);
-    }
+    .iconbtn svg{ width:18px; height:18px; opacity:.95; }
 
-    .navbtn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
+    .cta{
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow2);
-      backdrop-filter: blur(16px);
-      color: rgba(255,255,255,.80);
-      font-weight: 900;
-      font-size: 12.5px;
-      text-decoration:none;
-      transition: transform .18s var(--ease), background .18s var(--ease);
-    }
-    .navbtn:hover{ transform: translateY(-2px); background: rgba(255,255,255,.07); }
-
-    /* ====== Hero layout ====== */
-    .heroGrid{
-      display:grid;
-      grid-template-columns: 1.08fr .92fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    /* ====== Cards base ====== */
-    .card{
-      position:relative;
-      border-radius: var(--r2);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      backdrop-filter: blur(18px);
-      transform: translateY(14px);
-      opacity: 0;
-      transition: transform .7s var(--ease), opacity .7s var(--ease);
-    }
-    .card.is-in{
-      transform: translateY(0);
-      opacity: 1;
-    }
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-1px;
-      border-radius: inherit;
-      padding: 1px;
-      background: linear-gradient(120deg, rgba(53,209,255,.38), rgba(124,77,255,.22), rgba(255,79,216,.20));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: .45;
-      pointer-events:none;
-    }
-    .card::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(240px 110px at 20% 20%, rgba(255,255,255,.16), transparent 60%),
-        radial-gradient(400px 180px at 80% 10%, rgba(53,209,255,.10), transparent 55%),
-        radial-gradient(420px 220px at 60% 90%, rgba(255,79,216,.08), transparent 55%);
-      opacity: .85;
-      pointer-events:none;
-    }
-    .card > *{ position:relative; z-index:1; }
-
-    /* ====== Logo hero card ====== */
-    .brand{
-      padding: 18px;
-      display:grid;
-      place-items:center;
-      text-align:center;
-      gap: 10px;
-      min-height: 360px;
-    }
-
-    .logoWrap{
-      width: min(78vw, 320px);
-      aspect-ratio: 1 / 1;
-      border-radius: 999px;
-      display:grid;
-      place-items:center;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.16), rgba(255,255,255,.06));
-      border: 1px solid rgba(255,255,255,.14);
-      box-shadow: 0 22px 80px rgba(0,0,0,.55);
-      overflow:hidden;
-      transform: translateZ(0);
-    }
-    .logoWrap img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display:block;
-      transform: scale(1.05);
-    }
-
-    .brand h1{
-      margin: 2px 0 0;
-      font-size: clamp(28px, 4.8vw, 44px);
-      letter-spacing: -0.03em;
+      border:1px solid rgba(53,209,255,.26);
+      background: linear-gradient(90deg, rgba(53,209,255,.16), rgba(124,77,255,.10));
+      color: rgba(255,255,255,.92);
       font-weight: 950;
-      text-shadow: 0 18px 60px rgba(0,0,0,.45);
+      font-size: 13px;
+      text-decoration:none;
+      box-shadow: var(--shadow2);
+      transition: transform .18s var(--ease), filter .18s var(--ease);
     }
-    .brand p{
-      margin: 0;
-      color: rgba(255,255,255,.74);
-      font-weight: 750;
-      line-height: 1.55;
-      max-width: 45ch;
-      font-size: clamp(13px, 1.8vw, 15.5px);
-    }
+    .cta:hover{ transform: translateY(-1px); filter: brightness(1.05); }
 
-    /* ====== Pitch card ====== */
-    .pitch{
-      padding: 18px;
+    /* ==== Drawer menu ==== */
+    .drawer-backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .22s var(--ease);
+      z-index:60;
+    }
+    .drawer{
+      position:fixed;
+      top:0; left:0;
+      width:min(86vw, 340px);
+      height:100%;
+      background: rgba(10,12,28,.92);
+      border-right:1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(14px);
+      transform: translateX(-102%);
+      transition: transform .24s var(--ease);
+      z-index:70;
+      padding: calc(14px + env(safe-area-inset-top)) 14px 14px;
       display:flex;
       flex-direction:column;
-      gap: 12px;
-      min-height: 360px;
-      justify-content:center;
+      gap:10px;
     }
-
-    .headline{
-      font-size: clamp(34px, 5.4vw, 64px);
-      line-height: 1.02;
-      margin: 0;
-      letter-spacing: -0.05em;
-      font-weight: 1000;
+    .drawer.open{ transform: translateX(0); }
+    .drawer-backdrop.open{
+      opacity:1;
+      pointer-events:auto;
     }
-    .grad{
-      background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
-      background-size: 240% 100%;
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      animation: shine 5s linear infinite;
-      text-shadow: 0 0 35px rgba(53,209,255,.12);
-    }
-    @keyframes shine{ 0%{ background-position: 0% 50%; } 100%{ background-position: 240% 50%; } }
-
-    .sub{
-      margin: 0;
-      color: rgba(255,255,255,.78);
-      font-weight: 700;
-      line-height: 1.65;
-      font-size: clamp(14px, 1.9vw, 17px);
-      max-width: 62ch;
-    }
-
-    .ctaRow{
+    .drawer a{
       display:flex;
-      gap: 12px;
-      flex-wrap:wrap;
       align-items:center;
-      margin-top: 6px;
+      gap:10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      text-decoration:none;
+      color: rgba(255,255,255,.88);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      font-weight: 900;
     }
+    .drawer small{
+      color: rgba(255,255,255,.55);
+      font-weight:800;
+      margin-top: 8px;
+    }
+
+    /* ==== Layout ==== */
+    .wrap{
+      width:min(var(--max), 94vw);
+      margin:0 auto;
+      padding: 18px 0 70px;
+    }
+
+    /* ==== HERO (logo protagonista) ==== */
+    .hero{
+      padding: 18px 0 10px;
+      display:grid;
+      gap: 14px;
+      align-items:center;
+      justify-items:center;
+      text-align:center;
+    }
+    .logo-big{
+      width:min(74vw, 360px);
+      aspect-ratio: 1/1;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      transform: translateY(12px);
+      opacity:0;
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
+    }
+    .logo-big.in{ transform: translateY(0); opacity:1; }
+
+    .logo-big img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .hero-title{
+      font-size: clamp(22px, 5vw, 34px);
+      font-weight: 1000;
+      letter-spacing: -0.03em;
+      margin: 2px 0 0;
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
+    }
+    .hero-title.in{ transform: translateY(0); opacity:1; }
+
+    .hero-sub{
+      margin: 0;
+      color: var(--muted);
+      font-weight: 750;
+      line-height: 1.6;
+      max-width: 52ch;
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
+    }
+    .hero-sub.in{ transform: translateY(0); opacity:1; }
+
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top: 6px;
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
+    }
+    .hero-actions.in{ transform: translateY(0); opacity:1; }
 
     .btn{
-      position:relative;
       display:inline-flex;
       align-items:center;
       justify-content:center;
       gap:10px;
       padding: 12px 16px;
       border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
       font-weight: 950;
       font-size: 14px;
       text-decoration:none;
-      color: rgba(255,255,255,.92);
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      backdrop-filter: blur(16px);
       box-shadow: var(--shadow2);
-      transition: transform .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease);
-      overflow:hidden;
-      will-change: transform;
+      transition: transform .18s var(--ease), filter .18s var(--ease);
     }
-    .btn:hover{ transform: translateY(-2px); box-shadow: 0 26px 90px rgba(0,0,0,.65); background: rgba(255,255,255,.08); }
-
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
     .btn.primary{
-      border: 1px solid rgba(53,209,255,.30);
-      background: linear-gradient(90deg, rgba(53,209,255,.20), rgba(124,77,255,.12));
-    }
-    .btn.primary::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: linear-gradient(90deg, rgba(53,209,255,.40), rgba(124,77,255,.28), rgba(255,79,216,.28));
-      filter: blur(18px);
-      opacity:.62;
-      pointer-events:none;
-    }
-    .btn::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: radial-gradient(160px 60px at 20% 30%, rgba(255,255,255,.22), transparent 60%);
-      opacity:.78;
-      pointer-events:none;
+      border:1px solid rgba(53,209,255,.26);
+      background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
-    .chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-    .chip{
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.72);
-      font-weight: 900;
-      font-size: 12px;
-      letter-spacing:.01em;
-    }
-
-    /* ====== Sections ====== */
-    section{
+    /* ==== Secciones con IMÁGENES (lo que faltaba) ==== */
+    .section{
       margin-top: 18px;
-      display:grid;
-      gap: 14px;
     }
-    .sectionTitle{
+    .section-head{
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
-      gap: 12px;
-      margin-top: 8px;
+      gap:10px;
+      margin: 12px 0;
     }
-    .sectionTitle h2{
-      margin: 0;
+    .section-head h2{
+      margin:0;
       font-size: 16px;
       font-weight: 1000;
-      letter-spacing: .2px;
+      letter-spacing:.2px;
     }
-    .hint{
+    .section-head p{
       margin:0;
-      color: rgba(255,255,255,.55);
+      color: var(--muted2);
       font-weight: 900;
       font-size: 12px;
     }
 
-    .grid3{
+    .grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      gap: 12px;
     }
-    .mini{
-      padding: 16px;
-      border-radius: var(--r);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.035));
-      border: 1px solid rgba(255,255,255,.12);
+
+    .card{
+      border-radius: var(--r2);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
       box-shadow: var(--shadow2);
-      backdrop-filter: blur(16px);
-      transform: translateY(14px);
-      opacity: 0;
-      transition: transform .7s var(--ease), opacity .7s var(--ease);
-      position:relative;
       overflow:hidden;
+      transform: translateY(12px);
+      opacity:0;
+      transition: transform .6s var(--ease), opacity .6s var(--ease);
     }
-    .mini.is-in{ transform: translateY(0); opacity: 1; }
+    .card.in{ transform: translateY(0); opacity:1; }
 
-    .mini::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: radial-gradient(220px 90px at 20% 20%, rgba(255,255,255,.13), transparent 60%);
-      opacity:.85;
-      pointer-events:none;
-    }
-    .mini b{ display:block; font-weight: 1000; font-size: 14px; margin-bottom: 6px; }
-    .mini p{ margin:0; color: rgba(255,255,255,.72); font-weight: 700; line-height:1.55; font-size: 13px; }
-
-    .icon{
-      width: 38px; height: 38px;
-      border-radius: 14px;
-      display:grid; place-items:center;
-      margin-bottom: 10px;
-      background: linear-gradient(180deg, rgba(53,209,255,.16), rgba(124,77,255,.10));
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 12px 28px rgba(0,0,0,.35);
-    }
-    .icon svg{ width:18px; height:18px; opacity:.92; }
-
-    /* ====== Big promo ====== */
-    .promo{
-      padding: 18px;
-      border-radius: 28px;
-      background: linear-gradient(90deg, rgba(53,209,255,.12), rgba(124,77,255,.10), rgba(255,79,216,.10));
-      border: 1px solid rgba(255,255,255,.14);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      overflow:hidden;
-      position:relative;
-      transform: translateY(14px);
-      opacity: 0;
-      transition: transform .7s var(--ease), opacity .7s var(--ease);
-    }
-    .promo.is-in{ transform: translateY(0); opacity: 1; }
-
-    .promo::before{
-      content:"";
-      position:absolute; inset:-25%;
+    .thumb{
+      width:100%;
+      aspect-ratio: 16/11;
       background:
-        radial-gradient(circle at 30% 20%, rgba(53,209,255,.40), transparent 55%),
-        radial-gradient(circle at 70% 40%, rgba(255,79,216,.26), transparent 55%),
-        radial-gradient(circle at 50% 85%, rgba(124,77,255,.28), transparent 55%);
-      filter: blur(18px);
-      opacity:.85;
-      animation: glow 6s ease-in-out infinite;
-      pointer-events:none;
+        radial-gradient(900px 500px at 30% 20%, rgba(53,209,255,.18), transparent 55%),
+        radial-gradient(900px 500px at 80% 20%, rgba(255,79,216,.14), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:block;
+      overflow:hidden;
     }
-    @keyframes glow{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
-    .promo > *{ position:relative; z-index:1; }
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+      transition: transform .35s var(--ease);
+    }
+    .card:hover .thumb img{ transform: scale(1.06); }
 
-    .promoRow{
-      display:flex;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-      gap: 14px;
+    .card-body{
+      padding: 12px 12px 14px;
+      display:grid;
+      gap:6px;
     }
-    .promo h3{
-      margin:0;
-      font-size: 16px;
+    .card-body b{
       font-weight: 1000;
+      font-size: 14px;
+      letter-spacing:.1px;
     }
-    .promo p{
-      margin:6px 0 0;
-      color: rgba(255,255,255,.76);
+    .card-body span{
+      color: var(--muted);
       font-weight: 750;
-      max-width: 70ch;
-      line-height: 1.55;
-      font-size: 13.5px;
+      font-size: 12.8px;
+      line-height:1.45;
     }
 
-    /* ====== Footer ====== */
-    footer{
-      margin-top: 22px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,.10);
-      color: rgba(255,255,255,.55);
-      font-size: 12px;
-      text-align:center;
-      font-weight: 800;
+    /* ==== Responsive ==== */
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+      .brand-mini .name{ max-width: 44vw; }
     }
-
-    /* ====== Parallax tilt on hover (desktop) ====== */
-    @media (hover:hover) and (pointer:fine){
-      .card:hover{ transform: translateY(-3px); }
-      .mini:hover{ transform: translateY(-3px); }
-    }
-
-    /* ====== Responsive ====== */
-    @media (max-width: 920px){
-      .heroGrid{ grid-template-columns: 1fr; }
-      .brand, .pitch{ min-height: unset; }
-      .logoWrap{ width: min(78vw, 300px); }
-      .grid3{ grid-template-columns: 1fr; }
-      .topbar{ margin-bottom: 12px; }
-    }
-
     @media (max-width: 420px){
-      .logoWrap{ width: min(84vw, 320px); } /* logo grande en iPhone */
-      .pill, .navbtn{ padding: 9px 12px; }
+      .logo-big{ width: min(84vw, 360px); } /* grande en iPhone */
+      .cta{ display:none; } /* deja limpio como Sites */
     }
 
-    /* ====== Reduce motion ====== */
     @media (prefers-reduced-motion: reduce){
-      .stars, .stars::before, .stars::after,
-      .blob, .promo::before, .grad{ animation:none !important; }
-      .card, .mini, .promo{ transition:none !important; transform:none !important; opacity:1 !important; }
+      *{ animation:none !important; transition:none !important; }
+      .logo-big, .hero-title, .hero-sub, .hero-actions, .card{ transform:none !important; opacity:1 !important; }
     }
-
-    /* Smooth anchor */
-    html{ scroll-behavior:smooth; }
   </style>
 </head>
 
 <body>
-  <main class="stage" id="top">
-    <div class="bg" aria-hidden="true">
-      <div class="stars"></div>
-      <div class="aurora">
-        <div class="blob" style="left:-6%; top:-10%"></div>
-        <div class="blob b2"></div>
-        <div class="blob b3"></div>
-      </div>
-      <div class="grain"></div>
-    </div>
+  <div class="drawer-backdrop" id="backdrop"></div>
 
-    <div class="wrap">
-      <div class="topbar">
-        <div class="pill"><span class="dot"></span> Desarrollo web profesional</div>
-        <a class="navbtn" href="#contacto" aria-label="Ir a contacto">Cotizar →</a>
-      </div>
+  <aside class="drawer" id="drawer" aria-label="Menú">
+    <a href="#work">Portafolio</a>
+    <a href="#serv">Servicios</a>
+    <a href="#contact">Contacto</a>
+    <small>Tip: sube 3 imágenes a /assets/ para que esto se vea nivel agencia.</small>
+  </aside>
 
-      <div class="heroGrid">
-        <!-- CARD 1: BRAND -->
-        <section class="card brand reveal">
-          <div class="logoWrap" id="logoParallax">
-            <img src="logo.png" alt="Raymond Develop logo">
-          </div>
-          <h1>Raymond Develop</h1>
-          <p>Diseño de páginas web en Puerto Rico para pequeños negocios</p>
-        </section>
-
-        <!-- CARD 2: PITCH -->
-        <section class="card pitch reveal">
-          <h2 class="headline">Tu Negocio <span class="grad">En La Web</span></h2>
-          <p class="sub">
-            Creamos páginas web rápidas, elegantes y optimizadas para que te encuentren en Google.
-            Ideal para restaurantes y negocios locales: menú digital, QR, botones de llamada,
-            WhatsApp, mapa y enlaces a redes sociales.
-          </p>
-
-          <div class="ctaRow">
-            <a class="btn primary" href="#demo">
-              <span>Ver demo</span>
-              <span aria-hidden="true">⚡</span>
-            </a>
-            <a class="btn" href="#contacto">
-              <span>Solicitar cotización</span>
-              <span aria-hidden="true">✉️</span>
-            </a>
-          </div>
-
-          <div class="chips" aria-label="Beneficios">
-            <span class="chip">SEO base</span>
-            <span class="chip">Diseño móvil</span>
-            <span class="chip">Botones + QR</span>
-            <span class="chip">Mapa + redes</span>
-          </div>
-
-          <p class="hint" style="margin-top:4px;">
-            Los planes y precios pueden estar en una página separada.
-          </p>
-        </section>
-      </div>
-
-      <!-- SERVICIOS -->
-      <section>
-        <div class="sectionTitle">
-          <h2>Lo que entregamos</h2>
-          <p class="hint">Listo para publicar</p>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="burger" id="burger" aria-label="Abrir menú" role="button" tabindex="0">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M5 7h14M5 12h14M5 17h14" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
         </div>
 
-        <div class="grid3">
-          <article class="mini reveal">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M13 2L4 14h7l-1 8 10-14h-7l0-6Z" stroke="white" stroke-opacity=".92" stroke-width="1.8" stroke-linejoin="round"/>
-              </svg>
+        <div class="brand-mini">
+          <img src="logo.png" alt="Logo Raymond Develop" />
+          <div class="name">RaymondDevelop</div>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <a class="cta" href="#contact">Cotizar</a>
+        <div class="iconbtn" id="toTop" aria-label="Ir arriba" role="button" tabindex="0">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 5l6 6M12 5l-6 6" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 5v14" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="wrap">
+      <!-- HERO -->
+      <section class="hero" id="top">
+        <div class="logo-big" id="logoBig">
+          <img src="logo.png" alt="Raymond Develop" />
+        </div>
+
+        <h1 class="hero-title" id="heroTitle">Webs que se ven premium y convierten</h1>
+
+        <p class="hero-sub" id="heroSub">
+          Menú digital + QR + botones de contacto + diseño móvil impecable.
+        </p>
+
+        <div class="hero-actions" id="heroActions">
+          <a class="btn primary" href="#work">Ver trabajos</a>
+          <a class="btn" href="#contact">Solicitar cotización</a>
+        </div>
+      </section>
+
+      <!-- PORTAFOLIO (IMÁGENES) -->
+      <section class="section" id="work">
+        <div class="section-head">
+          <h2>Portafolio</h2>
+          <p>3 ejemplos</p>
+        </div>
+
+        <div class="grid">
+          <article class="card reveal">
+            <a class="thumb" href="#" aria-label="Proyecto 1">
+              <!-- Reemplaza por: assets/work1.jpg -->
+              <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de landing moderna">
+            </a>
+            <div class="card-body">
+              <b>Landing de Negocio</b>
+              <span>Diseño limpio + CTA directo + estructura lista para SEO.</span>
             </div>
-            <b>Velocidad + SEO base</b>
-            <p>Arquitectura limpia y rápida. Preparada para indexación y búsqueda local.</p>
           </article>
 
-          <article class="mini reveal">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="white" stroke-opacity=".92" stroke-width="1.8"/>
-                <path d="M9 7h6" stroke="white" stroke-opacity=".92" stroke-width="1.8" stroke-linecap="round"/>
-              </svg>
+          <article class="card reveal">
+            <a class="thumb" href="#" aria-label="Proyecto 2">
+              <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de web de servicios">
+            </a>
+            <div class="card-body">
+              <b>Servicios Profesionales</b>
+              <span>Sección de servicios con tarjetas, testimonios y contacto rápido.</span>
             </div>
-            <b>Diseño premium responsivo</b>
-            <p>Se ve brutal en iPhone, tablet y desktop. Animaciones suaves y elegantes.</p>
           </article>
 
-          <article class="mini reveal">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="white" stroke-opacity=".92" stroke-width="1.8"/>
-                <path d="M8 12h8" stroke="white" stroke-opacity=".92" stroke-width="1.8" stroke-linecap="round"/>
-              </svg>
+          <article class="card reveal">
+            <a class="thumb" href="#" aria-label="Proyecto 3">
+              <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de restaurante con menú">
+            </a>
+            <div class="card-body">
+              <b>Restaurante + Menú QR</b>
+              <span>Menú digital, mapa, WhatsApp, botón llamar y redes.</span>
             </div>
-            <b>Contacto que convierte</b>
-            <p>Botones directos: WhatsApp, llamada, email, mapa y redes en 1 toque.</p>
           </article>
         </div>
       </section>
 
-      <!-- DEMO -->
-      <section id="demo">
-        <div class="sectionTitle">
-          <h2>Demo</h2>
-          <p class="hint">Efectos + UI tipo app</p>
+      <!-- SERVICIOS (poco texto) -->
+      <section class="section" id="serv">
+        <div class="section-head">
+          <h2>Servicios</h2>
+          <p>lo esencial</p>
         </div>
 
-        <div class="promo reveal">
-          <div class="promoRow">
-            <div>
-              <h3>Una experiencia “wow” (sin plugins)</h3>
-              <p>
-                Este sitio está hecho con HTML + CSS + JS (ligero). Animaciones, glass,
-                fondos con profundidad y transiciones para que el cliente diga: “yo quiero eso”.
-              </p>
+        <div class="grid">
+          <article class="card reveal">
+            <div class="card-body">
+              <b>Diseño premium</b>
+              <span>UI limpia, moderna y “pro”. En móvil se ve brutal.</span>
             </div>
-            <div class="ctaRow">
-              <a class="btn primary" href="#contacto">Quiero esta web</a>
-              <a class="btn" href="#top">Volver arriba</a>
+          </article>
+          <article class="card reveal">
+            <div class="card-body">
+              <b>Botones + QR</b>
+              <span>WhatsApp, llamada, email, mapa. Un toque y listo.</span>
             </div>
-          </div>
+          </article>
+          <article class="card reveal">
+            <div class="card-body">
+              <b>SEO base</b>
+              <span>Estructura preparada para indexación y presencia local.</span>
+            </div>
+          </article>
         </div>
       </section>
 
       <!-- CONTACTO -->
-      <section id="contacto">
-        <div class="sectionTitle">
+      <section class="section" id="contact">
+        <div class="section-head">
           <h2>Contacto</h2>
-          <p class="hint">Respuesta rápida</p>
+          <p>rápido</p>
         </div>
 
-        <div class="grid3">
-          <article class="mini reveal">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M6.5 3.5h11A3 3 0 0 1 20.5 6.5v11a3 3 0 0 1-3 3h-11a3 3 0 0 1-3-3v-11a3 3 0 0 1 3-3Z" stroke="white" stroke-opacity=".92" stroke-width="1.8"/>
-                <path d="M7 8l5 4 5-4" stroke="white" stroke-opacity=".92" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <b>Email</b>
-            <p>Coloca aquí tu email real y listo.</p>
-            <div style="margin-top:10px">
-              <a class="btn primary" href="mailto:TUEMAIL@EMAIL.COM">Enviar email</a>
+        <div class="grid">
+          <article class="card reveal">
+            <div class="card-body">
+              <b>WhatsApp</b>
+              <span>Reemplaza el número y listo.</span>
+              <div style="margin-top:10px">
+                <a class="btn primary" href="https://wa.me/17870000000" target="_blank" rel="noopener">Abrir WhatsApp</a>
+              </div>
             </div>
           </article>
 
-          <article class="mini reveal">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M6 3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Z" stroke="white" stroke-opacity=".92" stroke-width="1.8"/>
-                <path d="M7 12h10" stroke="white" stroke-opacity=".92" stroke-width="1.8" stroke-linecap="round"/>
-                <path d="M7 8h7" stroke="white" stroke-opacity=".92" stroke-width="1.8" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <b>WhatsApp</b>
-            <p>Un botón directo, sin fricción.</p>
-            <div style="margin-top:10px">
-              <a class="btn primary" href="https://wa.me/17870000000" target="_blank" rel="noopener">Abrir WhatsApp</a>
+          <article class="card reveal">
+            <div class="card-body">
+              <b>Llamar</b>
+              <span>Botón directo para clientes.</span>
+              <div style="margin-top:10px">
+                <a class="btn primary" href="tel:+17870000000">Llamar ahora</a>
+              </div>
             </div>
           </article>
 
-          <article class="mini reveal">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M8 3h8l2 4v14H6V7l2-4Z" stroke="white" stroke-opacity=".92" stroke-width="1.8" stroke-linejoin="round"/>
-                <path d="M9 11h6" stroke="white" stroke-opacity=".92" stroke-width="1.8" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <b>Llamada</b>
-            <p>Ideal para negocios locales.</p>
-            <div style="margin-top:10px">
-              <a class="btn primary" href="tel:+17870000000">Llamar ahora</a>
+          <article class="card reveal">
+            <div class="card-body">
+              <b>Email</b>
+              <span>Respuesta rápida y profesional.</span>
+              <div style="margin-top:10px">
+                <a class="btn primary" href="mailto:TUEMAIL@EMAIL.COM">Enviar email</a>
+              </div>
             </div>
           </article>
         </div>
       </section>
 
-      <footer>
-        © <span id="year"></span> Raymond Develop · Hecho para impresionar.
-      </footer>
+      <div style="margin-top:22px; padding:18px 0; border-top:1px solid rgba(255,255,255,.10); color:rgba(255,255,255,.55); font-weight:800; font-size:12px; text-align:center;">
+        © <span id="year"></span> Raymond Develop
+      </div>
     </div>
   </main>
 
@@ -763,33 +567,58 @@
     // Año
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Reveal on scroll
-    const revealEls = Array.from(document.querySelectorAll('.reveal'));
+    // Drawer
+    const drawer = document.getElementById('drawer');
+    const backdrop = document.getElementById('backdrop');
+    const burger = document.getElementById('burger');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    burger.addEventListener('click', openDrawer);
+    burger.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openDrawer(); });
+    backdrop.addEventListener('click', closeDrawer);
+    drawer.addEventListener('click', (e)=>{
+      if(e.target.tagName === 'A') closeDrawer();
+    });
+
+    // Scroll top
+    const toTop = document.getElementById('toTop');
+    function goTop(){ window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    toTop.addEventListener('click', goTop);
+    toTop.addEventListener('keydown', (e)=>{ if(e.key==='Enter') goTop(); });
+
+    // Hero entry (suave y estable)
+    const logoBig = document.getElementById('logoBig');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroSub = document.getElementById('heroSub');
+    const heroActions = document.getElementById('heroActions');
+
+    requestAnimationFrame(()=>{
+      logoBig.classList.add('in');
+      heroTitle.classList.add('in');
+      heroSub.classList.add('in');
+      heroActions.classList.add('in');
+    });
+
+    // Reveal cards (ligero)
+    const cards = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add('is-in');
-          io.unobserve(e.target);
+      entries.forEach(ent=>{
+        if(ent.isIntersecting){
+          ent.target.classList.add('in');
+          io.unobserve(ent.target);
         }
       });
     }, { threshold: 0.12 });
-    revealEls.forEach(el => io.observe(el));
-
-    // Parallax suave del logo (solo mouse / trackpad)
-    const logo = document.getElementById('logoParallax');
-    let raf = null;
-    function onMove(ev){
-      if(!logo) return;
-      const x = (ev.clientX / window.innerWidth) - 0.5;
-      const y = (ev.clientY / window.innerHeight) - 0.5;
-      if(raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(()=>{
-        logo.style.transform = `translate3d(${x*10}px, ${y*10}px, 0)`;
-      });
-    }
-    if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
-      window.addEventListener('mousemove', onMove, { passive:true });
-    }
+    cards.forEach(c=>io.observe(c));
   </script>
 </body>
 </html>
