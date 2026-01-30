@@ -228,7 +228,7 @@
     }
     .hero-title.in{ transform: translateY(0); opacity:1; }
 
-    /* 🔧 Ajuste para que los botones del hero queden uno debajo del otro bonito */
+    /* Botones del hero uno debajo del otro */
     .hero-actions{
       display:flex;
       flex-direction:column;
@@ -256,20 +256,36 @@
       font-size: 14px;
       text-decoration:none;
       box-shadow: var(--shadow2);
-      transition: transform .18s var(--ease), filter .18s var(--ease);
       min-width: 220px;
+
+      /* respuesta visual */
+      transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
+      will-change: transform;
     }
-    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+
+    /* Hover (desktop) */
+    .btn:hover{
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+      box-shadow: 0 14px 34px rgba(0,0,0,.42);
+    }
+
+    /* Active (tacto / click) */
+    .btn:active{
+      transform: translateY(1px) scale(.98);
+      filter: brightness(0.98);
+      box-shadow: 0 8px 18px rgba(0,0,0,.35);
+    }
+
+    /* Focus accesible */
+    .btn:focus-visible{
+      outline: 2px solid rgba(53,209,255,.65);
+      outline-offset: 3px;
+    }
 
     .btn.primary{
       border:1px solid rgba(53,209,255,.26);
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
-    }
-
-    /* Botón secundario para ofertas */
-    .btn.secondary{
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
     }
 
     /* ==== Secciones ==== */
@@ -439,10 +455,9 @@
 
         <h2 class="hero-title" id="heroTitle">Diseño de páginas web en Puerto Rico para tu negocio</h2>
 
-        <!-- ✅ 2 botones: Contáctanos + Ofertas -->
         <div class="hero-actions" id="heroActions">
           <a class="btn primary" href="#contact">Contáctanos</a>
-          <a class="btn secondary" href="planes.html">Ofertas</a>
+          <a class="btn primary" href="planes.html">Ofertas</a>
         </div>
       </section>
 
