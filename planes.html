@@ -60,7 +60,7 @@
       min-height:100svh;
     }
 
-    /* ==== NAV fijo (WhatsApp arriba NO se va) ==== */
+    /* ==== NAV fijo ==== */
     .nav{
       position:fixed;
       top:0; left:0; right:0;
@@ -228,7 +228,7 @@
       max-width: 60ch;
     }
 
-    /* ==== Chips (QUITÉ el botón “Ofertas” del medio) ==== */
+    /* ==== Chips ==== */
     .chips{
       margin-top: 8px;
       display:flex;
@@ -313,7 +313,7 @@
     .btn:hover::after, .chip:hover::after{ transform: translateX(120%); }
 
     /* ==== Secciones ==== */
-    .section{ margin-top: 14px; }
+    .section{ margin-top: 14px; scroll-margin-top: 92px; }
     .section-head{
       display:flex;
       flex-direction:column;
@@ -560,7 +560,7 @@
       text-align:center;
     }
 
-    /* ==== Sticky CTA abajo (SOLO LLAMAR, sin WhatsApp y sin “Ofertas”) ==== */
+    /* ==== Sticky CTA abajo ==== */
     .cta{
       position:fixed;
       left:50%;
@@ -643,7 +643,7 @@
   <aside class="drawer" id="drawer" aria-label="Menú">
     <div class="drawer-brand">
       <img src="logo.png" alt="Raymond Develop">
-      <span>RaymondDevelop</span>
+      <span>Raymond Develop</span>
     </div>
 
     <a href="index.html">Inicio</a>
@@ -666,7 +666,6 @@
       </div>
 
       <div class="nav-right">
-        <!-- WhatsApp ARRIBA (se queda fijo) -->
         <a class="btn primary" href="https://wa.me/17872241230?text=Hola%20Raymond%20Develop%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20y%20ofertas." target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
@@ -679,14 +678,13 @@
         <h1>Planes y Ofertas</h1>
         <p>Soluciones digitales profesionales para negocios en Puerto Rico.</p>
 
-        <!-- BOTÓN OFERTAS REMOVIDO -->
         <div class="chips" role="navigation" aria-label="Secciones">
-          <a class="chip" id="chipTiendas" href="#tiendas" aria-current="true">Tiendas y Reservas</a>
+          <a class="chip" id="chipTiendas" href="#tiendas" aria-current="false">Tiendas y Reservas</a>
           <a class="chip" href="index.html" aria-current="false">Volver</a>
         </div>
       </header>
 
-      <!-- OFERTAS (se mantienen en página, pero sin chip) -->
+      <!-- OF.attach: OFERTAS -->
       <section class="section" id="ofertas" aria-label="Ofertas">
         <div class="section-head">
           <h2>Ofertas</h2>
@@ -758,7 +756,7 @@
             <div class="card-inner">
               <h3>Plan de Actualizaciones</h3>
               <p class="sub">1 actualización mensual</p>
-              <p class="ideal"><span> Manten todo siempre al día</p>
+              <p class="ideal"><span>Ideal para:</span> Mantén todo siempre al día</p>
 
               <div class="price">
                 <span class="money">$200</span>
@@ -796,7 +794,7 @@
             <div class="card-inner">
               <h3>Web con Reservas</h3>
               <p class="sub">Ideal para salones, estética, barberías, spa</p>
-              <p class="ideal"><span>Recervas online + pagos anticipados</p>
+              <p class="ideal"><span>Ideal para:</span> Reservas online + pagos anticipados</p>
 
               <div class="price">
                 <span class="money">$700</span>
@@ -958,8 +956,7 @@
       });
     }
 
-    // ✅ CTA cambia “en el lugar correcto” en iPhone:
-    // usamos la tarjeta más cerca del centro de la pantalla (sin depender de IntersectionObserver)
+    // CTA: usar la tarjeta más cerca del centro REAL + evitar saltos raros
     const ctaTitle = document.getElementById('ctaTitle');
     const ctaSub = document.getElementById('ctaSub');
     const cardsForCta = Array.from(document.querySelectorAll('.card'));
@@ -967,15 +964,21 @@
     function setCtaFromCard(card){
       const t = card.getAttribute('data-cta-title') || "¿Listo para empezar?";
       const s = card.getAttribute('data-cta-sub') || "Llámanos y te orientamos.";
-      ctaTitle.textContent = t;
-      ctaSub.textContent = s;
+      if(ctaTitle.textContent !== t) ctaTitle.textContent = t;
+      if(ctaSub.textContent !== s) ctaSub.textContent = s;
     }
 
+    // Chips (opcional): marcar sección activa según scroll
+    const chipTiendas = document.getElementById('chipTiendas');
+    const secOfertas = document.getElementById('ofertas');
+    const secTiendas = document.getElementById('tiendas');
+
     let ticking = false;
-    function updateCta(){
+    function updateUI(){
       ticking = false;
 
-      const centerY = window.innerHeight * 0.50; // centro real
+      // --- CTA ---
+      const centerY = window.innerHeight * 0.52;
       let bestCard = null;
       let bestDist = Infinity;
 
@@ -984,30 +987,39 @@
         const cardCenter = r.top + (r.height / 2);
         const dist = Math.abs(cardCenter - centerY);
 
-        // solo cuenta si está visible algo
-        const visible = (r.bottom > 90) && (r.top < window.innerHeight - 90);
+        // visible "de verdad" (considera nav y CTA)
+        const visible = (r.bottom > 110) && (r.top < window.innerHeight - 120);
         if(visible && dist < bestDist){
           bestDist = dist;
           bestCard = card;
         }
       }
-
       if(bestCard) setCtaFromCard(bestCard);
+
+      // --- Chips ---
+      if(chipTiendas && secOfertas && secTiendas){
+        const o = secOfertas.getBoundingClientRect();
+        const t = secTiendas.getBoundingClientRect();
+        // si la sección tiendas está más cerca del top (debajo del nav), la marco activa
+        const focusLine = 120;
+        const distOfertas = Math.abs(o.top - focusLine);
+        const distTiendas = Math.abs(t.top - focusLine);
+        chipTiendas.setAttribute('aria-current', (distTiendas < distOfertas) ? 'true' : 'false');
+      }
     }
 
     function onScroll(){
       if(ticking) return;
       ticking = true;
-      requestAnimationFrame(updateCta);
+      requestAnimationFrame(updateUI);
     }
 
     window.addEventListener('scroll', onScroll, { passive:true });
     window.addEventListener('resize', onScroll);
     window.addEventListener('orientationchange', onScroll);
 
-    // CTA inicial
+    // Inicial
     if(cardsForCta[0]) setCtaFromCard(cardsForCta[0]);
-    // forzar cálculo real cuando cargue todo (imágenes pueden cambiar alturas)
     window.addEventListener('load', ()=>{ onScroll(); });
     setTimeout(()=>{ onScroll(); }, 350);
   </script>
