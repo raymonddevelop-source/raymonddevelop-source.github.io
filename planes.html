@@ -295,6 +295,33 @@
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
+    /* Shine SOLO en botones (no en cards) */
+    .btn.primary::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: linear-gradient(120deg,
+        transparent 0%,
+        rgba(255,255,255,.18) 18%,
+        transparent 40%
+      );
+      transform: translateX(-140%);
+      animation: btnSweep 3.8s var(--ease) infinite;
+      pointer-events:none;
+      mix-blend-mode: screen;
+      opacity:.55;
+    }
+    @keyframes btnSweep{
+      0%{ transform: translateX(-140%); opacity:.12; }
+      18%{ opacity:.55; }
+      40%{ transform: translateX(140%); opacity:.18; }
+      100%{ transform: translateX(140%); opacity:.10; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .btn.primary::before{ animation:none !important; display:none !important; }
+    }
+
+    /* hover swipe (mantengo el que ya tenías, más suave) */
     .btn::after, .chip::after{
       content:"";
       position:absolute;
@@ -518,28 +545,6 @@
         radial-gradient(680px 260px at 55% 100%, rgba(255,79,216,.12), transparent 65%);
     }
 
-    .featured .shine{
-      position:absolute;
-      inset:-40% -20%;
-      background: linear-gradient(120deg,
-        transparent 0%,
-        rgba(255,255,255,.14) 20%,
-        transparent 42%
-      );
-      transform: translateX(-70%) rotate(6deg);
-      animation: sweep 4.8s var(--ease) infinite;
-      opacity:.9;
-      pointer-events:none;
-      mix-blend-mode: screen;
-      z-index:0;
-    }
-    @keyframes sweep{
-      0%{ transform: translateX(-70%) rotate(6deg); opacity:.15; }
-      25%{ opacity:.55; }
-      50%{ transform: translateX(70%) rotate(6deg); opacity:.20; }
-      100%{ transform: translateX(70%) rotate(6deg); opacity:.10; }
-    }
-
     .note{
       margin-top: 16px;
       color: var(--muted);
@@ -630,14 +635,12 @@
       body::after{ display:none !important; }
       .card{ opacity:1 !important; transform:none !important; }
       .card.in-view{ animation:none !important; }
-      .featured .shine{ display:none !important; }
       html{ scroll-behavior:auto; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Drawer -->
   <div class="drawer-backdrop" id="backdrop" aria-hidden="true"></div>
 
   <aside class="drawer" id="drawer" aria-label="Menú">
@@ -651,7 +654,6 @@
     <a href="tel:+17872241230">Llamar</a>
   </aside>
 
-  <!-- Nav -->
   <header class="nav">
     <div class="nav-inner">
       <div class="nav-left">
@@ -684,7 +686,6 @@
         </div>
       </header>
 
-      <!-- OF.attach: OFERTAS -->
       <section class="section" id="ofertas" aria-label="Ofertas">
         <div class="section-head">
           <h2>Ofertas</h2>
@@ -696,7 +697,6 @@
             data-cta-title="El mejor precio"
             data-cta-sub="Empieza con una web pro por $160."
             data-title="Página Web Simple $160">
-            <div class="shine" aria-hidden="true"></div>
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <span class="tag">Más popular</span>
@@ -778,7 +778,6 @@
         </div>
       </section>
 
-      <!-- TIENDAS Y RESERVAS -->
       <section class="section" id="tiendas" aria-label="Tiendas y Reservas">
         <div class="section-head">
           <h2>Tiendas y Reservas</h2>
@@ -848,7 +847,6 @@
             data-cta-title="Para que tu negocio crezca"
             data-cta-sub="SEO local + presencia en Google."
             data-title="Reservas + Promoción $950">
-            <div class="shine" aria-hidden="true"></div>
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <span class="tag">Crecimiento</span>
@@ -888,7 +886,6 @@
     </div>
   </main>
 
-  <!-- CTA abajo: SOLO LLAMAR -->
   <div class="cta" aria-hidden="false">
     <div class="cta-inner">
       <div class="txt">
@@ -902,10 +899,8 @@
   </div>
 
   <script>
-    // Año
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Drawer
     const drawer = document.getElementById('drawer');
     const backdrop = document.getElementById('backdrop');
     const burger = document.getElementById('burger');
@@ -928,7 +923,6 @@
     drawer.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeDrawer(); });
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeDrawer(); });
 
-    // WhatsApp por plan (solo en botones de cada tarjeta)
     const phone = "17872241230";
     document.querySelectorAll('.wa').forEach(btn=>{
       const plan = btn.getAttribute('data-plan') || "un plan";
@@ -936,7 +930,6 @@
       btn.setAttribute('href', `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`);
     });
 
-    // Scroll reveal (animación) - estable en iPhone
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(!reduceMotion){
       const cards = document.querySelectorAll('.card');
@@ -956,7 +949,6 @@
       });
     }
 
-    // CTA: usar la tarjeta más cerca del centro REAL + evitar saltos raros
     const ctaTitle = document.getElementById('ctaTitle');
     const ctaSub = document.getElementById('ctaSub');
     const cardsForCta = Array.from(document.querySelectorAll('.card'));
@@ -968,7 +960,6 @@
       if(ctaSub.textContent !== s) ctaSub.textContent = s;
     }
 
-    // Chips (opcional): marcar sección activa según scroll
     const chipTiendas = document.getElementById('chipTiendas');
     const secOfertas = document.getElementById('ofertas');
     const secTiendas = document.getElementById('tiendas');
@@ -977,7 +968,6 @@
     function updateUI(){
       ticking = false;
 
-      // --- CTA ---
       const centerY = window.innerHeight * 0.52;
       let bestCard = null;
       let bestDist = Infinity;
@@ -986,9 +976,8 @@
         const r = card.getBoundingClientRect();
         const cardCenter = r.top + (r.height / 2);
         const dist = Math.abs(cardCenter - centerY);
-
-        // visible "de verdad" (considera nav y CTA)
         const visible = (r.bottom > 110) && (r.top < window.innerHeight - 120);
+
         if(visible && dist < bestDist){
           bestDist = dist;
           bestCard = card;
@@ -996,11 +985,9 @@
       }
       if(bestCard) setCtaFromCard(bestCard);
 
-      // --- Chips ---
       if(chipTiendas && secOfertas && secTiendas){
         const o = secOfertas.getBoundingClientRect();
         const t = secTiendas.getBoundingClientRect();
-        // si la sección tiendas está más cerca del top (debajo del nav), la marco activa
         const focusLine = 120;
         const distOfertas = Math.abs(o.top - focusLine);
         const distTiendas = Math.abs(t.top - focusLine);
@@ -1018,7 +1005,6 @@
     window.addEventListener('resize', onScroll);
     window.addEventListener('orientationchange', onScroll);
 
-    // Inicial
     if(cardsForCta[0]) setCtaFromCard(cardsForCta[0]);
     window.addEventListener('load', ()=>{ onScroll(); });
     setTimeout(()=>{ onScroll(); }, 350);
