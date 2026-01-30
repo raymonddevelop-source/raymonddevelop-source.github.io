@@ -11,36 +11,31 @@
     :root{
       --bg0:#070914;
       --bg1:#0b0f24;
-      --card: rgba(255,255,255,.06);
-      --stroke: rgba(255,255,255,.12);
+
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.70);
       --muted2: rgba(255,255,255,.52);
 
-      --c1:#35d1ff;
-      --c2:#7c4dff;
-      --c3:#ff4fd8;
-
       --shadow: 0 18px 60px rgba(0,0,0,.55);
       --shadow2: 0 10px 28px rgba(0,0,0,.35);
 
-      --r: 18px;
       --r2: 26px;
       --max: 1120px;
       --ease: cubic-bezier(.2,.9,.2,1);
     }
 
-    *{ box-sizing:border-box; }
-    *{ -webkit-tap-highlight-color: transparent; }
+    *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
     html,body{ height:100%; }
+
     body{
       margin:0;
       color:var(--text);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 700px at 20% 0%, rgba(124,77,255,.18), transparent 60%),
-                  radial-gradient(900px 700px at 85% 0%, rgba(53,209,255,.14), transparent 58%),
-                  radial-gradient(900px 700px at 60% 90%, rgba(255,79,216,.10), transparent 55%),
-                  linear-gradient(180deg, var(--bg0), var(--bg1));
+      background:
+        radial-gradient(1200px 700px at 20% 0%, rgba(124,77,255,.18), transparent 60%),
+        radial-gradient(900px 700px at 85% 0%, rgba(53,209,255,.14), transparent 58%),
+        radial-gradient(900px 700px at 60% 90%, rgba(255,79,216,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
       overflow-x:hidden;
     }
 
@@ -53,7 +48,7 @@
       min-height:100svh;
     }
 
-    /* ==== NAV estilo Google Sites ==== */
+    /* ==== NAV ==== */
     .nav{
       position:sticky;
       top:0;
@@ -61,6 +56,7 @@
       padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
       background: rgba(7,9,20,.55);
       border-bottom: 1px solid rgba(255,255,255,.10);
+      -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
     }
 
@@ -116,17 +112,6 @@
       max-width: 52vw;
     }
 
-    .nav-right{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex:0 0 auto;
-    }
-
-    
-
-    
-
     /* ==== Drawer menu ==== */
     .drawer-backdrop{
       position:fixed; inset:0;
@@ -136,6 +121,11 @@
       transition: opacity .22s var(--ease);
       z-index:60;
     }
+    .drawer-backdrop.open{
+      opacity:1;
+      pointer-events:auto;
+    }
+
     .drawer{
       position:fixed;
       top:0; left:0;
@@ -143,6 +133,7 @@
       height:100%;
       background: rgba(10,12,28,.92);
       border-right:1px solid rgba(255,255,255,.10);
+      -webkit-backdrop-filter: blur(14px);
       backdrop-filter: blur(14px);
       transform: translateX(-102%);
       transition: transform .24s var(--ease);
@@ -153,10 +144,7 @@
       gap:10px;
     }
     .drawer.open{ transform: translateX(0); }
-    .drawer-backdrop.open{
-      opacity:1;
-      pointer-events:auto;
-    }
+
     .drawer a{
       display:flex;
       align-items:center;
@@ -182,7 +170,7 @@
       padding: 18px 0 70px;
     }
 
-    /* ==== HERO (logo protagonista) ==== */
+    /* ==== HERO ==== */
     .hero{
       padding: 18px 0 10px;
       display:grid;
@@ -191,6 +179,7 @@
       justify-items:center;
       text-align:center;
     }
+
     .logo-big{
       width:min(74vw, 360px);
       aspect-ratio: 1/1;
@@ -201,6 +190,7 @@
       display:grid;
       place-items:center;
       overflow:hidden;
+
       transform: translateY(12px);
       opacity:0;
       transition: transform .65s var(--ease), opacity .65s var(--ease);
@@ -219,23 +209,12 @@
       font-weight: 1000;
       letter-spacing: -0.03em;
       margin: 2px 0 0;
+
       transform: translateY(10px);
       opacity:0;
       transition: transform .65s var(--ease), opacity .65s var(--ease);
     }
     .hero-title.in{ transform: translateY(0); opacity:1; }
-
-    .hero-sub{
-      margin: 0;
-      color: var(--muted);
-      font-weight: 750;
-      line-height: 1.6;
-      max-width: 52ch;
-      transform: translateY(10px);
-      opacity:0;
-      transition: transform .65s var(--ease), opacity .65s var(--ease);
-    }
-    .hero-sub.in{ transform: translateY(0); opacity:1; }
 
     .hero-actions{
       display:flex;
@@ -243,6 +222,7 @@
       flex-wrap:wrap;
       justify-content:center;
       margin-top: 6px;
+
       transform: translateY(10px);
       opacity:0;
       transition: transform .65s var(--ease), opacity .65s var(--ease);
@@ -271,10 +251,9 @@
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
-    /* ==== Secciones con IMÁGENES (lo que faltaba) ==== */
-    .section{
-      margin-top: 18px;
-    }
+    /* ==== Secciones ==== */
+    .section{ margin-top: 18px; }
+
     .section-head{
       display:flex;
       align-items:flex-end;
@@ -301,28 +280,17 @@
       gap: 12px;
     }
 
+    /* ==== Cards (iOS safe) ==== */
     .card{
-  position: relative;
-  border-radius: var(--r2);
-
-  /* 🔥 FONDO SOLIDO (clave) */
-  background: rgba(18, 20, 42, 0.95);
-
-  /* Borde visual limpio */
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.10),
-    0 10px 28px rgba(0,0,0,.35);
-
-  overflow: hidden;
-  isolation: isolate;
-
-  /* SIN animaciones */
-  transform: none;
-  opacity: 1;
-  transition: none;
-}
-
-
+      position: relative;
+      border-radius: var(--r2);
+      background: rgba(18, 20, 42, 0.95);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.10),
+        var(--shadow2);
+      overflow: hidden;
+      isolation: isolate;
+    }
 
     .thumb{
       width:100%;
@@ -367,14 +335,14 @@
       .grid{ grid-template-columns: 1fr; }
       .brand-mini .name{ max-width: 44vw; }
     }
+
     @media (max-width: 420px){
-      .logo-big{ width: min(84vw, 360px); } /* grande en iPhone */
-      .cta{ display:none; } /* deja limpio como Sites */
+      .logo-big{ width: min(84vw, 360px); }
     }
 
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
-      .logo-big, .hero-title, .hero-sub, .hero-actions, .card{ transform:none !important; opacity:1 !important; }
+      .logo-big, .hero-title, .hero-actions{ transform:none !important; opacity:1 !important; }
     }
   </style>
 </head>
@@ -403,17 +371,11 @@
           <div class="name">RaymondDevelop</div>
         </div>
       </div>
-
-      <div class="nav-right">
-        
-        
-      </div>
     </div>
   </header>
 
   <main class="stage">
     <div class="wrap">
-      <!-- HERO -->
       <section class="hero" id="top">
         <div class="logo-big" id="logoBig">
           <img src="logo.png" alt="Raymond Develop" />
@@ -421,24 +383,20 @@
 
         <h2 class="hero-title" id="heroTitle">Diseño de páginas web en Puerto Rico para pequeños negocios</h2>
 
-        
-
         <div class="hero-actions" id="heroActions">
           <a class="btn primary" href="#work">Ver trabajos</a>
           <a class="btn" href="#contact">Solicitar cotización</a>
         </div>
       </section>
 
-      <!-- PORTAFOLIO (IMÁGENES) -->
       <section class="section" id="work">
         <div class="section-head">
           <h2>Portafolio</h2>
         </div>
 
         <div class="grid">
-          <article class="card reveal">
+          <article class="card">
             <a class="thumb" href="#" aria-label="Proyecto 1">
-              <!-- Reemplaza por: assets/work1.jpg -->
               <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de landing moderna">
             </a>
             <div class="card-body">
@@ -447,7 +405,7 @@
             </div>
           </article>
 
-          <article class="card reveal">
+          <article class="card">
             <a class="thumb" href="#" aria-label="Proyecto 2">
               <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de web de servicios">
             </a>
@@ -457,7 +415,7 @@
             </div>
           </article>
 
-          <article class="card reveal">
+          <article class="card">
             <a class="thumb" href="#" aria-label="Proyecto 3">
               <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1400&q=80" alt="Ejemplo de restaurante con menú">
             </a>
@@ -469,26 +427,25 @@
         </div>
       </section>
 
-      <!-- SERVICIOS (poco texto) -->
       <section class="section" id="serv">
         <div class="section-head">
           <h2>Servicios</h2>
         </div>
 
         <div class="grid">
-          <article class="card reveal">
+          <article class="card">
             <div class="card-body">
               <b>Diseño premium</b>
               <span>UI limpia, moderna y “pro”. En móvil se ve brutal.</span>
             </div>
           </article>
-          <article class="card reveal">
+          <article class="card">
             <div class="card-body">
               <b>Botones + QR</b>
               <span>WhatsApp, llamada, email, mapa. Un toque y listo.</span>
             </div>
           </article>
-          <article class="card reveal">
+          <article class="card">
             <div class="card-body">
               <b>SEO base</b>
               <span>Estructura preparada para indexación y presencia local.</span>
@@ -497,14 +454,13 @@
         </div>
       </section>
 
-      <!-- CONTACTO -->
       <section class="section" id="contact">
         <div class="section-head">
           <h2>Contacto</h2>
         </div>
 
         <div class="grid">
-          <article class="card reveal">
+          <article class="card">
             <div class="card-body">
               <b>WhatsApp</b>
               <span>Reemplaza el número y listo.</span>
@@ -514,7 +470,7 @@
             </div>
           </article>
 
-          <article class="card reveal">
+          <article class="card">
             <div class="card-body">
               <b>Llamar</b>
               <span>Botón directo para clientes.</span>
@@ -524,7 +480,7 @@
             </div>
           </article>
 
-          <article class="card reveal">
+          <article class="card">
             <div class="card-body">
               <b>Email</b>
               <span>Respuesta rápida y profesional.</span>
@@ -543,10 +499,8 @@
   </main>
 
   <script>
-    // Año
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Drawer
     const drawer = document.getElementById('drawer');
     const backdrop = document.getElementById('backdrop');
     const burger = document.getElementById('burger');
@@ -561,38 +515,21 @@
       backdrop.classList.remove('open');
       document.body.style.overflow = '';
     }
+
     burger.addEventListener('click', openDrawer);
     burger.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openDrawer(); });
     backdrop.addEventListener('click', closeDrawer);
-    drawer.addEventListener('click', (e)=>{
-      if(e.target.tagName === 'A') closeDrawer();
-    });
+    drawer.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeDrawer(); });
 
-    
-    // Hero entry (suave y estable)
     const logoBig = document.getElementById('logoBig');
     const heroTitle = document.getElementById('heroTitle');
-    const heroSub = document.getElementById('heroSub');
     const heroActions = document.getElementById('heroActions');
 
     requestAnimationFrame(()=>{
-      logoBig.classList.add('in');
-      heroTitle.classList.add('in');
-      heroSub.classList.add('in');
-      heroActions.classList.add('in');
+      if (logoBig) logoBig.classList.add('in');
+      if (heroTitle) heroTitle.classList.add('in');
+      if (heroActions) heroActions.classList.add('in');
     });
-
-    // Reveal cards (ligero)
-    const cards = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(ent=>{
-        if(ent.isIntersecting){
-          ent.target.classList.add('in');
-          io.unobserve(ent.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    cards.forEach(c=>io.observe(c));
   </script>
 </body>
 </html>
