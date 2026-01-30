@@ -12,7 +12,7 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
   text-align: center;
   padding: 48px 18px;
 
-  /* fondo parecido al panel */
+  /* Fondo tipo gradiente (similar al panel original) */
   background:
     radial-gradient(circle at 50% 40%, rgba(120, 70, 255, 0.35), transparent 55%),
     radial-gradient(circle at 20% 80%, rgba(20, 170, 255, 0.22), transparent 55%),
@@ -48,4 +48,31 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
   line-height: 1.6;
   color: rgba(234,240,255,0.80);
   max-width: 58ch;
+}
+
+/* Ajuste para móvil (como tu screenshot “así lo quiero”) */
+@media (max-width: 600px) {
+  .hero {
+    min-height: 92vh;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .hero-inner {
+    gap: 22px;
+  }
+
+  .hero-logo {
+    width: 94vw;
+    max-width: 420px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .hero p {
+    font-size: 16px;
+    max-width: 90%;
+  }
 }
