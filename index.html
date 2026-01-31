@@ -46,7 +46,7 @@
       inset:0;
       pointer-events:none;
       z-index:9999;
-      opacity:.55; /* controla intensidad global */
+      opacity:.55;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
     }
 
@@ -210,9 +210,23 @@
       text-align:center;
     }
 
-    .logo-big{
+    /* ✅ WRAPPER: controla ENTRADA (transform + opacity) */
+    .logo-wrap{
       width:min(74vw, 360px);
       aspect-ratio: 1/1;
+      display:grid;
+      place-items:center;
+
+      transform: translateY(12px);
+      opacity:0;
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
+    }
+    .logo-wrap.in{ transform: translateY(0); opacity:1; }
+
+    /* ✅ CÍRCULO: controla FLOAT + GLOW (sin pelear con entrada) */
+    .logo-big{
+      width:100%;
+      height:100%;
       border-radius: 999px;
       background: rgba(255,255,255,.05);
       border:1px solid rgba(255,255,255,.12);
@@ -220,24 +234,14 @@
       display:grid;
       place-items:center;
       overflow:hidden;
-
-      transform: translateY(12px);
-      opacity:0;
-      transition: transform .65s var(--ease), opacity .65s var(--ease);
+      will-change: transform, box-shadow;
     }
-    .logo-big.in{ transform: translateY(0); opacity:1; }
 
-    /* ============================
-       ✅ OPCIÓN C: FLOAT + GLOW
-       ============================ */
-
-    /* Float más marcado */
     @keyframes float{
       0%,100%{ transform: translateY(0); }
-      50%{ transform: translateY(-14px); } /* antes -6px */
+      50%{ transform: translateY(-14px); }
     }
 
-    /* Glow respirando */
     @keyframes glow{
       0%,100%{
         box-shadow:
@@ -247,12 +251,13 @@
       50%{
         box-shadow:
           0 22px 70px rgba(0,0,0,.62),
-          0 0 28px rgba(53,209,255,.14);
+          0 0 18px rgba(53,209,255,.10),
+          0 0 38px rgba(124,77,255,.08);
       }
     }
 
-    /* Combina float + glow cuando entra */
-    .logo-big.in{
+    /* Empieza a flotar SOLO cuando el wrapper está "in" */
+    .logo-wrap.in .logo-big{
       animation:
         float 4.8s ease-in-out infinite,
         glow 4.8s ease-in-out infinite;
@@ -309,7 +314,6 @@
       transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
       will-change: transform;
 
-      /* ✅ requerido para efectos */
       position: relative;
       overflow: hidden;
       isolation: isolate;
@@ -337,7 +341,6 @@
       backdrop-filter: blur(10px);
     }
 
-    /* ✅ Efecto premium en botones (los 5) */
     .btn::after{
       content:"";
       position:absolute;
@@ -415,7 +418,6 @@
       will-change: transform, opacity;
     }
 
-    /* Glow sutil al hover (premium, no escandaloso) */
     .card::before{
       content:"";
       position:absolute;
@@ -434,7 +436,6 @@
     }
     .card:hover::before{ opacity:.55; }
 
-    /* animación final cuando entra en viewport */
     @keyframes riseIn{
       from{ opacity:0; transform: translateY(14px); }
       to{ opacity:1; transform: translateY(0); }
@@ -504,7 +505,7 @@
     }
 
     @media (max-width: 420px){
-      .logo-big{ width: min(84vw, 360px); }
+      .logo-wrap{ width: min(84vw, 360px); }
       .btn{ min-width: 200px; }
       .card-body{ padding: 15px 14px 16px; }
     }
@@ -519,10 +520,13 @@
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
       body::after{ display:none !important; }
-      .logo-big, .hero-title, .hero-actions{ transform:none !important; opacity:1 !important; }
-      .logo-big.in{ animation:none !important; }
+
+      .logo-wrap, .hero-title, .hero-actions{ transform:none !important; opacity:1 !important; }
+      .logo-wrap.in .logo-big{ animation:none !important; }
+
       .card{ opacity:1 !important; transform:none !important; }
       .card.in-view{ animation:none !important; }
+
       .btn::after{ display:none !important; }
       .btn.primary::before{ animation:none !important; display:none !important; }
     }
@@ -604,7 +608,7 @@
   <header class="nav">
     <div class="nav-inner">
       <div class="nav-left">
-        <div class="burger" id="burger" aria-label="Abrir menú" role="button" tabindex="0">
+        <div class="burger" id="burger" aria-label="Abrir menú" role="button" tabindex="0" aria-expanded="false">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M5 7h14M5 12h14M5 17h14" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
@@ -620,8 +624,11 @@
   <main class="stage">
     <div class="wrap">
       <section class="hero" id="top">
-        <div class="logo-big" id="logoBig">
-          <img src="logo.png" alt="Raymond Develop" />
+        <!-- ✅ Wrapper nuevo -->
+        <div class="logo-wrap" id="logoBig">
+          <div class="logo-big">
+            <img src="logo.png" alt="Raymond Develop" />
+          </div>
         </div>
 
         <h2 class="hero-title" id="heroTitle">Diseño de páginas web en Puerto Rico para tu negocio</h2>
@@ -689,10 +696,8 @@
         </div>
       </section>
 
-      <!-- ✅ Footer con redes + copyright -->
       <footer class="footer" aria-label="Pie de página">
         <div class="social" aria-label="Redes sociales">
-          <!-- Facebook -->
           <a
             href="https://www.facebook.com/share/1BkmiTHZhH/?mibextid=wwXIfr"
             target="_blank"
@@ -706,7 +711,6 @@
             </svg>
           </a>
 
-          <!-- Instagram -->
           <a
             href="https://www.instagram.com/raymonddevelop?igsh=MXF5cGNqOG11cG5yZg=="
             target="_blank"
@@ -761,16 +765,17 @@
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeDrawer(); });
 
     // Entrada inicial hero
-    const logoBig = document.getElementById('logoBig');
+    const logoWrap = document.getElementById('logoBig'); // ✅ ahora es wrapper
     const heroTitle = document.getElementById('heroTitle');
     const heroActions = document.getElementById('heroActions');
+
     requestAnimationFrame(()=>{
-      if (logoBig) logoBig.classList.add('in');
+      if (logoWrap) logoWrap.classList.add('in');
       if (heroTitle) heroTitle.classList.add('in');
       if (heroActions) heroActions.classList.add('in');
     });
 
-    // Scroll reveal (stagger) para cards (premium silencioso)
+    // Scroll reveal (stagger) para cards
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(!reduceMotion){
       const cards = document.querySelectorAll('.card');
