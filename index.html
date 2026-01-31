@@ -210,7 +210,7 @@
       text-align:center;
     }
 
-    /* ✅ WRAPPER: controla ENTRADA (transform + opacity) */
+    /* ✅ WRAPPER: controla ENTRADA + FLOAT (NO usa el mismo transform del tilt) */
     .logo-wrap{
       width:min(74vw, 360px);
       aspect-ratio: 1/1;
@@ -220,10 +220,20 @@
       transform: translateY(12px);
       opacity:0;
       transition: transform .65s var(--ease), opacity .65s var(--ease);
+      will-change: transform, opacity;
     }
     .logo-wrap.in{ transform: translateY(0); opacity:1; }
 
-    /* ✅ CÍRCULO: controla FLOAT + GLOW (sin pelear con entrada) */
+    /* Float SOLO en wrapper */
+    @keyframes floatWrap{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-10px); }
+    }
+    .logo-wrap.in{
+      animation: floatWrap 5.2s ease-in-out infinite;
+    }
+
+    /* ✅ CÍRCULO: tilt + glow (sin pelear con wrapper) */
     .logo-big{
       width:100%;
       height:100%;
@@ -234,12 +244,11 @@
       display:grid;
       place-items:center;
       overflow:hidden;
-      will-change: transform, box-shadow;
-    }
+      position:relative;
 
-    @keyframes float{
-      0%,100%{ transform: translateY(0); }
-      50%{ transform: translateY(-14px); }
+      /* tilt */
+      transform-style: preserve-3d;
+      will-change: transform, box-shadow;
     }
 
     @keyframes glow{
@@ -256,19 +265,48 @@
       }
     }
 
-    /* Empieza a flotar SOLO cuando el wrapper está "in" */
+    /* Glow queda en .logo-big, tilt lo maneja JS */
     .logo-wrap.in .logo-big{
-      animation:
-        float 4.8s ease-in-out infinite,
-        glow 4.8s ease-in-out infinite;
+      animation: glow 4.8s ease-in-out infinite;
     }
 
+    /* Imagen “en relieve” */
     .logo-big img{
       width:100%;
       height:100%;
       object-fit: cover;
       display:block;
+      transform: translateZ(18px);
+      will-change: transform;
     }
+
+    /* Brillo/vidrio que se mueve con el tilt */
+    .logo-big::after{
+      content:"";
+      position:absolute;
+      inset:-18%;
+      background: radial-gradient(circle at var(--glx, 50%) var(--gly, 50%),
+        rgba(255,255,255,.18),
+        transparent 45%);
+      opacity:.45;
+      mix-blend-mode: screen;
+      pointer-events:none;
+      transform: translateZ(10px);
+    }
+
+    /* Mensajito discreto para activar gyro (solo se ve antes) */
+    .logo-hint{
+      margin-top:-6px;
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(255,255,255,.62);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .35s var(--ease), transform .35s var(--ease);
+      user-select:none;
+    }
+    .logo-hint.show{ opacity:1; transform: translateY(0); }
+    .logo-hint.hide{ opacity:0; transform: translateY(6px); }
 
     .hero-title{
       font-size: clamp(22px, 5vw, 34px);
@@ -341,6 +379,7 @@
       backdrop-filter: blur(10px);
     }
 
+    /* ✅ Efecto premium en botones */
     .btn::after{
       content:"";
       position:absolute;
@@ -522,7 +561,10 @@
       body::after{ display:none !important; }
 
       .logo-wrap, .hero-title, .hero-actions{ transform:none !important; opacity:1 !important; }
-      .logo-wrap.in .logo-big{ animation:none !important; }
+      .logo-wrap.in{ animation:none !important; }
+      .logo-wrap.in .logo-big{ animation:none !important; transform:none !important; }
+
+      .logo-hint{ display:none !important; }
 
       .card{ opacity:1 !important; transform:none !important; }
       .card.in-view{ animation:none !important; }
@@ -624,12 +666,13 @@
   <main class="stage">
     <div class="wrap">
       <section class="hero" id="top">
-        <!-- ✅ Wrapper nuevo -->
         <div class="logo-wrap" id="logoBig">
-          <div class="logo-big">
+          <div class="logo-big" id="logoTilt" aria-label="Toca para activar efecto 3D" role="button" tabindex="0">
             <img src="logo.png" alt="Raymond Develop" />
           </div>
         </div>
+
+        <div class="logo-hint" id="logoHint">Toca el logo para activar efecto 3D</div>
 
         <h2 class="hero-title" id="heroTitle">Diseño de páginas web en Puerto Rico para tu negocio</h2>
 
@@ -765,14 +808,19 @@
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeDrawer(); });
 
     // Entrada inicial hero
-    const logoWrap = document.getElementById('logoBig'); // ✅ ahora es wrapper
+    const logoWrap = document.getElementById('logoBig');
     const heroTitle = document.getElementById('heroTitle');
     const heroActions = document.getElementById('heroActions');
+    const logoTilt = document.getElementById('logoTilt');
+    const logoHint = document.getElementById('logoHint');
 
     requestAnimationFrame(()=>{
       if (logoWrap) logoWrap.classList.add('in');
       if (heroTitle) heroTitle.classList.add('in');
       if (heroActions) heroActions.classList.add('in');
+      if (logoHint) logoHint.classList.add('show');
+      // Oculta hint luego de 4s (si no se activó)
+      setTimeout(()=>{ if(logoHint) logoHint.classList.add('hide'); }, 4000);
     });
 
     // Scroll reveal (stagger) para cards
@@ -800,6 +848,108 @@
         c.style.transform = 'none';
       });
     }
+
+    // ==========================
+    // ✅ Gyro / Mouse Tilt LOGO
+    // ==========================
+    (function(){
+      if(!logoTilt) return;
+
+      // Ajustes sutiles (premium)
+      const MAX_TILT = 10;   // grados visuales
+      const SMOOTH  = 0.12;  // suavizado
+      const MAX_GYRO = 25;   // clamp sensor
+
+      let targetX = 0, targetY = 0;
+      let currentX = 0, currentY = 0;
+      let enabled = false;
+      let usingGyro = false;
+
+      function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+      function animate(){
+        currentX += (targetX - currentX) * SMOOTH;
+        currentY += (targetY - currentY) * SMOOTH;
+
+        logoTilt.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+
+        const glx = 50 + (currentY / MAX_TILT) * 18;
+        const gly = 50 + (-currentX / MAX_TILT) * 18;
+        logoTilt.style.setProperty('--glx', `${clamp(glx, 20, 80)}%`);
+        logoTilt.style.setProperty('--gly', `${clamp(gly, 20, 80)}%`);
+
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+
+      async function enableGyro(){
+        try{
+          if (typeof DeviceOrientationEvent !== 'undefined' &&
+              typeof DeviceOrientationEvent.requestPermission === 'function') {
+            const res = await DeviceOrientationEvent.requestPermission();
+            if(res !== 'granted') return false;
+          }
+
+          window.addEventListener('deviceorientation', (e)=>{
+            const beta  = clamp(e.beta  ?? 0, -MAX_GYRO, MAX_GYRO); // front/back
+            const gamma = clamp(e.gamma ?? 0, -MAX_GYRO, MAX_GYRO); // left/right
+
+            targetX = clamp((-beta / MAX_GYRO) * MAX_TILT, -MAX_TILT, MAX_TILT);
+            targetY = clamp(( gamma / MAX_GYRO) * MAX_TILT, -MAX_TILT, MAX_TILT);
+          }, { passive:true });
+
+          usingGyro = true;
+          return true;
+        }catch(_){
+          return false;
+        }
+      }
+
+      function enableMouse(){
+        const rect = ()=> logoTilt.getBoundingClientRect();
+        window.addEventListener('mousemove', (e)=>{
+          const r = rect();
+          const cx = r.left + r.width/2;
+          const cy = r.top + r.height/2;
+          const dx = (e.clientX - cx) / (r.width/2);
+          const dy = (e.clientY - cy) / (r.height/2);
+
+          targetY = clamp(dx * MAX_TILT, -MAX_TILT, MAX_TILT);
+          targetX = clamp(-dy * MAX_TILT, -MAX_TILT, MAX_TILT);
+        }, { passive:true });
+      }
+
+      async function activate(){
+        if(enabled) return;
+        enabled = true;
+        if(logoHint) logoHint.classList.add('hide');
+
+        const ok = await enableGyro();
+        if(!ok) enableMouse();
+
+        // pequeñísimo “snap” visual al activar
+        logoTilt.style.transition = 'transform .18s var(--ease)';
+        setTimeout(()=>{ logoTilt.style.transition = ''; }, 220);
+      }
+
+      // UX: toca/click para pedir permiso (iOS) y activar
+      logoTilt.style.cursor = 'pointer';
+      logoTilt.addEventListener('click', activate);
+      logoTilt.addEventListener('keydown', (e)=>{ if(e.key==='Enter') activate(); });
+
+      // Si no es iOS y hay sensor, activamos sin molestar (pero sin pedir permiso)
+      // En iOS NO se puede sin gesto, así que lo dejamos por tap.
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if(!isIOS && 'DeviceOrientationEvent' in window){
+        // activación suave (sin prompt)
+        enableGyro().then((ok)=>{
+          if(ok){
+            enabled = true;
+            if(logoHint) logoHint.classList.add('hide');
+          }
+        });
+      }
+    })();
   </script>
 </body>
 </html>
