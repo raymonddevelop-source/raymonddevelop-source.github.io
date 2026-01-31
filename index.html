@@ -189,6 +189,9 @@
       border:1px solid rgba(255,255,255,.10);
       font-weight: 900;
       transition: filter .16s var(--ease), transform .16s var(--ease);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
     }
     .drawer a:hover{ filter: brightness(1.06); transform: translateY(-1px); }
     .drawer a:active{ transform: translateY(1px) scale(.99); }
@@ -285,6 +288,11 @@
 
       transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
       will-change: transform;
+
+      /* ✅ NUEVO: requerido para los efectos */
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
     }
     .btn:hover{
       transform: translateY(-1px);
@@ -307,6 +315,61 @@
         linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
       -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
+    }
+
+    /* =========================================================
+       ✅ NUEVO: EFECTO PREMIUM en los 5 botones (.btn.primary)
+       - Shine automático (sweep)
+       - Swipe al hover
+       ========================================================= */
+
+    /* Swipe (reflejo) al hover */
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: linear-gradient(120deg,
+        transparent 0%,
+        rgba(255,255,255,.16) 22%,
+        transparent 45%
+      );
+      transform: translateX(-120%);
+      transition: transform .65s var(--ease);
+      pointer-events:none;
+      mix-blend-mode: screen;
+      opacity:.9;
+    }
+    .btn:hover::after{
+      transform: translateX(120%);
+    }
+
+    /* Shine automático SOLO en primary */
+    .btn.primary::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: linear-gradient(120deg,
+        transparent 0%,
+        rgba(255,255,255,.18) 18%,
+        transparent 40%
+      );
+      transform: translateX(-140%);
+      animation: btnSweep 3.8s var(--ease) infinite;
+      pointer-events:none;
+      mix-blend-mode: screen;
+      opacity:.55;
+    }
+
+    @keyframes btnSweep{
+      0%{ transform: translateX(-140%); opacity:.12; }
+      18%{ opacity:.55; }
+      40%{ transform: translateX(140%); opacity:.18; }
+      100%{ transform: translateX(140%); opacity:.10; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .btn::after{ display:none !important; }
+      .btn.primary::before{ animation:none !important; display:none !important; }
     }
 
     /* ==== Secciones ==== */
@@ -701,7 +764,7 @@
       if (heroActions) heroActions.classList.add('in');
     });
 
-    // Scroll reveal (stagger) para cards
+    // Scroll reveal (stagger) para cards (premium silencioso)
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(!reduceMotion){
       const cards = document.querySelectorAll('.card');
