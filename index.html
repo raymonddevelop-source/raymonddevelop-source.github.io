@@ -39,16 +39,18 @@
       overflow-x:hidden;
     }
 
+    /* === Noise sutil (premium) === */
     body::after{
       content:"";
       position:fixed;
       inset:0;
       pointer-events:none;
       z-index:9999;
-      opacity:.55;
+      opacity:.55; /* controla intensidad global */
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
     }
 
+    /* ==== Full width real ==== */
     .stage{
       width:100vw;
       position:relative;
@@ -57,7 +59,7 @@
       min-height:100svh;
     }
 
-    /* ===== NAV ===== */
+    /* ==== NAV (glass) ==== */
     .nav{
       position:sticky;
       top:0;
@@ -65,6 +67,7 @@
       padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
       background: rgba(7,9,20,.52);
       border-bottom: 1px solid rgba(255,255,255,.10);
+      -webkit-backdrop-filter: blur(14px);
       backdrop-filter: blur(14px);
     }
 
@@ -74,6 +77,14 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
+      gap:10px;
+    }
+
+    .nav-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
     }
 
     .burger{
@@ -85,11 +96,31 @@
       place-items:center;
       box-shadow: var(--shadow2);
       cursor:pointer;
+      user-select:none;
+      flex:0 0 auto;
+      transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
+      will-change: transform;
+    }
+    .burger:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+    .burger:active{ transform: translateY(1px) scale(.98); }
+    .burger svg{ width:18px; height:18px; opacity:.95; }
+
+    .brand-mini{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .brand-mini .name{
+      font-weight:900;
+      font-size: 15px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 52vw;
     }
 
-    .burger svg{ width:18px; height:18px; }
-
-    /* ===== DRAWER ===== */
+    /* ==== Drawer menu ==== */
     .drawer-backdrop{
       position:fixed; inset:0;
       background: rgba(0,0,0,.55);
@@ -98,84 +129,339 @@
       transition: opacity .22s var(--ease);
       z-index:60;
     }
-    .drawer-backdrop.open{ opacity:1; pointer-events:auto; }
+    .drawer-backdrop.open{
+      opacity:1;
+      pointer-events:auto;
+    }
 
     .drawer{
       position:fixed;
       top:0; left:0;
       width:min(86vw, 340px);
       height:100%;
-      background: rgba(10,12,28,.92);
+      background: rgba(10,12,28,.90);
       border-right:1px solid rgba(255,255,255,.10);
+      -webkit-backdrop-filter: blur(16px);
       backdrop-filter: blur(16px);
       transform: translateX(-102%);
       transition: transform .24s var(--ease);
       z-index:70;
-      padding: 18px 14px;
+      padding: calc(14px + env(safe-area-inset-top)) 14px 14px;
       display:flex;
       flex-direction:column;
       gap:10px;
     }
     .drawer.open{ transform: translateX(0); }
 
-    .drawer a{
-      padding:12px;
-      border-radius:14px;
-      text-decoration:none;
-      color:white;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
+    .drawer-brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 8px 6px 14px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .drawer-brand img{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      display:block;
+      object-fit:cover;
+    }
+    .drawer-brand span{
       font-weight:900;
+      font-size:16px;
+      letter-spacing:.2px;
+      color: rgba(255,255,255,.92);
     }
 
-    /* ===== CONTENT ===== */
+    .drawer a{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      text-decoration:none;
+      color: rgba(255,255,255,.88);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      font-weight: 900;
+      transition: filter .16s var(--ease), transform .16s var(--ease);
+    }
+    .drawer a:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+    .drawer a:active{ transform: translateY(1px) scale(.99); }
+
+    /* ==== Layout ==== */
     .wrap{
       width:min(var(--max), 94vw);
       margin:0 auto;
-      padding: 18px 0 90px;
+      padding: 18px 0 76px;
     }
 
+    /* ==== HERO ==== */
     .hero{
-      text-align:center;
+      padding: 18px 0 10px;
       display:grid;
-      gap:14px;
+      gap: 14px;
+      align-items:center;
+      justify-items:center;
+      text-align:center;
     }
 
     .logo-big{
       width:min(74vw, 360px);
-      aspect-ratio:1/1;
-      border-radius:999px;
-      overflow:hidden;
-      margin:auto;
+      aspect-ratio: 1/1;
+      border-radius: 999px;
       background: rgba(255,255,255,.05);
       border:1px solid rgba(255,255,255,.12);
       box-shadow: var(--shadow);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+
+      transform: translateY(12px);
+      opacity:0;
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
+    }
+    .logo-big.in{ transform: translateY(0); opacity:1; }
+
+    @keyframes float{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-6px); }
+    }
+    .logo-big.in{
+      animation: float 6s ease-in-out infinite;
     }
 
     .logo-big img{
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit: cover;
+      display:block;
     }
+
+    .hero-title{
+      font-size: clamp(22px, 5vw, 34px);
+      font-weight: 1000;
+      letter-spacing: -0.03em;
+      margin: 2px 0 0;
+
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
+    }
+    .hero-title.in{ transform: translateY(0); opacity:1; }
+
+    .hero-actions{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      margin-top: 6px;
+
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .65s var(--ease), opacity .65s var(--ease);
+    }
+    .hero-actions.in{ transform: translateY(0); opacity:1; }
 
     .btn{
       display:inline-flex;
+      align-items:center;
       justify-content:center;
-      padding:12px 18px;
-      border-radius:999px;
+      gap:10px;
+      padding: 12px 16px;
+      border-radius: 999px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
-      color:white;
+      color: rgba(255,255,255,.92);
+      font-weight: 950;
+      font-size: 14px;
       text-decoration:none;
-      font-weight:900;
-      margin:4px auto;
-      max-width:300px;
+      box-shadow: var(--shadow2);
+      min-width: 220px;
+
+      transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
+      will-change: transform;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+      box-shadow: 0 14px 34px rgba(0,0,0,.42);
+    }
+    .btn:active{
+      transform: translateY(1px) scale(.98);
+      filter: brightness(0.98);
+      box-shadow: 0 8px 18px rgba(0,0,0,.35);
+    }
+    .btn:focus-visible{
+      outline: 2px solid rgba(53,209,255,.65);
+      outline-offset: 3px;
     }
 
-    /* ===== FOOTER SOCIAL ===== */
+    .btn.primary{
+      border:1px solid rgba(53,209,255,.22);
+      background:
+        linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    /* ==== Secciones ==== */
+    .section{ margin-top: 18px; }
+
+    .section-head{
+      display:flex;
+      justify-content:center;
+      margin: 12px 0;
+      text-align:center;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: 18px;
+      font-weight: 1000;
+      letter-spacing:.2px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    /* ==== Cards (glass + glow sutil) ==== */
+    .card{
+      position: relative;
+      border-radius: var(--r2);
+      background: rgba(18, 20, 42, 0.92);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.10),
+        var(--shadow2);
+      overflow: hidden;
+      isolation: isolate;
+
+      opacity: 0;
+      transform: translateY(14px);
+      will-change: transform, opacity;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius:inherit;
+      background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(124,77,255,.26),
+        rgba(53,209,255,.22),
+        transparent 70%
+      );
+      opacity:0;
+      transition: opacity .35s var(--ease);
+      pointer-events:none;
+    }
+    .card:hover::before{ opacity:.55; }
+
+    @keyframes riseIn{
+      from{ opacity:0; transform: translateY(14px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+    .card.in-view{
+      animation: riseIn .6s var(--ease) both;
+    }
+
+    .thumb{
+      width:100%;
+      aspect-ratio: 16/11;
+      background:
+        radial-gradient(900px 500px at 30% 20%, rgba(53,209,255,.18), transparent 55%),
+        radial-gradient(900px 500px at 80% 20%, rgba(255,79,216,.14), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:block;
+      overflow:hidden;
+    }
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+      transition: transform .35s var(--ease);
+    }
+    .card:hover .thumb img{ transform: scale(1.06); }
+
+    .card-body{
+      padding: 16px 16px 18px;
+      display:grid;
+      gap:6px;
+      text-align:left;
+    }
+
+    .card-body b{
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing:.1px;
+    }
+
+    .card-body span{
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 13px;
+      line-height:1.45;
+    }
+
+    /* ==== CONTACTO ==== */
+    #contact .contact-card{ text-align:center; }
+    #contact .contact-actions{
+      display:grid;
+      gap:12px;
+      justify-items:center;
+      margin-top: 4px;
+    }
+    #contact .contact-actions .btn{
+      width:100%;
+      max-width: 520px;
+      justify-content:center;
+    }
+
+    /* ==== Responsive ==== */
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+      .brand-mini .name{ max-width: 44vw; }
+      .wrap{ padding-bottom: 84px; }
+    }
+
+    @media (max-width: 420px){
+      .logo-big{ width: min(84vw, 360px); }
+      .btn{ min-width: 200px; }
+      .card-body{ padding: 15px 14px 16px; }
+    }
+
+    @media (hover:none){
+      .btn:active{ transform: scale(.97); }
+      .burger:active{ transform: scale(.97); }
+      .drawer a:active{ transform: scale(.99); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; }
+      body::after{ display:none !important; }
+      .logo-big, .hero-title, .hero-actions{ transform:none !important; opacity:1 !important; }
+      .logo-big.in{ animation:none !important; }
+      .card{ opacity:1 !important; transform:none !important; }
+      .card.in-view{ animation:none !important; }
+    }
+
+    /* =========================================================
+       ✅ NUEVO: Footer con iconos (Facebook / Instagram)
+       ========================================================= */
     .footer{
       margin-top:22px;
-      padding:18px 0 26px;
+      padding:18px 0 24px;
       border-top:1px solid rgba(255,255,255,.10);
       text-align:center;
     }
@@ -184,118 +470,262 @@
       display:flex;
       justify-content:center;
       gap:10px;
-      margin-bottom:12px;
+      margin: 0 0 12px;
     }
 
     .footer .social a{
       width:44px; height:44px;
-      border-radius:14px;
+      border-radius: 14px;
       display:grid;
       place-items:center;
+      text-decoration:none;
+
       background: rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.12);
       box-shadow: var(--shadow2);
-      transition:.15s;
+
+      transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
+      will-change: transform;
     }
 
     .footer .social a:hover{
       transform: translateY(-1px);
       filter: brightness(1.06);
+      box-shadow: 0 14px 34px rgba(0,0,0,.42);
     }
 
-    .footer svg{ width:20px; height:20px; }
+    .footer .social a:active{
+      transform: translateY(1px) scale(.98);
+      filter: brightness(0.98);
+      box-shadow: 0 8px 18px rgba(0,0,0,.35);
+    }
+
+    .footer .social a:focus-visible{
+      outline: 2px solid rgba(53,209,255,.65);
+      outline-offset: 3px;
+    }
+
+    .footer .social svg{
+      width:20px; height:20px;
+      opacity:.95;
+    }
 
     .footer .copyright{
-      font-size:12px;
-      font-weight:800;
       color: rgba(255,255,255,.55);
+      font-weight:800;
+      font-size:12px;
     }
   </style>
 </head>
 
 <body>
+  <div class="drawer-backdrop" id="backdrop"></div>
 
-<div class="drawer-backdrop" id="backdrop"></div>
-
-<aside class="drawer" id="drawer">
-  <a href="planes.html">Planes y Ofertas</a>
-  <a href="#contact">Contacto</a>
-</aside>
-
-<header class="nav">
-  <div class="nav-inner">
-    <div class="burger" id="burger">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M5 7h14M5 12h14M5 17h14"
-              stroke="white" stroke-width="1.8" stroke-linecap="round"/>
-      </svg>
+  <aside class="drawer" id="drawer" aria-label="Menú">
+    <div class="drawer-brand">
+      <img src="logo.png" alt="Raymond Develop">
+      <span>RaymondDevelop</span>
     </div>
-  </div>
-</header>
 
-<main class="stage">
-  <div class="wrap">
+    <a href="planes.html">Planes y Ofertas</a>
+    <a href="#contact">Contacto</a>
+    <a href="#work">Demos y Clientes</a>
+  </aside>
 
-    <section class="hero">
-      <div class="logo-big">
-        <img src="logo.png" alt="Raymond Develop">
-      </div>
-
-      <h2>Diseño de páginas web en Puerto Rico para tu negocio</h2>
-
-      <a class="btn" href="#contact">Contáctanos</a>
-      <a class="btn" href="planes.html">Ofertas</a>
-    </section>
-
-    <section id="contact" style="margin-top:40px;text-align:center;">
-      <a class="btn" href="https://wa.me/17872241230" target="_blank">WhatsApp</a>
-      <a class="btn" href="tel:+17872241230">Llamar</a>
-      <a class="btn" href="mailto:raymond@raymoddevelop.com">Email</a>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="social">
-        <a href="https://www.facebook.com/share/1BkmiTHZhH/?mibextid=wwXIfr" target="_blank" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="white">
-            <path d="M14 8.5V7.2c0-.9.6-1.2 1.2-1.2H17V3h-2.2C12.7 3 12 4.3 12 6.2v2.3H10v3h2V21h3v-9.5h2.3l.7-3H15Z"/>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="burger" id="burger" aria-label="Abrir menú" role="button" tabindex="0">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 7h14M5 12h14M5 17h14" stroke="white" stroke-opacity=".95" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
-        </a>
+        </div>
 
-        <a href="https://www.instagram.com/raymonddevelop?igsh=MXF5cGNqOG11cG5yZg==" target="_blank" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="3" width="18" height="18" rx="4.5" stroke="white" stroke-width="1.8"/>
-            <circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/>
-            <circle cx="17.3" cy="6.7" r="1.2" fill="white"/>
-          </svg>
-        </a>
+        <div class="brand-mini">
+          <div class="name">RaymondDevelop</div>
+        </div>
       </div>
+    </div>
+  </header>
 
-      <div class="copyright">
-        © <span id="year"></span> Raymond Develop
-      </div>
-    </footer>
+  <main class="stage">
+    <div class="wrap">
+      <section class="hero" id="top">
+        <div class="logo-big" id="logoBig">
+          <img src="logo.png" alt="Raymond Develop" />
+        </div>
 
-  </div>
-</main>
+        <h2 class="hero-title" id="heroTitle">Diseño de páginas web en Puerto Rico para tu negocio</h2>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+        <div class="hero-actions" id="heroActions">
+          <a class="btn primary" href="#contact">Contáctanos</a>
+          <a class="btn primary" href="planes.html">Ofertas</a>
+        </div>
+      </section>
 
-  const drawer = document.getElementById('drawer');
-  const backdrop = document.getElementById('backdrop');
-  const burger = document.getElementById('burger');
+      <section class="section" id="work">
+        <div class="section-head">
+          <h2>¿Por qué elegirnos?</h2>
+        </div>
 
-  burger.onclick = () => {
-    drawer.classList.add('open');
-    backdrop.classList.add('open');
-  };
+        <div class="grid">
+          <article class="card">
+            <a class="thumb" href="#" aria-label="Automatización Inteligente">
+              <img src="Inteligente.png" alt="Automatización inteligente">
+            </a>
+            <div class="card-body">
+              <b>Automatización Inteligente</b>
+              <span>Reservas y contacto funcionando 24/7.</span>
+              <span>Tu negocio sigue generando aunque estés ocupado.</span>
+            </div>
+          </article>
 
-  backdrop.onclick = () => {
-    drawer.classList.remove('open');
-    backdrop.classList.remove('open');
-  };
-</script>
+          <article class="card">
+            <a class="thumb" href="#" aria-label="Simplicidad total para el cliente">
+              <img src="simple.png" alt="Simplicidad total">
+            </a>
+            <div class="card-body">
+              <b>Simplicidad total para el cliente</b>
+              <span>Todo fácil de entender y usar.</span>
+              <span>Sin procesos complicados, sin pérdida de tiempo.</span>
+            </div>
+          </article>
 
+          <article class="card">
+            <a class="thumb" href="#" aria-label="Enfoque real en tu negocio">
+              <img src="locales.png" alt="Enfoque en negocios locales">
+            </a>
+            <div class="card-body">
+              <b>Enfoque real en tu negocio</b>
+              <span>Diseñamos para negocios reales.</span>
+              <span>Entendemos tu mercado, tus clientes y cómo se trabaja aquí.</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="section-head">
+          <h2>Contáctanos</h2>
+        </div>
+
+        <div class="grid">
+          <article class="card contact-card">
+            <div class="card-body contact-actions">
+              <a class="btn primary" href="https://wa.me/17872241230" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+              <a class="btn primary" href="tel:+17872241230">Llamar</a>
+              <a class="btn primary" href="mailto:raymond@raymoddevelop.com">Email</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ✅ FOOTER NUEVO con iconos -->
+      <footer class="footer" aria-label="Pie de página">
+        <div class="social" aria-label="Redes sociales">
+          <!-- Facebook -->
+          <a
+            href="https://www.facebook.com/share/1BkmiTHZhH/?mibextid=wwXIfr"
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook de Raymond Develop"
+            title="Facebook"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M14 8.5V7.2c0-.9.6-1.2 1.2-1.2H17V3h-2.2C12.7 3 12 4.3 12 6.2v2.3H10v3h2V21h3v-9.5h2.3l.7-3H15Z"
+                    fill="white" fill-opacity=".92"/>
+            </svg>
+          </a>
+
+          <!-- Instagram -->
+          <a
+            href="https://www.instagram.com/raymonddevelop?igsh=MXF5cGNqOG11cG5yZg=="
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram de Raymond Develop"
+            title="Instagram"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7.5 3h9A4.5 4.5 0 0 1 21 7.5v9A4.5 4.5 0 0 1 16.5 21h-9A4.5 4.5 0 0 1 3 16.5v-9A4.5 4.5 0 0 1 7.5 3Z"
+                    stroke="white" stroke-opacity=".92" stroke-width="1.8"/>
+              <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                    stroke="white" stroke-opacity=".92" stroke-width="1.8"/>
+              <path d="M17.3 6.9h.01"
+                    stroke="white" stroke-opacity=".92" stroke-width="2.6" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="copyright">
+          © <span id="year"></span> Raymond Develop
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    // Año
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Drawer
+    const drawer = document.getElementById('drawer');
+    const backdrop = document.getElementById('backdrop');
+    const burger = document.getElementById('burger');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      burger.setAttribute('aria-expanded', 'true');
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+      burger.setAttribute('aria-expanded', 'false');
+    }
+
+    burger.addEventListener('click', openDrawer);
+    burger.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openDrawer(); });
+    backdrop.addEventListener('click', closeDrawer);
+    drawer.addEventListener('click', (e)=>{ if(e.target.tagName === 'A') closeDrawer(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeDrawer(); });
+
+    // Entrada inicial hero
+    const logoBig = document.getElementById('logoBig');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroActions = document.getElementById('heroActions');
+    requestAnimationFrame(()=>{
+      if (logoBig) logoBig.classList.add('in');
+      if (heroTitle) heroTitle.classList.add('in');
+      if (heroActions) heroActions.classList.add('in');
+    });
+
+    // Scroll reveal (stagger) para cards
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!reduceMotion){
+      const cards = document.querySelectorAll('.card');
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach((entry)=>{
+          if(entry.isIntersecting){
+            const idx = Number(entry.target.dataset.i || 0);
+            entry.target.style.animationDelay = `${idx * 0.08}s`;
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      cards.forEach((card, i)=>{
+        card.dataset.i = i;
+        observer.observe(card);
+      });
+    }else{
+      document.querySelectorAll('.card').forEach(c=>{
+        c.style.opacity = 1;
+        c.style.transform = 'none';
+      });
+    }
+  </script>
 </body>
 </html>
