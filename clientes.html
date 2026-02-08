@@ -334,12 +334,21 @@
       height:100%;
       border:0;
       display:block;
+        /* 🔒 BLOQUEA interacción */
+  pointer-events: none;
+
+  /* Escala que ya tenías */
       transform: scale(.72);
       transform-origin: top left;
       width: 138.9%;
       height: 138.9%;
       filter: saturate(.95) contrast(1.05);
     }
+    .preview{
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+
 
     /* overlay para que se vea más “premium” */
     .preview::after{
