@@ -76,7 +76,7 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
   --bg:#050814;
   --bg2:#070a1b;
 
-  --cardA: rgba(14, 22, 44, .58);
+  --cardA: rgba(14, 22, 44, .38);
   --cardB: rgba(10, 14, 28, .42);
 
   --text: rgba(255,255,255,.92);
