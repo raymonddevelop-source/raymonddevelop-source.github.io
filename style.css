@@ -502,3 +502,32 @@ body::before{
 #rd-landing .hero-card{
   border: 1px solid rgba(255,255,255,.14);
 }
+/* =========================
+   OVERRIDE: Glass + redes
+   (PEGA ESTO AL FINAL)
+========================= */
+
+/* 1) Cards/glass MÁS transparentes */
+.card{
+  background: rgba(18, 20, 42, 0.72) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+}
+
+/* opcional: el borde/brillo del hover un poco más suave */
+.card::before{ opacity: .18 !important; }
+.card:hover::before{ opacity: .40 !important; }
+
+/* 2) Botones (si también los quieres un poco más “glass”) */
+.btn{
+  background: rgba(255,255,255,.045) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+}
+
+/* 3) Redes sociales MENOS transparentes (más sólidas) */
+.footer .social a{
+  background: rgba(10,18,40,.82) !important;
+  border: 1px solid rgba(255,255,255,.24) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.48) !important;
+}
