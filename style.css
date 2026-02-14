@@ -450,4 +450,16 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
   font-size:16px;
   letter-spacing:.2px;
 }
+/* ===== Tag especial BUSINESS ===== */
+.tag-business{
+  background: linear-gradient(
+    90deg,
+    rgba(53,209,255,.25),
+    rgba(124,77,255,.18)
+  );
+  border: 1px solid rgba(53,209,255,.35);
+  box-shadow:
+    0 0 12px rgba(53,209,255,.20),
+    0 0 22px rgba(124,77,255,.12);
+}
 
