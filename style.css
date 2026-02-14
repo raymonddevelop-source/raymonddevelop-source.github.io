@@ -462,29 +462,7 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     0 0 12px rgba(53,209,255,.20),
     0 0 22px rgba(124,77,255,.12);
 }
-/* ===== Destellos random ===== */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
 
-  background-image:
-    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.9), transparent 50%),
-    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,.7), transparent 50%),
-    radial-gradient(2px 2px at 40% 80%, rgba(255,255,255,.8), transparent 50%),
-    radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,.6), transparent 50%);
-
-  animation: sparkle 12s linear infinite;
-  opacity:.6;
-}
-
-@keyframes sparkle{
-  0%{ transform: translateY(0); opacity:.5; }
-  50%{ opacity:.9; }
-  100%{ transform: translateY(-20px); opacity:.5; }
-}
 
 #rd-landing .card,
 #rd-landing .hero-card{
@@ -531,3 +509,58 @@ body::before{
   border: 1px solid rgba(255,255,255,.24) !important;
   box-shadow: 0 10px 26px rgba(0,0,0,.48) !important;
 }
+/* =========================
+   DESTELLOS (NO choca con background)
+   Pegar al FINAL
+========================= */
+html::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;           /* arriba del fondo, debajo del contenido */
+  opacity:.95;
+
+  /* HALOS GRANDES + PUNTOS */
+  background-image:
+    radial-gradient(120px 120px at 20% 30%, rgba(255,255,255,.40), transparent 60%),
+    radial-gradient(160px 160px at 70% 40%, rgba(255,255,255,.32), transparent 62%),
+    radial-gradient(140px 140px at 40% 80%, rgba(255,255,255,.28), transparent 62%),
+    radial-gradient(180px 180px at 85% 60%, rgba(255,255,255,.26), transparent 64%),
+    radial-gradient(2px 2px at 18% 22%, rgba(255,255,255,.95), transparent 55%),
+    radial-gradient(2px 2px at 62% 48%, rgba(255,255,255,.85), transparent 55%),
+    radial-gradient(2px 2px at 78% 72%, rgba(255,255,255,.75), transparent 55%);
+
+  filter: blur(.2px);
+  animation: sparkMove 10s linear infinite;
+}
+
+@keyframes sparkMove{
+  0%   { transform: translate3d(0,0,0); opacity:.70; }
+  50%  { transform: translate3d(0,-18px,0); opacity:1; }
+  100% { transform: translate3d(0,0,0); opacity:.70; }
+}
+
+/* Asegura que tu contenido quede por encima */
+.stage{ position:relative; z-index:2; }
+/* GLASS más transparente */
+.card{
+  background: rgba(18,20,42,.62) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  backdrop-filter: blur(18px) !important;
+}
+
+/* Botones un poco más glass */
+.btn{
+  background: rgba(255,255,255,.04) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+}
+
+/* Redes sociales menos transparentes */
+.footer .social a{
+  background: rgba(10,18,40,.88) !important;
+  border: 1px solid rgba(255,255,255,.26) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.50) !important;
+}
+
