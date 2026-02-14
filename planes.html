@@ -295,16 +295,11 @@
       background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
     }
 
-    /* Shine SOLO en botones (no en cards) */
     .btn.primary::before{
       content:"";
       position:absolute;
       inset:-2px;
-      background: linear-gradient(120deg,
-        transparent 0%,
-        rgba(255,255,255,.18) 18%,
-        transparent 40%
-      );
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.18) 18%, transparent 40%);
       transform: translateX(-140%);
       animation: btnSweep 3.8s var(--ease) infinite;
       pointer-events:none;
@@ -321,16 +316,11 @@
       .btn.primary::before{ animation:none !important; display:none !important; }
     }
 
-    /* hover swipe (mantengo el que ya tenías, más suave) */
     .btn::after, .chip::after{
       content:"";
       position:absolute;
       inset:-2px;
-      background: linear-gradient(120deg,
-        transparent 0%,
-        rgba(255,255,255,.16) 22%,
-        transparent 45%
-      );
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.16) 22%, transparent 45%);
       transform: translateX(-120%);
       transition: transform .65s var(--ease);
       pointer-events:none;
@@ -413,13 +403,7 @@
       position:absolute;
       inset:-1px;
       border-radius:inherit;
-      background: linear-gradient(
-        120deg,
-        transparent 30%,
-        rgba(124,77,255,.26),
-        rgba(53,209,255,.22),
-        transparent 70%
-      );
+      background: linear-gradient(120deg, transparent 30%, rgba(124,77,255,.26), rgba(53,209,255,.22), transparent 70%);
       opacity:0;
       transition: opacity .35s var(--ease);
       pointer-events:none;
@@ -537,13 +521,6 @@
         0 18px 60px rgba(0,0,0,.50),
         inset 0 0 0 1px rgba(96,165,250,.28);
     }
-    .featured::before{
-      opacity: 1;
-      background:
-        radial-gradient(680px 260px at 18% 0%, rgba(53,209,255,.22), transparent 60%),
-        radial-gradient(680px 260px at 85% 0%, rgba(124,77,255,.20), transparent 62%),
-        radial-gradient(680px 260px at 55% 100%, rgba(255,79,216,.12), transparent 65%);
-    }
 
     .note{
       margin-top: 16px;
@@ -564,8 +541,6 @@
       font-size:12px;
       text-align:center;
     }
-
-    /* ✅ NUEVO: redes en footer (iconos) */
     .footer .social{
       display:flex;
       justify-content:center;
@@ -589,20 +564,7 @@
       filter: brightness(1.06);
       box-shadow: 0 14px 34px rgba(0,0,0,.42);
     }
-    .footer .social a:active{
-      transform: translateY(1px) scale(.98);
-      filter: brightness(0.98);
-      box-shadow: 0 8px 18px rgba(0,0,0,.35);
-    }
-    .footer .social a:focus-visible{
-      outline: 2px solid rgba(53,209,255,.65);
-      outline-offset: 3px;
-    }
-    .footer .social svg{
-      width:20px;
-      height:20px;
-      opacity:.95;
-    }
+    .footer .social svg{ width:20px; height:20px; opacity:.95; }
 
     /* ==== Sticky CTA abajo ==== */
     .cta{
@@ -689,7 +651,9 @@
     </div>
 
     <a href="index.html">Inicio</a>
-    <a href="#tiendas">Tiendas y Reservas</a>
+    <a href="#planes">Planes</a>
+    <a href="#reservas">Reservas y Tienda</a>
+    <a href="#adicionales">Adicionales</a>
     <a href="tel:+17872241230">Llamar</a>
   </aside>
 
@@ -720,28 +684,33 @@
         <p>Soluciones digitales profesionales para negocios en Puerto Rico.</p>
 
         <div class="chips" role="navigation" aria-label="Secciones">
-          <a class="chip" id="chipTiendas" href="#tiendas" aria-current="false">Tiendas y Reservas</a>
+          <a class="chip" href="#planes" aria-current="false">Planes</a>
+          <a class="chip" id="chipTiendas" href="#reservas" aria-current="false">Reservas y Tienda</a>
+          <a class="chip" href="#adicionales" aria-current="false">Adicionales</a>
           <a class="chip" href="index.html" aria-current="false">Volver</a>
         </div>
       </header>
 
-      <section class="section" id="ofertas" aria-label="Ofertas">
+      <!-- =======================
+           PLANES (START/BUSINESS/OFERTA)
+      ======================== -->
+      <section class="section" id="planes" aria-label="Planes">
         <div class="section-head">
-          <h2>Ofertas</h2>
-          <p class="hint">Opciones rápidas para empezar hoy.</p>
+          <h2>Planes</h2>
+          <p class="hint">Compra un plan con límites claros (depósito obligatorio).</p>
         </div>
 
         <div class="grid">
           <article class="card featured"
-            data-cta-title="El mejor precio"
-            data-cta-sub="Empieza con una web pro por $160."
-            data-title="Página Web Simple $160">
+            data-cta-title="Plan de entrada"
+            data-cta-sub="Web pro desde $160."
+            data-title="PLAN 1 — START ($160)">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
               <span class="tag">Más popular</span>
-              <h3>Página Web Simple</h3>
-              <p class="sub">Tu presencia digital profesional</p>
-              <p class="ideal"><span>Ideal para:</span> negocios que quieren verse pro rápido</p>
+              <h3>PLAN 1 — START</h3>
+              <p class="sub">Presencia digital rápida y profesional</p>
+              <p class="ideal"><span>Depósito:</span> $80 (obligatorio)</p>
 
               <div class="price">
                 <span class="money">$160</span>
@@ -749,120 +718,137 @@
               </div>
 
               <ul>
-                <li>Diseño personalizado</li>
-                <li>Menú digital interactivo</li>
-                <li>Información de contacto</li>
-                <li>Redes sociales integradas</li>
-                <li>Optimizado para móviles</li>
+                <li>1 página web</li>
+                <li>Diseño para móvil</li>
+                <li>Botón WhatsApp + teléfono</li>
+                <li>Mapa Google</li>
+                <li>Redes sociales</li>
+                <li>QR digital</li>
+                <li>Animación visual básica</li>
+                <li>Código fuente en texto</li>
+                <li>Hosting mientras el servicio permanezca activo</li>
+                <li><b>No incluye:</b> reservas, ecommerce, pagos, carrito</li>
               </ul>
 
-              <a class="btn primary wa" data-plan="Página Web Simple $160" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="PLAN 1 — START ($160) | Depósito $80" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
 
           <article class="card"
-            data-cta-title="Añádelo a tu restaurante"
-            data-cta-sub="Stickers QR para mesas y mostrador."
-            data-title="Sellos QR Adicionales $30">
+            data-cta-title="Más contenido"
+            data-cta-sub="Business: galería + optimización."
+            data-title="PLAN 2 — BUSINESS ($400)">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
-              <h3>Sellos QR Adicionales</h3>
-              <p class="sub">30 stickers con tu QR</p>
-              <p class="ideal"><span>Ideal para:</span> mesas, productos, cajas o mostrador</p>
+              <h3>PLAN 2 — BUSINESS</h3>
+              <p class="sub">Más secciones, galería y optimización</p>
+              <p class="ideal"><span>Depósito:</span> $200 (obligatorio)</p>
 
               <div class="price">
-                <span class="money">$30</span>
-                <span class="period">paquete</span>
-              </div>
-
-              <ul>
-                <li>30 sellos QR personalizados</li>
-                <li>Diseño con tu logo</li>
-                <li>Material resistente</li>
-                <li>Enlace directo a tu menú</li>
-                <li>Fácil aplicación</li>
-              </ul>
-
-              <a class="btn primary wa" data-plan="Sellos QR Adicionales $30" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
-            </div>
-          </article>
-
-          <article class="card"
-            data-cta-title="No te quedes sin soporte"
-            data-cta-sub="Actualizamos tu menú y precios todo el año."
-            data-title="Plan de Actualizaciones $200/año">
-            <div class="ring" aria-hidden="true"></div>
-            <div class="card-inner">
-              <h3>Plan de Actualizaciones</h3>
-              <p class="sub">1 actualización mensual</p>
-              <p class="ideal"><span>Ideal para:</span> Mantén todo siempre al día</p>
-
-              <div class="price">
-                <span class="money">$200</span>
-                <span class="period">por año</span>
-              </div>
-
-              <ul>
-                <li>12 actualizaciones al año</li>
-                <li>Cambios en menú/precios</li>
-                <li>Nuevas fotos o productos</li>
-                <li>Soporte prioritario</li>
-                <li>Mantenimiento incluido en cualquier plan</li>
-                <li>Respaldo de datos</li>
-              </ul>
-
-              <a class="btn primary wa" data-plan="Plan de Actualizaciones $200/año" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="tiendas" aria-label="Tiendas y Reservas">
-        <div class="section-head">
-          <h2>Tiendas y Reservas</h2>
-          <p class="hint">Reservas, ventas online y crecimiento.</p>
-        </div>
-
-        <div class="grid">
-          <article class="card"
-            data-cta-title="Tu web trabaja para ti"
-            data-cta-sub="Reservas online + anticipo automáticamente."
-            data-title="Web con Reservas $700">
-            <div class="ring" aria-hidden="true"></div>
-            <div class="card-inner">
-              <h3>Web con Reservas</h3>
-              <p class="sub">Ideal para salones, estética, barberías, spa</p>
-              <p class="ideal"><span>Ideal para:</span> Reservas online + pagos anticipados</p>
-
-              <div class="price">
-                <span class="money">$700</span>
+                <span class="money">$400</span>
                 <span class="period">pago único</span>
               </div>
 
               <ul>
-                <li>Sitio web profesional</li>
-                <li>Diseño responsive</li>
-                <li>Sistema de reservas online</li>
-                <li>Cobro de anticipo</li>
-                <li>Panel administrativo</li>
-                <li>Pagos con Stripe y PayPal</li>
-                <li>Entrega: 7–10 días</li>
-                <li>Mantenimiento: $40 / mes (opcional)</li>
+                <li>Incluye TODO START</li>
+                <li>Más secciones</li>
+                <li>Galería (máx. 36 imágenes)</li>
+                <li>CSS avanzado</li>
+                <li>Optimización PC/Tablet</li>
+                <li>Email (Proton Mail)</li>
+                <li>Formulario de contacto</li>
+                <li><b>No incluye:</b> reservas ni ecommerce</li>
               </ul>
 
-              <a class="btn primary wa" data-plan="Web con Reservas $700" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="PLAN 2 — BUSINESS ($400) | Depósito $200" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+            </div>
+          </article>
+
+          <article class="card featured"
+            data-cta-title="Visual premium + SEO"
+            data-cta-sub="Oferta especial $999."
+            data-title="PLAN 5 — OFERTA ESPECIAL ($999)">
+            <div class="ring" aria-hidden="true"></div>
+            <div class="card-inner">
+              <span class="tag">Premium</span>
+              <h3>PLAN 5 — OFERTA ESPECIAL</h3>
+              <p class="sub">Para destacar y atraer más clientes</p>
+              <p class="ideal"><span>Depósito:</span> $500 (obligatorio)</p>
+
+              <div class="price">
+                <span class="money">$999</span>
+                <span class="period">pago único</span>
+              </div>
+
+              <ul>
+                <li>Incluye TODO BUSINESS</li>
+                <li>Diseño visual premium</li>
+                <li>Optimización avanzada</li>
+                <li>SEO básico</li>
+                <li>Google Business Profile</li>
+                <li>Integración redes sociales</li>
+                <li><b>Renovaciones anuales no incluidas</b></li>
+              </ul>
+
+              <a class="btn primary wa" data-plan="PLAN 5 — OFERTA ESPECIAL ($999) | Depósito $500" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+            </div>
+          </article>
+        </div>
+
+        <p class="note">
+          Regla: lo que NO está escrito, NO está incluido. Todo proyecto comienza con depósito.
+        </p>
+      </section>
+
+      <!-- =======================
+           RESERVAS Y TIENDA (PLAN 3/4)
+      ======================== -->
+      <section class="section" id="reservas" aria-label="Reservas y Tienda">
+        <div class="section-head">
+          <h2>Reservas y Tienda</h2>
+          <p class="hint">WordPress + herramientas para vender o reservar.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card featured"
+            data-cta-title="Reservas y Citas"
+            data-cta-sub="Automatiza agenda y reservas online."
+            data-title="PLAN 3 — RESERVAS Y CITAS ($900)">
+            <div class="ring" aria-hidden="true"></div>
+            <div class="card-inner">
+              <span class="tag">Reservas</span>
+              <h3>PLAN 3 — RESERVAS Y CITAS</h3>
+              <p class="sub">Ideal para barbería, beauty, servicios, citas</p>
+              <p class="ideal"><span>Depósito:</span> $450 (obligatorio)</p>
+
+              <div class="price">
+                <span class="money">$900</span>
+                <span class="period">pago único</span>
+              </div>
+
+              <ul>
+                <li>Incluye TODO BUSINESS</li>
+                <li>Sistema de reservas (Amelia)</li>
+                <li>Formularios avanzados</li>
+                <li>WordPress</li>
+                <li>Dominio 1 año</li>
+                <li>Hosting 1 año</li>
+                <li><b>Renovaciones anuales no incluidas</b></li>
+              </ul>
+
+              <a class="btn primary wa" data-plan="PLAN 3 — RESERVAS Y CITAS ($900) | Depósito $450" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
 
           <article class="card"
-            data-cta-title="Ventas online"
-            data-cta-sub="Tienda lista para cobrar 24/7."
-            data-title="Tienda Online $800">
+            data-cta-title="Tienda Online"
+            data-cta-sub="Carrito y checkout listo."
+            data-title="PLAN 4 — TIENDA ONLINE ($800)">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
-              <h3>Tienda Online</h3>
-              <p class="sub">Productos físicos o digitales</p>
-              <p class="ideal"><span>Ideal para:</span> vender 24/7 con carrito y pago</p>
+              <h3>PLAN 4 — TIENDA ONLINE</h3>
+              <p class="sub">Ecommerce completo</p>
+              <p class="ideal"><span>Depósito:</span> $400 (obligatorio)</p>
 
               <div class="price">
                 <span class="money">$800</span>
@@ -870,79 +856,146 @@
               </div>
 
               <ul>
-                <li>Tienda completa (carrito y checkout)</li>
-                <li>Diseño profesional</li>
-                <li>Hasta 50 productos</li>
-                <li>Pagos: Stripe, PayPal y ATH Móvil</li>
-                <li>Entrega: 10–14 días</li>
-                <li>Mantenimiento: $40 / mes (opcional)</li>
+                <li>Incluye TODO BUSINESS</li>
+                <li>Ecommerce completo</li>
+                <li>Carrito + checkout</li>
+                <li>Hasta 35 productos incluidos</li>
+                <li>Productos extra: <b>$5 c/u</b></li>
+                <li>WordPress</li>
+                <li>Dominio 1 año + hosting 1 año</li>
+                <li><b>Renovaciones anuales no incluidas</b></li>
               </ul>
 
-              <a class="btn primary wa" data-plan="Tienda Online $800" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
-            </div>
-          </article>
-
-          <article class="card featured"
-            data-cta-title="Para que tu negocio crezca"
-            data-cta-sub="SEO local + presencia en Google."
-            data-title="Reservas + Promoción $950">
-            <div class="ring" aria-hidden="true"></div>
-            <div class="card-inner">
-              <span class="tag">Crecimiento</span>
-              <h3>Reservas + Promoción</h3>
-              <p class="sub">Para atraer más clientes</p>
-              <p class="ideal"><span>Ideal para:</span> crecer con SEO + presencia en Google</p>
-
-              <div class="price">
-                <span class="money">$950</span>
-                <span class="period">pago único</span>
-              </div>
-
-              <ul>
-                <li>Incluye Web con Reservas</li>
-                <li>Search Engine Optimization local básico</li>
-                <li>Google Business Profile</li>
-                <li>Página promocional</li>
-                <li>Redes sociales</li>
-                <li>Entrega: 10–15 días</li>
-                <li>Mantenimiento: $60 / mes (opcional)</li>
-              </ul>
-
-              <a class="btn primary wa" data-plan="Reservas + Promoción $950" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+              <a class="btn primary wa" data-plan="PLAN 4 — TIENDA ONLINE ($800) | Depósito $400" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
         </div>
 
         <p class="note">
-          Renovación de dominio, hosting anual y cargos por transacción no incluidos. Cambios mayores se cotizan por separado si no tienes plan de actualización anual.
+          Cargos por transacción y renovaciones anuales no incluidos (cuando apliquen).
         </p>
       </section>
 
-      <!-- ✅ FOOTER con iconos -->
+      <!-- =======================
+           ADICIONALES
+      ======================== -->
+      <section class="section" id="adicionales" aria-label="Servicios Adicionales">
+        <div class="section-head">
+          <h2>Servicios Adicionales</h2>
+          <p class="hint">Se pueden añadir a cualquier plan.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card"
+            data-cta-title="Mantén tu web al día"
+            data-cta-sub="12 cambios por $200/año."
+            data-title="Plan anual de mantenimiento ($200/año)">
+            <div class="ring" aria-hidden="true"></div>
+            <div class="card-inner">
+              <h3>Plan anual de mantenimiento</h3>
+              <p class="sub">12 cambios o 1 año (lo que ocurra primero)</p>
+
+              <div class="price">
+                <span class="money">$200</span>
+                <span class="period">por año</span>
+              </div>
+
+              <ul>
+                <li>Incluye hasta 12 cambios</li>
+                <li>Si no tienes plan anual: <b>$40 por cambio</b></li>
+              </ul>
+
+              <a class="btn primary wa" data-plan="Plan anual de mantenimiento ($200/año)" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+            </div>
+          </article>
+
+          <article class="card"
+            data-cta-title="QR listo para imprimir"
+            data-cta-sub="Formato 8x10 por $40."
+            data-title="QR impreso 8x10 ($40)">
+            <div class="ring" aria-hidden="true"></div>
+            <div class="card-inner">
+              <h3>QR impreso 8x10</h3>
+              <p class="sub">Ideal para mostrador o entrada</p>
+
+              <div class="price">
+                <span class="money">$40</span>
+                <span class="period">pago único</span>
+              </div>
+
+              <ul>
+                <li>Diseño listo para imprimir</li>
+                <li>Enlace directo a tu web/menú</li>
+              </ul>
+
+              <a class="btn primary wa" data-plan="QR impreso 8x10 ($40)" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+            </div>
+          </article>
+
+          <article class="card"
+            data-cta-title="Sellos QR"
+            data-cta-sub="30 sellos por $40."
+            data-title="30 Sellos QR personalizados ($40)">
+            <div class="ring" aria-hidden="true"></div>
+            <div class="card-inner">
+              <h3>30 Sellos QR personalizados</h3>
+              <p class="sub">Para mesas, productos o cajas</p>
+
+              <div class="price">
+                <span class="money">$40</span>
+                <span class="period">paquete</span>
+              </div>
+
+              <ul>
+                <li>30 sellos/stickers personalizados</li>
+                <li>Con tu QR</li>
+              </ul>
+
+              <a class="btn primary wa" data-plan="30 Sellos QR personalizados ($40)" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+            </div>
+          </article>
+
+          <article class="card featured"
+            data-cta-title="Logo profesional"
+            data-cta-sub="Logo por $150 o $25 con plan."
+            data-title="Creación de logo ($150 / $25 con compra de plan)">
+            <div class="ring" aria-hidden="true"></div>
+            <div class="card-inner">
+              <span class="tag">Branding</span>
+              <h3>Creación de logo</h3>
+              <p class="sub">Identidad visual para tu negocio</p>
+
+              <div class="price">
+                <span class="money">$150</span>
+                <span class="period">pago único</span>
+              </div>
+
+              <ul>
+                <li>Precio regular: $150</li>
+                <li>Con compra de plan: <b>$25</b></li>
+              </ul>
+
+              <a class="btn primary wa" data-plan="Creación de logo ($150) / ($25 con compra de plan)" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
+            </div>
+          </article>
+        </div>
+
+        <p class="note">
+          Productos adicionales en tienda: <b>$5 c/u</b>. Todo plan requiere depósito para comenzar.
+        </p>
+      </section>
+
+      <!-- FOOTER -->
       <div class="footer">
         <div class="social" aria-label="Redes sociales">
-          <!-- Facebook -->
-          <a
-            href="https://www.facebook.com/share/1BkmiTHZhH/?mibextid=wwXIfr"
-            target="_blank"
-            rel="noopener"
-            aria-label="Facebook de Raymond Develop"
-            title="Facebook"
-          >
+          <a href="https://www.facebook.com/share/1BkmiTHZhH/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M14 8.5V7.2c0-.9.6-1.2 1.2-1.2H17V3h-2.2C12.7 3 12 4.3 12 6.2v2.3H10v3h2V21h3v-9.5h2.3l.7-3H15Z"
                     fill="white" fill-opacity=".92"/>
             </svg>
           </a>
 
-          <!-- Instagram -->
-          <a
-            href="https://www.instagram.com/raymonddevelop?igsh=MXF5cGNqOG11cG5yZg=="
-            target="_blank"
-            rel="noopener"
-            aria-label="Instagram de Raymond Develop"
-            title="Instagram"
-          >
+          <a href="https://www.instagram.com/raymonddevelop?igsh=MXF5cGNqOG11cG5yZg==" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M7.5 3h9A4.5 4.5 0 0 1 21 7.5v9A4.5 4.5 0 0 1 16.5 21h-9A4.5 4.5 0 0 1 3 16.5v-9A4.5 4.5 0 0 1 7.5 3Z"
                     stroke="white" stroke-opacity=".92" stroke-width="1.8"/>
@@ -963,8 +1016,8 @@
   <div class="cta" aria-hidden="false">
     <div class="cta-inner">
       <div class="txt">
-        <b id="ctaTitle">El mejor precio</b>
-        <span id="ctaSub">Empieza con una web pro por $160.</span>
+        <b id="ctaTitle">Plan de entrada</b>
+        <span id="ctaSub">Web pro desde $160.</span>
       </div>
       <div class="cta-actions">
         <a class="btn primary" href="tel:+17872241230">Llamar</a>
@@ -1035,8 +1088,8 @@
     }
 
     const chipTiendas = document.getElementById('chipTiendas');
-    const secOfertas = document.getElementById('ofertas');
-    const secTiendas = document.getElementById('tiendas');
+    const secOfertas = document.getElementById('planes');
+    const secTiendas = document.getElementById('reservas');
 
     let ticking = false;
     function updateUI(){
