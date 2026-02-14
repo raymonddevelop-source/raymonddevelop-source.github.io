@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <!-- ✅ evita zoom (si quieres permitir zoom, quita maximum-scale y user-scalable) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
   <title>Raymond Develop</title>
   <meta name="description" content="Diseño web en Puerto Rico. Landing pages, menús digitales, QR y sitios que convierten." />
   <meta name="theme-color" content="#070914" />
@@ -22,41 +23,62 @@
       --r2: 26px;
       --max: 1120px;
       --ease: cubic-bezier(.2,.9,.2,1);
+
+      /* ✅ background image (en root del repo) */
+      --bg-img: url("galaxia.jpeg");
+      /* overlay para que el texto siempre se lea */
+      --bg-overlay-top: rgba(5,8,20,.28);
+      --bg-overlay-bot: rgba(5,8,20,.55);
     }
 
     *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-   
-    
     html,body{ height:100%; }
-    html{ background:#070914; }
+    html{ background: var(--bg0); }
 
-body{
-  margin:0;
-  color:var(--text);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  overflow-x:hidden;
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow-x:hidden;
 
-  background:
-    linear-gradient(rgba(5,8,20,.28), rgba(5,8,20,.45)),
-    url("/galaxia.jpeg") center/cover no-repeat fixed;
-}
+      /* ✅ el fondo real lo maneja body::before (mejor en iOS) */
+      background: linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
 
+    /* ==========================
+       ✅ BACKGROUND FIJO FULLSCREEN (mobile + desktop)
+       ========================== */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
 
+      /* imagen + overlay en una sola capa */
+      background:
+        linear-gradient(var(--bg-overlay-top), var(--bg-overlay-bot)),
+        var(--bg-img);
 
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
 
+      /* truco para iOS: evita “saltos” */
+      transform: translateZ(0);
+      will-change: transform;
+    }
 
     /* === Noise sutil (premium) === */
-   body::after{
-  content:"";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: .55;
-
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
-}
-
+    body::after{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .55;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    }
 
     /* ==== Full width real ==== */
     .stage{
@@ -65,8 +87,7 @@ body{
       left:50%;
       transform:translateX(-50%);
       min-height:100svh;
-      z-index:1;
-
+      z-index:1; /* ✅ sobre el background */
     }
 
     /* ==== NAV (glass) ==== */
@@ -220,7 +241,6 @@ body{
       text-align:center;
     }
 
-    /* ✅ WRAPPER: controla ENTRADA + FLOAT (NO usa el mismo transform del tilt) */
     .logo-wrap{
       width:min(74vw, 360px);
       aspect-ratio: 1/1;
@@ -234,16 +254,12 @@ body{
     }
     .logo-wrap.in{ transform: translateY(0); opacity:1; }
 
-    /* Float SOLO en wrapper */
     @keyframes floatWrap{
       0%,100%{ transform: translateY(0); }
       50%{ transform: translateY(-10px); }
     }
-    .logo-wrap.in{
-      animation: floatWrap 5.2s ease-in-out infinite;
-    }
+    .logo-wrap.in{ animation: floatWrap 5.2s ease-in-out infinite; }
 
-    /* ✅ CÍRCULO: tilt + glow (sin pelear con wrapper) */
     .logo-big{
       width:100%;
       height:100%;
@@ -255,8 +271,6 @@ body{
       place-items:center;
       overflow:hidden;
       position:relative;
-
-      /* tilt */
       transform-style: preserve-3d;
       will-change: transform, box-shadow;
     }
@@ -274,13 +288,8 @@ body{
           0 0 38px rgba(124,77,255,.08);
       }
     }
+    .logo-wrap.in .logo-big{ animation: glow 4.8s ease-in-out infinite; }
 
-    /* Glow queda en .logo-big, tilt lo maneja JS */
-    .logo-wrap.in .logo-big{
-      animation: glow 4.8s ease-in-out infinite;
-    }
-
-    /* Imagen “en relieve” */
     .logo-big img{
       width:100%;
       height:100%;
@@ -290,7 +299,6 @@ body{
       will-change: transform;
     }
 
-    /* Brillo/vidrio que se mueve con el tilt */
     .logo-big::after{
       content:"";
       position:absolute;
@@ -304,7 +312,6 @@ body{
       transform: translateZ(10px);
     }
 
-    /* Mensajito discreto para activar gyro (solo se ve antes) */
     .logo-hint{
       margin-top:-6px;
       font-size: 12px;
@@ -389,7 +396,6 @@ body{
       backdrop-filter: blur(10px);
     }
 
-    /* ✅ Efecto premium en botones */
     .btn::after{
       content:"";
       position:absolute;
@@ -429,7 +435,6 @@ body{
       100%{ transform: translateX(140%); opacity:.10; }
     }
 
-    /* ==== Secciones ==== */
     .section{ margin-top: 18px; }
 
     .section-head{
@@ -451,7 +456,6 @@ body{
       gap: 12px;
     }
 
-    /* ==== Cards (glass + glow sutil) ==== */
     .card{
       position: relative;
       border-radius: var(--r2);
@@ -532,7 +536,6 @@ body{
       line-height:1.45;
     }
 
-    /* ==== CONTACTO ==== */
     #contact .contact-card{ text-align:center; }
     #contact .contact-actions{
       display:grid;
@@ -546,7 +549,6 @@ body{
       justify-content:center;
     }
 
-    /* ==== Responsive ==== */
     @media (max-width: 980px){
       .grid{ grid-template-columns: 1fr; }
       .brand-mini .name{ max-width: 44vw; }
@@ -559,7 +561,6 @@ body{
       .card-body{ padding: 15px 14px 16px; }
     }
 
-    /* ==== Mobile micro-feedback (se siente app) ==== */
     @media (hover:none){
       .btn:active{ transform: scale(.97); }
       .burger:active{ transform: scale(.97); }
@@ -569,21 +570,16 @@ body{
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
       body::after{ display:none !important; }
-
       .logo-wrap, .hero-title, .hero-actions{ transform:none !important; opacity:1 !important; }
       .logo-wrap.in{ animation:none !important; }
       .logo-wrap.in .logo-big{ animation:none !important; transform:none !important; }
-
       .logo-hint{ display:none !important; }
-
       .card{ opacity:1 !important; transform:none !important; }
       .card.in-view{ animation:none !important; }
-
       .btn::after{ display:none !important; }
       .btn.primary::before{ animation:none !important; display:none !important; }
     }
 
-    /* ===== Footer con redes ===== */
     .footer{
       margin-top:22px;
       padding:18px 0 24px;
@@ -640,17 +636,17 @@ body{
       font-weight:800;
       font-size:12px;
     }
+
     /* ==== FIX: Centrar Contáctanos en desktop ==== */
-#contact .grid{
-  display: flex;
-  justify-content: center;
-}
+    #contact .grid{
+      display: flex;
+      justify-content: center;
+    }
 
-#contact .contact-card{
-  width: 100%;
-  max-width: 520px;
-}
-
+    #contact .contact-card{
+      width: 100%;
+      max-width: 520px;
+    }
   </style>
 </head>
 
@@ -665,7 +661,7 @@ body{
 
     <a href="planes.html">Planes y Ofertas</a>
     <a href="#contact">Contacto</a>
-<a href="clientes.html">Clientes Satisfechos</a>
+    <a href="clientes.html">Clientes Satisfechos</a>
   </aside>
 
   <header class="nav">
@@ -840,7 +836,6 @@ body{
       if (heroTitle) heroTitle.classList.add('in');
       if (heroActions) heroActions.classList.add('in');
       if (logoHint) logoHint.classList.add('show');
-      // Oculta hint luego de 4s (si no se activó)
       setTimeout(()=>{ if(logoHint) logoHint.classList.add('hide'); }, 4000);
     });
 
@@ -876,15 +871,13 @@ body{
     (function(){
       if(!logoTilt) return;
 
-      // Ajustes sutiles (premium)
-      const MAX_TILT = 10;   // grados visuales
-      const SMOOTH  = 0.12;  // suavizado
-      const MAX_GYRO = 25;   // clamp sensor
+      const MAX_TILT = 10;
+      const SMOOTH  = 0.12;
+      const MAX_GYRO = 25;
 
       let targetX = 0, targetY = 0;
       let currentX = 0, currentY = 0;
       let enabled = false;
-      let usingGyro = false;
 
       function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
 
@@ -912,14 +905,13 @@ body{
           }
 
           window.addEventListener('deviceorientation', (e)=>{
-            const beta  = clamp(e.beta  ?? 0, -MAX_GYRO, MAX_GYRO); // front/back
-            const gamma = clamp(e.gamma ?? 0, -MAX_GYRO, MAX_GYRO); // left/right
+            const beta  = clamp(e.beta  ?? 0, -MAX_GYRO, MAX_GYRO);
+            const gamma = clamp(e.gamma ?? 0, -MAX_GYRO, MAX_GYRO);
 
             targetX = clamp((-beta / MAX_GYRO) * MAX_TILT, -MAX_TILT, MAX_TILT);
             targetY = clamp(( gamma / MAX_GYRO) * MAX_TILT, -MAX_TILT, MAX_TILT);
           }, { passive:true });
 
-          usingGyro = true;
           return true;
         }catch(_){
           return false;
@@ -948,21 +940,16 @@ body{
         const ok = await enableGyro();
         if(!ok) enableMouse();
 
-        // pequeñísimo “snap” visual al activar
         logoTilt.style.transition = 'transform .18s var(--ease)';
         setTimeout(()=>{ logoTilt.style.transition = ''; }, 220);
       }
 
-      // UX: toca/click para pedir permiso (iOS) y activar
       logoTilt.style.cursor = 'pointer';
       logoTilt.addEventListener('click', activate);
       logoTilt.addEventListener('keydown', (e)=>{ if(e.key==='Enter') activate(); });
 
-      // Si no es iOS y hay sensor, activamos sin molestar (pero sin pedir permiso)
-      // En iOS NO se puede sin gesto, así que lo dejamos por tap.
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       if(!isIOS && 'DeviceOrientationEvent' in window){
-        // activación suave (sin prompt)
         enableGyro().then((ok)=>{
           if(ok){
             enabled = true;
