@@ -647,6 +647,61 @@
       width: 100%;
       max-width: 520px;
     }
+
+    /* =========================
+   FIX GLASS + DESTELLOS (FINAL)
+========================= */
+
+/* 1) GLASS MÁS TRANSPARENTE (cards y contacto) */
+.card{
+  background: rgba(18, 20, 42, .55) !important;  /* antes .92 era sólido */
+  border: 1px solid rgba(255,255,255,.14) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  backdrop-filter: blur(18px) !important;
+}
+
+/* 2) Redes sociales MENOS transparentes (más sólidas) */
+.footer .social a{
+  background: rgba(10,18,40,.90) !important;
+  border: 1px solid rgba(255,255,255,.26) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.50) !important;
+}
+
+/* 3) DESTELLOS: usa body::before (porque ya tienes body::before con el fondo) */
+/* Creamos una capa NUEVA en html::after y la ponemos ENTRE el fondo y el contenido */
+html::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2;                 /* sobre body::before (0) */
+  opacity:.85;
+
+  background:
+    radial-gradient(260px 260px at 22% 34%, rgba(255,255,255,.45), transparent 70%),
+    radial-gradient(320px 320px at 74% 44%, rgba(255,255,255,.35), transparent 72%),
+    radial-gradient(280px 280px at 55% 82%, rgba(255,255,255,.28), transparent 74%),
+    radial-gradient(2px 2px at 18% 22%, rgba(255,255,255,.95), transparent 55%),
+    radial-gradient(2px 2px at 62% 48%, rgba(255,255,255,.85), transparent 55%),
+    radial-gradient(2px 2px at 78% 72%, rgba(255,255,255,.75), transparent 55%);
+
+  mix-blend-mode: screen;
+  filter: blur(.2px);
+  animation: sparkMove 8s ease-in-out infinite;
+}
+
+@keyframes sparkMove{
+  0%,100%{ transform: translate3d(0,0,0); opacity:.55; }
+  50%{ transform: translate3d(0,-18px,0); opacity:1; }
+}
+
+/* 4) Asegura que el contenido SIEMPRE quede arriba del destello */
+.stage{ position:relative; z-index:5; }
+
+/* 5) Tu noise está demasiado arriba y mata el destello.
+      Bajamos el z-index del noise para que no lo tape. */
+body::after{ z-index:3 !important; opacity:.22 !important; }
+
   </style>
 </head>
 
