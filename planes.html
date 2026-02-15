@@ -443,6 +443,14 @@
       letter-spacing:.2px;
     }
 
+    .tag-business{
+      background: linear-gradient(90deg, rgba(53,209,255,.25), rgba(124,77,255,.18));
+      border: 1px solid rgba(53,209,255,.35);
+      box-shadow:
+        0 0 12px rgba(53,209,255,.20),
+        0 0 22px rgba(124,77,255,.12);
+    }
+
     .card h3{
       margin:0;
       font-size: 18px;
@@ -638,6 +646,89 @@
       .card.in-view{ animation:none !important; }
       html{ scroll-behavior:auto; }
     }
+
+    /* =========================================================
+       ✅ AÑADIDO SEGURO (NO borra nada): background+destellos+glass
+       ========================================================= */
+
+    /* 1) Fondo con imagen (si galaxia.jpeg está en el root) */
+    :root{
+      --bg-img: url("galaxia.jpeg");
+      --bg-overlay-top: rgba(5,8,20,.28);
+      --bg-overlay-bot: rgba(5,8,20,.58);
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      background:
+        linear-gradient(var(--bg-overlay-top), var(--bg-overlay-bot)),
+        var(--bg-img);
+      background-position:center;
+      background-size:cover;
+      background-repeat:no-repeat;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    /* Asegura contenido por encima del background */
+    .stage{ z-index:2; }
+
+    /* 2) Destellos tipo “twinkle” (sin moverse, sin navidad) */
+    html::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:1;              /* arriba del fondo, debajo del contenido */
+      opacity:.0;
+
+      /* pocos destellos pero visibles */
+      background-image:
+        radial-gradient(70px 70px at 18% 22%, rgba(255,255,255,.30), transparent 62%),
+        radial-gradient(90px 90px at 72% 34%, rgba(255,255,255,.26), transparent 64%),
+        radial-gradient(80px 80px at 44% 78%, rgba(255,255,255,.22), transparent 64%),
+        radial-gradient(100px 100px at 86% 62%, rgba(255,255,255,.18), transparent 66%),
+
+        radial-gradient(2px 2px at 22% 28%, rgba(255,255,255,.95), transparent 55%),
+        radial-gradient(2px 2px at 67% 41%, rgba(255,255,255,.90), transparent 55%),
+        radial-gradient(2px 2px at 78% 70%, rgba(255,255,255,.80), transparent 55%),
+        radial-gradient(2px 2px at 35% 60%, rgba(255,255,255,.70), transparent 55%);
+
+      filter: blur(.15px);
+      animation: twinkle 2.2s steps(1,end) infinite;
+    }
+
+    /* Parpadeo rápido y visible (sin mover posiciones) */
+    @keyframes twinkle{
+      0%   { opacity: 0; }
+      8%   { opacity: .85; }
+      14%  { opacity: .25; }
+      20%  { opacity: .95; }
+      28%  { opacity: .10; }
+      42%  { opacity: .70; }
+      55%  { opacity: .15; }
+      70%  { opacity: .92; }
+      78%  { opacity: .22; }
+      100% { opacity: 0; }
+    }
+
+    /* 3) Glass más transparente (sin romper tu layout) */
+    .card{
+      background: rgba(18, 20, 42, 0.62) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+      backdrop-filter: blur(18px) !important;
+    }
+
+    /* 4) Redes sociales más sólidas (igual que index) */
+    .footer .social a{
+      background: rgba(10,18,40,.88) !important;
+      border: 1px solid rgba(255,255,255,.26) !important;
+      box-shadow: 0 10px 26px rgba(0,0,0,.50) !important;
+    }
   </style>
 </head>
 
@@ -682,13 +773,8 @@
       <header class="hero" id="top">
         <h1>Planes y Ofertas</h1>
         <p>Soluciones digitales profesionales para negocios en Puerto Rico.</p>
-
-        
       </header>
 
-      <!-- =======================
-           PLANES (START/BUSINESS/OFERTA)
-      ======================== -->
       <section class="section" id="planes" aria-label="Planes">
         <div class="section-head">
           <p class="hint">Escoge el plan ideal para tu negocio!</p>
@@ -734,7 +820,7 @@
             data-title="PLAN 2 — BUSINESS ($400)">
             <div class="ring" aria-hidden="true"></div>
             <div class="card-inner">
-<span class="tag tag-business">Más valor</span>
+              <span class="tag tag-business">Más valor</span>
               <h3>PLAN 2 — BUSINESS</h3>
               <p class="sub">Más secciones, galería y optimización</p>
               <p class="ideal"><span>Depósito:</span> $200</p>
@@ -758,18 +844,9 @@
               <a class="btn primary wa" data-plan="PLAN 2 — BUSINESS ($400) | Depósito $200" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
-
-         
         </div>
-
-        <p class="note">
-          
-        </p>
       </section>
 
-      <!-- =======================
-           RESERVAS Y TIENDA (PLAN 3/4)
-      ======================== -->
       <section class="section" id="reservas" aria-label="Reservas y Tienda">
         <div class="section-head">
           <h2>Reservas / Tienda / Premium</h2>
@@ -835,7 +912,8 @@
               <a class="btn primary wa" data-plan="PLAN 4 — TIENDA ONLINE ($800) | Depósito $400" href="#" target="_blank" rel="noopener">Solicitar ahora</a>
             </div>
           </article>
-           <article class="card featured"
+
+          <article class="card featured"
             data-cta-title="Visual premium + SEO"
             data-cta-sub="Oferta especial $999."
             data-title="PLAN 5 — OFERTA ESPECIAL ($999)">
@@ -871,9 +949,6 @@
         </p>
       </section>
 
-      <!-- =======================
-           ADICIONALES
-      ======================== -->
       <section class="section" id="adicionales" aria-label="Servicios Adicionales">
         <div class="section-head">
           <h2>Servicios Adicionales</h2>
@@ -980,7 +1055,6 @@
         </p>
       </section>
 
-      <!-- FOOTER -->
       <div class="footer">
         <div class="social" aria-label="Redes sociales">
           <a href="https://www.facebook.com/share/1BkmiTHZhH/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
@@ -1082,10 +1156,6 @@
       if(ctaSub.textContent !== s) ctaSub.textContent = s;
     }
 
-    const chipTiendas = document.getElementById('chipTiendas');
-    const secOfertas = document.getElementById('planes');
-    const secTiendas = document.getElementById('reservas');
-
     let ticking = false;
     function updateUI(){
       ticking = false;
@@ -1106,15 +1176,6 @@
         }
       }
       if(bestCard) setCtaFromCard(bestCard);
-
-      if(chipTiendas && secOfertas && secTiendas){
-        const o = secOfertas.getBoundingClientRect();
-        const t = secTiendas.getBoundingClientRect();
-        const focusLine = 120;
-        const distOfertas = Math.abs(o.top - focusLine);
-        const distTiendas = Math.abs(t.top - focusLine);
-        chipTiendas.setAttribute('aria-current', (distTiendas < distOfertas) ? 'true' : 'false');
-      }
     }
 
     function onScroll(){
