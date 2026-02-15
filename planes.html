@@ -22,33 +22,90 @@
       --r2: 26px;
       --max: 1120px;
       --ease: cubic-bezier(.2,.9,.2,1);
+
+      /* ✅ MISMO FONDO DEL INDEX */
+      --bg-img: url("galaxia.jpeg");
+      --bg-overlay-top: rgba(5,8,20,.28);
+      --bg-overlay-bot: rgba(5,8,20,.55);
     }
 
     *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
     html,body{ height:100%; }
-    html{ scroll-behavior:smooth; }
+    html{ scroll-behavior:smooth; background: var(--bg0); }
 
     body{
       margin:0;
       color:var(--text);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(1200px 700px at 20% 0%, rgba(124,77,255,.18), transparent 60%),
-        radial-gradient(900px 700px at 85% 0%, rgba(53,209,255,.14), transparent 58%),
-        radial-gradient(900px 700px at 60% 90%, rgba(255,79,216,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
       overflow-x:hidden;
+
+      /* ✅ quitamos radiales de planes: base igual index */
+      background: linear-gradient(180deg, var(--bg0), var(--bg1));
     }
 
-    /* === Noise sutil (premium) === */
+    /* ==========================
+       ✅ BACKGROUND FIJO (IGUAL INDEX)
+       ========================== */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+
+      background:
+        linear-gradient(var(--bg-overlay-top), var(--bg-overlay-bot)),
+        var(--bg-img);
+
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    /* ✅ NOISE (IGUAL INDEX, pero con z-index correcto para NO tapar destellos) */
     body::after{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;          /* ✅ antes 9999: eso mataba los destellos */
+      opacity: .22;        /* ✅ igual fix index */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    }
+
+    /* ✅ APAGA EL “TWINKLE/NUBES” si existía por otro CSS */
+    html::before{ content:none !important; }
+
+    /* ==========================
+       ✅ DESTELLO GRANDE (MISMO INDEX)
+       ========================== */
+    html::after{
       content:"";
       position:fixed;
       inset:0;
       pointer-events:none;
-      z-index:9999;
-      opacity:.55;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+      z-index:2;                 /* sobre fondo, debajo del contenido */
+      opacity:.85;
+
+      background:
+        radial-gradient(260px 260px at 22% 34%, rgba(255,255,255,.45), transparent 70%),
+        radial-gradient(320px 320px at 74% 44%, rgba(255,255,255,.35), transparent 72%),
+        radial-gradient(280px 280px at 55% 82%, rgba(255,255,255,.28), transparent 74%),
+        radial-gradient(2px 2px at 18% 22%, rgba(255,255,255,.95), transparent 55%),
+        radial-gradient(2px 2px at 62% 48%, rgba(255,255,255,.85), transparent 55%),
+        radial-gradient(2px 2px at 78% 72%, rgba(255,255,255,.75), transparent 55%);
+
+      mix-blend-mode: screen;
+      filter: blur(.2px);
+      animation: sparkMove 8s ease-in-out infinite;
+    }
+
+    @keyframes sparkMove{
+      0%,100%{ transform: translate3d(0,0,0); opacity:.55; }
+      50%{ transform: translate3d(0,-18px,0); opacity:1; }
     }
 
     /* ==== Full width real ==== */
@@ -58,6 +115,7 @@
       left:50%;
       transform:translateX(-50%);
       min-height:100svh;
+      z-index:5; /* ✅ contenido arriba del destello */
     }
 
     /* ==== NAV fijo ==== */
@@ -364,11 +422,14 @@
       .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
     }
 
-    /* ==== Cards ==== */
+    /* ==== Cards (tuyo) + GLASS IGUAL INDEX ==== */
     .card{
       position: relative;
       border-radius: var(--r2);
-      background: rgba(18, 20, 42, 0.94);
+      background: rgba(18, 20, 42, .55); /* ✅ igual index */
+      border: 1px solid rgba(255,255,255,.14); /* ✅ igual index */
+      -webkit-backdrop-filter: blur(18px); /* ✅ igual index */
+      backdrop-filter: blur(18px); /* ✅ igual index */
       overflow:hidden;
       isolation:isolate;
       box-shadow:
@@ -540,6 +601,7 @@
       padding: 0 6px;
     }
 
+    /* ✅ footer social igual index (más sólido) */
     .footer{
       margin-top:18px;
       padding:18px 0;
@@ -548,6 +610,8 @@
       font-weight:800;
       font-size:12px;
       text-align:center;
+      position:relative;
+      z-index:5;
     }
     .footer .social{
       display:flex;
@@ -561,9 +625,9 @@
       display:grid;
       place-items:center;
       text-decoration:none;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow2);
+      background: rgba(10,18,40,.90);
+      border: 1px solid rgba(255,255,255,.26);
+      box-shadow: 0 10px 26px rgba(0,0,0,.50);
       transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
       will-change: transform;
     }
@@ -642,172 +706,11 @@
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
       body::after{ display:none !important; }
+      html::after{ display:none !important; }
       .card{ opacity:1 !important; transform:none !important; }
       .card.in-view{ animation:none !important; }
       html{ scroll-behavior:auto; }
     }
-
-    /* =========================================================
-       ✅ AÑADIDO SEGURO (NO borra nada): background+destellos+glass
-       ========================================================= */
-
-    /* 1) Fondo con imagen (si galaxia.jpeg está en el root) */
-    :root{
-      --bg-img: url("galaxia.jpeg");
-      --bg-overlay-top: rgba(5,8,20,.28);
-      --bg-overlay-bot: rgba(5,8,20,.58);
-    }
-
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      z-index:0;
-      pointer-events:none;
-      background:
-        linear-gradient(var(--bg-overlay-top), var(--bg-overlay-bot)),
-        var(--bg-img);
-      background-position:center;
-      background-size:cover;
-      background-repeat:no-repeat;
-      transform: translateZ(0);
-      will-change: transform;
-    }
-
-    /* Asegura contenido por encima del background */
-    .stage{ z-index:2; }
-
-    /* 2) Destellos tipo “twinkle” (sin moverse, sin navidad) */
-    html::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:1;              /* arriba del fondo, debajo del contenido */
-      opacity:.0;
-
-      /* pocos destellos pero visibles */
-      background-image:
-        radial-gradient(70px 70px at 18% 22%, rgba(255,255,255,.30), transparent 62%),
-        radial-gradient(90px 90px at 72% 34%, rgba(255,255,255,.26), transparent 64%),
-        radial-gradient(80px 80px at 44% 78%, rgba(255,255,255,.22), transparent 64%),
-        radial-gradient(100px 100px at 86% 62%, rgba(255,255,255,.18), transparent 66%),
-
-        radial-gradient(2px 2px at 22% 28%, rgba(255,255,255,.95), transparent 55%),
-        radial-gradient(2px 2px at 67% 41%, rgba(255,255,255,.90), transparent 55%),
-        radial-gradient(2px 2px at 78% 70%, rgba(255,255,255,.80), transparent 55%),
-        radial-gradient(2px 2px at 35% 60%, rgba(255,255,255,.70), transparent 55%);
-
-      filter: blur(.15px);
-      animation: twinkle 2.2s steps(1,end) infinite;
-    }
-
-    /* Parpadeo rápido y visible (sin mover posiciones) */
-    @keyframes twinkle{
-      0%   { opacity: 0; }
-      8%   { opacity: .85; }
-      14%  { opacity: .25; }
-      20%  { opacity: .95; }
-      28%  { opacity: .10; }
-      42%  { opacity: .70; }
-      55%  { opacity: .15; }
-      70%  { opacity: .92; }
-      78%  { opacity: .22; }
-      100% { opacity: 0; }
-    }
-
-    /* 3) Glass más transparente (sin romper tu layout) */
-    .card{
-      background: rgba(18, 20, 42, 0.62) !important;
-      -webkit-backdrop-filter: blur(18px) !important;
-      backdrop-filter: blur(18px) !important;
-    }
-
-    /* 4) Redes sociales más sólidas (igual que index) */
-    .footer .social a{
-      background: rgba(10,18,40,.88) !important;
-      border: 1px solid rgba(255,255,255,.26) !important;
-      box-shadow: 0 10px 26px rgba(0,0,0,.50) !important;
-    }
-
-    /* =========================
-   SYNC VISUALS CON index.html
-   (Fondo + destellos + glass + social)
-   ========================= */
-
-/* Fondo galaxia igual al index */
-:root{
-  --bg-img: url("galaxia.jpeg");
-  --bg-overlay-top: rgba(5,8,20,.28);
-  --bg-overlay-bot: rgba(5,8,20,.55);
-}
-
-/* El fondo real en una capa fija (iOS friendly) */
-body{
-  background: linear-gradient(180deg, var(--bg0), var(--bg1)) !important;
-}
-
-body::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(var(--bg-overlay-top), var(--bg-overlay-bot)),
-    var(--bg-img);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-/* Destellos tipo index (capa entre fondo y contenido) */
-html::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:2;
-  opacity:.85;
-  background:
-    radial-gradient(260px 260px at 22% 34%, rgba(255,255,255,.45), transparent 70%),
-    radial-gradient(320px 320px at 74% 44%, rgba(255,255,255,.35), transparent 72%),
-    radial-gradient(280px 280px at 55% 82%, rgba(255,255,255,.28), transparent 74%),
-    radial-gradient(2px 2px at 18% 22%, rgba(255,255,255,.95), transparent 55%),
-    radial-gradient(2px 2px at 62% 48%, rgba(255,255,255,.85), transparent 55%),
-    radial-gradient(2px 2px at 78% 72%, rgba(255,255,255,.75), transparent 55%);
-  mix-blend-mode: screen;
-  filter: blur(.2px);
-  animation: sparkMove 8s ease-in-out infinite;
-}
-@keyframes sparkMove{
-  0%,100%{ transform: translate3d(0,0,0); opacity:.55; }
-  50%{ transform: translate3d(0,-18px,0); opacity:1; }
-}
-
-/* Tu noise estaba muy arriba: lo bajamos para que no mate los destellos */
-body::after{ z-index:3 !important; opacity:.22 !important; }
-
-/* Asegura que el contenido siempre esté arriba del destello */
-.stage{ position:relative; z-index:5 !important; }
-
-/* Glass igual al index */
-.card{
-  background: rgba(18, 20, 42, .55) !important;
-  border: 1px solid rgba(255,255,255,.14) !important;
-  -webkit-backdrop-filter: blur(18px) !important;
-  backdrop-filter: blur(18px) !important;
-}
-
-/* Redes sociales igual al index */
-.footer .social a{
-  background: rgba(10,18,40,.90) !important;
-  border: 1px solid rgba(255,255,255,.26) !important;
-  box-shadow: 0 10px 26px rgba(0,0,0,.50) !important;
-}
-
   </style>
 </head>
 
