@@ -729,6 +729,85 @@
       border: 1px solid rgba(255,255,255,.26) !important;
       box-shadow: 0 10px 26px rgba(0,0,0,.50) !important;
     }
+
+    /* =========================
+   SYNC VISUALS CON index.html
+   (Fondo + destellos + glass + social)
+   ========================= */
+
+/* Fondo galaxia igual al index */
+:root{
+  --bg-img: url("galaxia.jpeg");
+  --bg-overlay-top: rgba(5,8,20,.28);
+  --bg-overlay-bot: rgba(5,8,20,.55);
+}
+
+/* El fondo real en una capa fija (iOS friendly) */
+body{
+  background: linear-gradient(180deg, var(--bg0), var(--bg1)) !important;
+}
+
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--bg-overlay-top), var(--bg-overlay-bot)),
+    var(--bg-img);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Destellos tipo index (capa entre fondo y contenido) */
+html::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  opacity:.85;
+  background:
+    radial-gradient(260px 260px at 22% 34%, rgba(255,255,255,.45), transparent 70%),
+    radial-gradient(320px 320px at 74% 44%, rgba(255,255,255,.35), transparent 72%),
+    radial-gradient(280px 280px at 55% 82%, rgba(255,255,255,.28), transparent 74%),
+    radial-gradient(2px 2px at 18% 22%, rgba(255,255,255,.95), transparent 55%),
+    radial-gradient(2px 2px at 62% 48%, rgba(255,255,255,.85), transparent 55%),
+    radial-gradient(2px 2px at 78% 72%, rgba(255,255,255,.75), transparent 55%);
+  mix-blend-mode: screen;
+  filter: blur(.2px);
+  animation: sparkMove 8s ease-in-out infinite;
+}
+@keyframes sparkMove{
+  0%,100%{ transform: translate3d(0,0,0); opacity:.55; }
+  50%{ transform: translate3d(0,-18px,0); opacity:1; }
+}
+
+/* Tu noise estaba muy arriba: lo bajamos para que no mate los destellos */
+body::after{ z-index:3 !important; opacity:.22 !important; }
+
+/* Asegura que el contenido siempre esté arriba del destello */
+.stage{ position:relative; z-index:5 !important; }
+
+/* Glass igual al index */
+.card{
+  background: rgba(18, 20, 42, .55) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  backdrop-filter: blur(18px) !important;
+}
+
+/* Redes sociales igual al index */
+.footer .social a{
+  background: rgba(10,18,40,.90) !important;
+  border: 1px solid rgba(255,255,255,.26) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.50) !important;
+}
+
   </style>
 </head>
 
