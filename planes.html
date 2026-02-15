@@ -38,8 +38,6 @@
       color:var(--text);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       overflow-x:hidden;
-
-      /* ✅ quitamos radiales de planes: base igual index */
       background: linear-gradient(180deg, var(--bg0), var(--bg1));
     }
 
@@ -65,18 +63,18 @@
       will-change: transform;
     }
 
-    /* ✅ NOISE (IGUAL INDEX, pero con z-index correcto para NO tapar destellos) */
+    /* ✅ NOISE (con z-index correcto) */
     body::after{
       content:"";
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 3;          /* ✅ antes 9999: eso mataba los destellos */
-      opacity: .22;        /* ✅ igual fix index */
+      z-index: 3;
+      opacity: .22;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
     }
 
-    /* ✅ APAGA EL “TWINKLE/NUBES” si existía por otro CSS */
+    /* (por si existía otro css raro) */
     html::before{ content:none !important; }
 
     /* ==========================
@@ -87,7 +85,7 @@
       position:fixed;
       inset:0;
       pointer-events:none;
-      z-index:2;                 /* sobre fondo, debajo del contenido */
+      z-index:2;
       opacity:.85;
 
       background:
@@ -102,7 +100,6 @@
       filter: blur(.2px);
       animation: sparkMove 8s ease-in-out infinite;
     }
-
     @keyframes sparkMove{
       0%,100%{ transform: translate3d(0,0,0); opacity:.55; }
       50%{ transform: translate3d(0,-18px,0); opacity:1; }
@@ -115,7 +112,7 @@
       left:50%;
       transform:translateX(-50%);
       min-height:100svh;
-      z-index:5; /* ✅ contenido arriba del destello */
+      z-index:5;
     }
 
     /* ==== NAV fijo ==== */
@@ -286,40 +283,6 @@
       max-width: 60ch;
     }
 
-    /* ==== Chips ==== */
-    .chips{
-      margin-top: 8px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:center;
-    }
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.90);
-      text-decoration:none;
-      font-weight: 950;
-      font-size: 13px;
-      box-shadow: var(--shadow2);
-      transition: transform .16s var(--ease), filter .16s var(--ease);
-      position:relative;
-      overflow:hidden;
-      isolation:isolate;
-      cursor:pointer;
-    }
-    .chip:hover{ transform: translateY(-1px); filter: brightness(1.06); }
-    .chip:active{ transform: translateY(1px) scale(.99); }
-    .chip[aria-current="true"]{
-      border:1px solid rgba(53,209,255,.26);
-      background: linear-gradient(90deg, rgba(53,209,255,.18), rgba(124,77,255,.10));
-    }
-
     /* ==== Botones ==== */
     .btn{
       position: relative;
@@ -374,19 +337,6 @@
       .btn.primary::before{ animation:none !important; display:none !important; }
     }
 
-    .btn::after, .chip::after{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.16) 22%, transparent 45%);
-      transform: translateX(-120%);
-      transition: transform .65s var(--ease);
-      pointer-events:none;
-      mix-blend-mode: screen;
-      opacity:.9;
-    }
-    .btn:hover::after, .chip:hover::after{ transform: translateX(120%); }
-
     /* ==== Secciones ==== */
     .section{ margin-top: 14px; scroll-margin-top: 92px; }
     .section-head{
@@ -422,14 +372,14 @@
       .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
     }
 
-    /* ==== Cards (tuyo) + GLASS IGUAL INDEX ==== */
+    /* ==== Cards GLASS (como index) ==== */
     .card{
       position: relative;
       border-radius: var(--r2);
-      background: rgba(18, 20, 42, .55); /* ✅ igual index */
-      border: 1px solid rgba(255,255,255,.14); /* ✅ igual index */
-      -webkit-backdrop-filter: blur(18px); /* ✅ igual index */
-      backdrop-filter: blur(18px); /* ✅ igual index */
+      background: rgba(18, 20, 42, .55);
+      border: 1px solid rgba(255,255,255,.14);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
       overflow:hidden;
       isolation:isolate;
       box-shadow:
@@ -438,26 +388,6 @@
       opacity:0;
       transform: translateY(14px);
       will-change: transform, opacity;
-    }
-
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(520px 220px at 18% 8%, rgba(53,209,255,.16), transparent 60%),
-        radial-gradient(520px 220px at 85% 0%, rgba(124,77,255,.14), transparent 62%),
-        radial-gradient(520px 220px at 55% 100%, rgba(255,79,216,.10), transparent 65%);
-      opacity:.90;
-      pointer-events:none;
-    }
-    .card::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: linear-gradient(180deg, rgba(255,255,255,.08), transparent 40%, rgba(0,0,0,.12));
-      opacity:.55;
-      pointer-events:none;
     }
 
     .card .ring{
@@ -488,9 +418,6 @@
       min-height: 100%;
       text-align:center;
     }
-    @media (min-width: 520px){
-      .card-inner{ padding-left: 18px; padding-right: 18px; }
-    }
 
     .tag{
       align-self:center;
@@ -503,7 +430,6 @@
       color: rgba(255,255,255,.90);
       letter-spacing:.2px;
     }
-
     .tag-business{
       background: linear-gradient(90deg, rgba(53,209,255,.25), rgba(124,77,255,.18));
       border: 1px solid rgba(53,209,255,.35);
@@ -512,55 +438,15 @@
         0 0 22px rgba(124,77,255,.12);
     }
 
-    .card h3{
-      margin:0;
-      font-size: 18px;
-      font-weight: 1000;
-      letter-spacing: -0.01em;
-      line-height:1.15;
-    }
+    .card h3{ margin:0; font-size:18px; font-weight:1000; line-height:1.15; }
+    .sub{ margin:0; color: var(--muted); font-weight:800; font-size:13.5px; line-height:1.45; }
 
-    .sub{
-      margin:0;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 13.5px;
-      line-height: 1.45;
-    }
+    .ideal{ margin:0; color: rgba(255,255,255,.86); font-weight:900; font-size:12.6px; opacity:.92; }
+    .ideal span{ color: var(--muted2); font-weight:950; margin-right:6px; }
 
-    .ideal{
-      margin:0;
-      color: rgba(255,255,255,.86);
-      font-weight: 900;
-      font-size: 12.6px;
-      opacity:.92;
-    }
-    .ideal span{
-      color: var(--muted2);
-      font-weight: 950;
-      margin-right:6px;
-    }
-
-    .price{
-      display:flex;
-      align-items:baseline;
-      justify-content:center;
-      gap:10px;
-      margin-top: 4px;
-    }
-    .money{
-      font-size: 38px;
-      font-weight: 1000;
-      letter-spacing: -0.03em;
-    }
-    .period{
-      color: var(--muted2);
-      font-weight: 900;
-      font-size: 13px;
-    }
-    @media (max-width: 390px){
-      .money{ font-size: 34px; }
-    }
+    .price{ display:flex; align-items:baseline; justify-content:center; gap:10px; margin-top:4px; }
+    .money{ font-size:38px; font-weight:1000; letter-spacing:-0.03em; }
+    .period{ color: var(--muted2); font-weight:900; font-size:13px; }
 
     ul{
       margin: 8px auto 0;
@@ -573,17 +459,8 @@
     }
     ul li{ margin: 2px 0; }
 
-    .card .btn{
-      margin-top: 10px;
-      width: 100%;
-      max-width: 520px;
-      margin-left:auto;
-      margin-right:auto;
-    }
-    .card .btn.primary{
-      background: linear-gradient(90deg, rgba(53,209,255,.20), rgba(124,77,255,.14));
-      border: 1px solid rgba(53,209,255,.26);
-    }
+    .card .btn{ margin-top:10px; width:100%; max-width:520px; margin-left:auto; margin-right:auto; }
+    .card .btn.primary{ background: linear-gradient(90deg, rgba(53,209,255,.20), rgba(124,77,255,.14)); border: 1px solid rgba(53,209,255,.26); }
 
     .featured{
       box-shadow:
@@ -601,7 +478,6 @@
       padding: 0 6px;
     }
 
-    /* ✅ footer social igual index (más sólido) */
     .footer{
       margin-top:18px;
       padding:18px 0;
@@ -685,23 +561,9 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
-    .cta-actions{
-      display:flex;
-      gap:10px;
-      flex:0 0 auto;
-    }
+    .cta-actions{ display:flex; gap:10px; flex:0 0 auto; }
     .cta .btn{ padding: 11px 14px; font-size: 13px; }
-
-    @media (max-width: 420px){
-      .cta-inner .txt{ display:none; }
-    }
-
-    @media (hover:none){
-      .btn:active{ transform: scale(.97); }
-      .burger:active{ transform: scale(.97); }
-      .drawer a:active{ transform: scale(.99); }
-      .chip:active{ transform: scale(.98); }
-    }
+    @media (max-width: 420px){ .cta-inner .txt{ display:none; } }
 
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
@@ -711,132 +573,47 @@
       .card.in-view{ animation:none !important; }
       html{ scroll-behavior:auto; }
     }
-    /* ===== FIX: que se vean los destellos como en index ===== */
 
-/* 1) Asegura el destello grande (index) */
-html::after{
-  content:"" !important;
-  position:fixed !important;
-  inset:0 !important;
-  pointer-events:none !important;
-  z-index:2 !important;
-  opacity:.85 !important;
-  background:
-    radial-gradient(260px 260px at 22% 34%, rgba(255,255,255,.45), transparent 70%),
-    radial-gradient(320px 320px at 74% 44%, rgba(255,255,255,.35), transparent 72%),
-    radial-gradient(280px 280px at 55% 82%, rgba(255,255,255,.28), transparent 74%),
-    radial-gradient(2px 2px at 18% 22%, rgba(255,255,255,.95), transparent 55%),
-    radial-gradient(2px 2px at 62% 48%, rgba(255,255,255,.85), transparent 55%),
-    radial-gradient(2px 2px at 78% 72%, rgba(255,255,255,.75), transparent 55%);
-  mix-blend-mode: screen !important;
-  filter: blur(.2px) !important;
-  animation: sparkMove 8s ease-in-out infinite !important;
-}
-
-/* 2) TU PROBLEMA REAL: estas 2 capas de la card tapan el destello.
-      Las apagamos (como index). */
-.card::before,
-.card::after{
-  opacity: 0 !important;
-}
-
-/* 3) Mantén glass del index */
-.card{
-  background: rgba(18,20,42,.55) !important;
-  border: 1px solid rgba(255,255,255,.14) !important;
-  -webkit-backdrop-filter: blur(18px) !important;
-  backdrop-filter: blur(18px) !important;
-}
-
-/* 4) Noise NO debe estar por encima de todo */
-body::after{
-  z-index:3 !important;
-  opacity:.22 !important;
-}
-
-/* 5) Contenido arriba */
-.stage{ position:relative !important; z-index:5 !important; }
-    /* =========================
-   STAR SPARKLES (igual index)
-========================= */
-.spark-layer{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:4;              /* debajo del contenido (stage=5), encima del destello grande (2) */
-  overflow:hidden;
-}
-
-.spark{
-  position:absolute;
-  width:56px;
-  height:56px;
-  transform: translate(-50%,-50%) scale(.2);
-  opacity:0;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,.45));
-  animation: sparkPop var(--dur, 850ms) ease-out forwards;
-}
-
-.spark::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,.95), transparent 40%),
-    linear-gradient(90deg, transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%),
-    linear-gradient(0deg,  transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%);
-  border-radius:999px;
-  mix-blend-mode: screen;
-}
-
-@keyframes sparkPop{
-  0%   { opacity:0; transform: translate(-50%,-50%) scale(.15); }
-  12%  { opacity:1; }
-  55%  { opacity:1; transform: translate(-50%,-50%) scale(var(--s, .9)); }
-  100% { opacity:0; transform: translate(-50%,-50%) scale(calc(var(--s, .9) * 1.18)); }
-}
-
-/* ===== SPARKLES tipo cruz ===== */
-.spark-layer{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:999;   /* si no salen, esto los pone encima de todo */
-  overflow:hidden;
-}
-
-.spark{
-  position:absolute;
-  width:56px;
-  height:56px;
-  transform:translate(-50%,-50%) scale(.2);
-  opacity:0;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,.45));
-  animation:sparkPop var(--dur,900ms) ease-out forwards;
-}
-
-.spark::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle, rgba(255,255,255,.95), transparent 40%),
-    linear-gradient(90deg, transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%),
-    linear-gradient(0deg,  transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%);
-  mix-blend-mode: screen;
-}
-
-@keyframes sparkPop{
-  0%{opacity:0; transform:translate(-50%,-50%) scale(.15);}
-  12%{opacity:1;}
-  55%{opacity:1; transform:translate(-50%,-50%) scale(var(--s,.9));}
-  100%{opacity:0; transform:translate(-50%,-50%) scale(calc(var(--s,.9)*1.18));}
-}
-
+    /* =========================================================
+       ✅ SPARKLES TIPO CRUZ (esto es lo ÚNICO que querías)
+       ========================================================= */
+    .spark-layer{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:999;
+      overflow:hidden;
+    }
+    .spark{
+      position:absolute;
+      width:56px;
+      height:56px;
+      transform:translate(-50%,-50%) scale(.2);
+      opacity:0;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,.45));
+      animation:sparkPop var(--dur,900ms) ease-out forwards;
+    }
+    .spark::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.95), transparent 40%),
+        linear-gradient(90deg, transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%),
+        linear-gradient(0deg,  transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%);
+      mix-blend-mode: screen;
+    }
+    @keyframes sparkPop{
+      0%{opacity:0; transform:translate(-50%,-50%) scale(.15);}
+      12%{opacity:1;}
+      55%{opacity:1; transform:translate(-50%,-50%) scale(var(--s,.9));}
+      100%{opacity:0; transform:translate(-50%,-50%) scale(calc(var(--s,.9)*1.18));}
+    }
   </style>
 </head>
 
 <body>
+  <!-- ✅ IMPORTANTE: esta capa es la que dibuja los sparkles -->
   <div class="spark-layer" aria-hidden="true"></div>
 
   <div class="drawer-backdrop" id="backdrop" aria-hidden="true"></div>
@@ -1200,7 +977,7 @@ body::after{
     </div>
   </div>
 
-  <>
+  <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const drawer = document.getElementById('drawer');
@@ -1297,44 +1074,44 @@ body::after{
     if(cardsForCta[0]) setCtaFromCard(cardsForCta[0]);
     window.addEventListener('load', ()=>{ onScroll(); });
     setTimeout(()=>{ onScroll(); }, 350);
-          /* ===== SPARKLES tipo cruz ===== */
-(function(){
-  const layer = document.querySelector('.spark-layer');
-  if(!layer) return;
 
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduce) return;
+    /* ===== SPARKLES tipo cruz (random + click) ===== */
+    (function(){
+      const layer = document.querySelector('.spark-layer');
+      if(!layer) return;
 
-  const MAX = 14;
-  const EVERY = 280;
-  const SAFE_TOP = 90;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(reduce) return;
 
-  const rand = (a,b)=>Math.random()*(b-a)+a;
+      const MAX = 14;
+      const EVERY = 280;
+      const SAFE_TOP = 90;
 
-  function spawn(x,y){
-    if(layer.childElementCount > MAX) return;
+      const rand = (a,b)=>Math.random()*(b-a)+a;
 
-    const s = document.createElement('span');
-    s.className = 'spark';
+      function spawn(x,y){
+        if(layer.childElementCount > MAX) return;
 
-    const w = innerWidth, h = innerHeight;
-    s.style.left = (x ?? rand(40, w-40)) + 'px';
-    s.style.top  = (y ?? rand(SAFE_TOP, h-60)) + 'px';
+        const s = document.createElement('span');
+        s.className = 'spark';
 
-    s.style.setProperty('--s', rand(.55, 1.05).toFixed(2));
-    s.style.setProperty('--dur', Math.round(rand(650, 1050)) + 'ms');
+        const w = innerWidth, h = innerHeight;
+        s.style.left = (x ?? rand(40, w-40)) + 'px';
+        s.style.top  = (y ?? rand(SAFE_TOP, h-60)) + 'px';
 
-    layer.appendChild(s);
-    s.addEventListener('animationend', ()=>s.remove(), { once:true });
-  }
+        s.style.setProperty('--s', rand(.55, 1.05).toFixed(2));
+        s.style.setProperty('--dur', Math.round(rand(650, 1050)) + 'ms');
 
-  setInterval(()=>spawn(), EVERY);
+        layer.appendChild(s);
+        s.addEventListener('animationend', ()=>s.remove(), { once:true });
+      }
 
-  window.addEventListener('pointerdown', (e)=>{
-    spawn(e.clientX, e.clientY);
-  }, { passive:true });
-})();
+      setInterval(()=>spawn(), EVERY);
 
+      window.addEventListener('pointerdown', (e)=>{
+        spawn(e.clientX, e.clientY);
+      }, { passive:true });
+    })();
   </script>
 </body>
 </html>
