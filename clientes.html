@@ -408,14 +408,40 @@
     }
 
     .footer{
-      margin-top:22px;
-      padding:18px 0 24px;
-      border-top:1px solid rgba(255,255,255,.10);
-      text-align:center;
-      color: rgba(255,255,255,.55);
-      font-weight:800;
-      font-size:12px;
-    }
+  margin-top:18px;
+  padding:18px 0;
+  border-top:1px solid rgba(255,255,255,.10);
+  color:rgba(255,255,255,.55);
+  font-weight:800;
+  font-size:12px;
+  text-align:center;
+  position:relative;
+  z-index:5;
+}
+.footer .social{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin: 0 0 12px;
+}
+.footer .social a{
+  width:44px; height:44px;
+  border-radius: 14px;
+  display:grid;
+  place-items:center;
+  text-decoration:none;
+  background: rgba(10,18,40,.90);
+  border: 1px solid rgba(255,255,255,.26);
+  box-shadow: 0 10px 26px rgba(0,0,0,.50);
+  transition: transform .16s var(--ease), filter .16s var(--ease), box-shadow .16s var(--ease);
+  will-change: transform;
+}
+.footer .social a:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow: 0 14px 34px rgba(0,0,0,.42);
+}
+.footer .social svg{ width:20px; height:20px; opacity:.95; }
 
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
