@@ -1200,7 +1200,7 @@ body::after{
     </div>
   </div>
 
-  <script>
+  <>
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const drawer = document.getElementById('drawer');
@@ -1297,6 +1297,44 @@ body::after{
     if(cardsForCta[0]) setCtaFromCard(cardsForCta[0]);
     window.addEventListener('load', ()=>{ onScroll(); });
     setTimeout(()=>{ onScroll(); }, 350);
+          /* ===== SPARKLES tipo cruz ===== */
+(function(){
+  const layer = document.querySelector('.spark-layer');
+  if(!layer) return;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;
+
+  const MAX = 14;
+  const EVERY = 280;
+  const SAFE_TOP = 90;
+
+  const rand = (a,b)=>Math.random()*(b-a)+a;
+
+  function spawn(x,y){
+    if(layer.childElementCount > MAX) return;
+
+    const s = document.createElement('span');
+    s.className = 'spark';
+
+    const w = innerWidth, h = innerHeight;
+    s.style.left = (x ?? rand(40, w-40)) + 'px';
+    s.style.top  = (y ?? rand(SAFE_TOP, h-60)) + 'px';
+
+    s.style.setProperty('--s', rand(.55, 1.05).toFixed(2));
+    s.style.setProperty('--dur', Math.round(rand(650, 1050)) + 'ms');
+
+    layer.appendChild(s);
+    s.addEventListener('animationend', ()=>s.remove(), { once:true });
+  }
+
+  setInterval(()=>spawn(), EVERY);
+
+  window.addEventListener('pointerdown', (e)=>{
+    spawn(e.clientX, e.clientY);
+  }, { passive:true });
+})();
+
   </script>
 </body>
 </html>
