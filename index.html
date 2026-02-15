@@ -704,52 +704,46 @@ body::after{ z-index:3 !important; opacity:.22 !important; }
 /* =========================
    STAR SPARKLES (tipo cruz)
 ========================= */
+/* ===== STAR SPARKLES (simple, sin rotación) ===== */
 .spark-layer{
   position:fixed;
   inset:0;
   pointer-events:none;
-  z-index:4; /* debajo del contenido (stage=5), encima del fondo */
+  z-index:4;
   overflow:hidden;
 }
 
 .spark{
   position:absolute;
-  width: 84px;
-  height: 84px;
-  transform: translate(-50%, -50%) scale(.35);
+  width: 56px;
+  height: 56px;
+  transform: translate(-50%, -50%) scale(.2);
   opacity: 0;
-  filter: drop-shadow(0 0 12px rgba(255,255,255,.45));
-  animation: sparkPop var(--dur, 900ms) ease-out forwards;
-  will-change: transform, opacity;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.45));
+  animation: sparkPop var(--dur, 700ms) ease-out forwards;
 }
 
-/* Cruz brillante + diagonales */
-.spark::before,
-.spark::after{
+/* cruz simple */
+.spark::before{
   content:"";
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,.95), transparent 38%),
-    linear-gradient(90deg, transparent 46%, rgba(255,255,255,.9) 50%, transparent 54%),
-    linear-gradient(0deg,  transparent 46%, rgba(255,255,255,.9) 50%, transparent 54%),
-    linear-gradient(45deg, transparent 47%, rgba(255,255,255,.55) 50%, transparent 53%),
-    linear-gradient(-45deg,transparent 47%, rgba(255,255,255,.55) 50%, transparent 53%);
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.95), transparent 40%),
+    linear-gradient(90deg, transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%),
+    linear-gradient(0deg,  transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%);
   border-radius: 999px;
   mix-blend-mode: screen;
 }
 
-.spark::after{
-  filter: blur(1px);
-  opacity:.85;
+@keyframes sparkPop{
+  0%   { opacity:0; transform: translate(-50%, -50%) scale(.15); }
+  12%  { opacity:1; }
+  55%  { opacity:1; transform: translate(-50%, -50%) scale(var(--s, .75)); }
+  100% { opacity:0; transform: translate(-50%, -50%) scale(calc(var(--s, .75) * 1.15)); }
 }
 
-@keyframes sparkPop{
-  0%   { opacity:0; transform: translate(-50%, -50%) scale(.2) rotate(0deg); }
-  10%  { opacity:1; }
-  55%  { opacity:1; transform: translate(-50%, -50%) scale(var(--s, .75)) rotate(var(--r, 0deg)); }
-  100% { opacity:0; transform: translate(-50%, -50%) scale(calc(var(--s, .75) * 1.25)) rotate(calc(var(--r, 0deg) + 35deg)); }
-}
+
 
   </style>
 </head>
