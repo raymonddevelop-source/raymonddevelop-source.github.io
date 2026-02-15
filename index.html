@@ -859,6 +859,31 @@ body::after{ z-index:3 !important; opacity:.22 !important; }
   border: 1px solid rgba(255,255,255,.26) !important;
   box-shadow: 0 10px 26px rgba(0,0,0,.50) !important;
 }
+/* ===== PATCH FINAL: entrada suave para cards (sin romper nada) ===== */
+.card{
+  opacity: 0 !important;
+  transform: translateY(28px) scale(.985) !important;
+  filter: blur(6px) !important;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes cardIn{
+  0%{ opacity:0; transform: translateY(28px) scale(.985); filter: blur(6px); }
+  55%{ opacity:1; transform: translateY(6px)  scale(.995); filter: blur(1.6px); }
+  100%{ opacity:1; transform: translateY(0)  scale(1);    filter: blur(0); }
+}
+
+.card.in-view{
+  animation: cardIn 1.05s cubic-bezier(.22,.8,.25,1) both !important;
+}
+
+@media (hover:hover){
+  .card.in-view{
+    animation:
+      cardIn 1.05s cubic-bezier(.22,.8,.25,1) both,
+      floatSoft 7s ease-in-out 1.05s infinite !important;
+  }
+}
 
 
 
@@ -1060,6 +1085,7 @@ body::after{ z-index:3 !important; opacity:.22 !important; }
     // Scroll reveal (stagger) para cards
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(!reduceMotion){
+      
       const cards = document.querySelectorAll('.card');
       const observer = new IntersectionObserver((entries)=>{
         entries.forEach((entry)=>{
@@ -1077,11 +1103,12 @@ body::after{ z-index:3 !important; opacity:.22 !important; }
         observer.observe(card);
       });
     }else{
-      document.querySelectorAll('.card').forEach(c=>{
-        c.style.opacity = 1;
-        c.style.transform = 'none';
-      });
-    }
+  // no forzar estilos; deja que el CSS decida
+  document.querySelectorAll('.card').forEach(c=>{
+    c.classList.add('in-view');
+  });
+}
+
 
     // ==========================
     // ✅ Gyro / Mouse Tilt LOGO
