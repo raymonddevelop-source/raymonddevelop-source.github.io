@@ -711,6 +711,52 @@
       .card.in-view{ animation:none !important; }
       html{ scroll-behavior:auto; }
     }
+    /* ===== FIX: que se vean los destellos como en index ===== */
+
+/* 1) Asegura el destello grande (index) */
+html::after{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  pointer-events:none !important;
+  z-index:2 !important;
+  opacity:.85 !important;
+  background:
+    radial-gradient(260px 260px at 22% 34%, rgba(255,255,255,.45), transparent 70%),
+    radial-gradient(320px 320px at 74% 44%, rgba(255,255,255,.35), transparent 72%),
+    radial-gradient(280px 280px at 55% 82%, rgba(255,255,255,.28), transparent 74%),
+    radial-gradient(2px 2px at 18% 22%, rgba(255,255,255,.95), transparent 55%),
+    radial-gradient(2px 2px at 62% 48%, rgba(255,255,255,.85), transparent 55%),
+    radial-gradient(2px 2px at 78% 72%, rgba(255,255,255,.75), transparent 55%);
+  mix-blend-mode: screen !important;
+  filter: blur(.2px) !important;
+  animation: sparkMove 8s ease-in-out infinite !important;
+}
+
+/* 2) TU PROBLEMA REAL: estas 2 capas de la card tapan el destello.
+      Las apagamos (como index). */
+.card::before,
+.card::after{
+  opacity: 0 !important;
+}
+
+/* 3) Mantén glass del index */
+.card{
+  background: rgba(18,20,42,.55) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  backdrop-filter: blur(18px) !important;
+}
+
+/* 4) Noise NO debe estar por encima de todo */
+body::after{
+  z-index:3 !important;
+  opacity:.22 !important;
+}
+
+/* 5) Contenido arriba */
+.stage{ position:relative !important; z-index:5 !important; }
+
   </style>
 </head>
 
