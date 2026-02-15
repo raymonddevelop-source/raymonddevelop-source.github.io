@@ -796,11 +796,49 @@ body::after{
   100% { opacity:0; transform: translate(-50%,-50%) scale(calc(var(--s, .9) * 1.18)); }
 }
 
+/* ===== SPARKLES tipo cruz ===== */
+.spark-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:999;   /* si no salen, esto los pone encima de todo */
+  overflow:hidden;
+}
+
+.spark{
+  position:absolute;
+  width:56px;
+  height:56px;
+  transform:translate(-50%,-50%) scale(.2);
+  opacity:0;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.45));
+  animation:sparkPop var(--dur,900ms) ease-out forwards;
+}
+
+.spark::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle, rgba(255,255,255,.95), transparent 40%),
+    linear-gradient(90deg, transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%),
+    linear-gradient(0deg,  transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%);
+  mix-blend-mode: screen;
+}
+
+@keyframes sparkPop{
+  0%{opacity:0; transform:translate(-50%,-50%) scale(.15);}
+  12%{opacity:1;}
+  55%{opacity:1; transform:translate(-50%,-50%) scale(var(--s,.9));}
+  100%{opacity:0; transform:translate(-50%,-50%) scale(calc(var(--s,.9)*1.18));}
+}
 
   </style>
 </head>
 
 <body>
+  <div class="spark-layer" aria-hidden="true"></div>
+
   <div class="drawer-backdrop" id="backdrop" aria-hidden="true"></div>
 
   <aside class="drawer" id="drawer" aria-label="Menú">
