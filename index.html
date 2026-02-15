@@ -469,7 +469,7 @@
 
   /* ✅ estado inicial (más marcado para que se NOTE la entrada) */
   opacity: 0;
-  transform: translateY(28px) scale(.985);
+  transform: translateY(28px) scale(.99);
   filter: blur(6px);
   will-change: transform, opacity, filter;
 }
@@ -868,9 +868,8 @@ body::after{ z-index:3 !important; opacity:.22 !important; }
 }
 
 @keyframes cardIn{
-  0%{ opacity:0; transform: translateY(28px) scale(.985); filter: blur(6px); }
-  55%{ opacity:1; transform: translateY(6px)  scale(.995); filter: blur(1.6px); }
-  100%{ opacity:1; transform: translateY(0)  scale(1);    filter: blur(0); }
+  0%{ opacity:0; transform: translateY(20px) scale(.99); }
+  100%{ opacity:1; transform: translateY(0) scale(1); }
 }
 
 .card.in-view{
