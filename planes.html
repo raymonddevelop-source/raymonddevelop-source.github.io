@@ -756,6 +756,46 @@ body::after{
 
 /* 5) Contenido arriba */
 .stage{ position:relative !important; z-index:5 !important; }
+    /* =========================
+   STAR SPARKLES (igual index)
+========================= */
+.spark-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:4;              /* debajo del contenido (stage=5), encima del destello grande (2) */
+  overflow:hidden;
+}
+
+.spark{
+  position:absolute;
+  width:56px;
+  height:56px;
+  transform: translate(-50%,-50%) scale(.2);
+  opacity:0;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.45));
+  animation: sparkPop var(--dur, 850ms) ease-out forwards;
+}
+
+.spark::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.95), transparent 40%),
+    linear-gradient(90deg, transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%),
+    linear-gradient(0deg,  transparent 48%, rgba(255,255,255,.85) 50%, transparent 52%);
+  border-radius:999px;
+  mix-blend-mode: screen;
+}
+
+@keyframes sparkPop{
+  0%   { opacity:0; transform: translate(-50%,-50%) scale(.15); }
+  12%  { opacity:1; }
+  55%  { opacity:1; transform: translate(-50%,-50%) scale(var(--s, .9)); }
+  100% { opacity:0; transform: translate(-50%,-50%) scale(calc(var(--s, .9) * 1.18)); }
+}
+
 
   </style>
 </head>
