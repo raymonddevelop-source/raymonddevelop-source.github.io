@@ -1063,6 +1063,65 @@ body::after{ z-index:3 !important; opacity:.22 !important; }
         });
       }
     })();
+
+    // ==========================
+// STAR SPARKLES random (rápidos y visibles)
+// ==========================
+(function(){
+  const layer = document.querySelector('.spark-layer');
+  if(!layer) return;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;
+
+  // Ajustes
+  const MAX = 14;          // máximo destellos en pantalla
+  const EVERY = 280;       // ms entre spawns (menos = más)
+  const SAFE_TOP = 80;     // evita la barra/nav
+
+  function rand(min, max){ return Math.random() * (max - min) + min; }
+
+  function spawn(){
+    if(layer.childElementCount > MAX) return;
+
+    const s = document.createElement('span');
+    s.className = 'spark';
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    const x = rand(40, w - 40);
+    const y = rand(SAFE_TOP, h - 60);
+
+    s.style.left = x + 'px';
+    s.style.top  = y + 'px';
+
+    // tamaño / rotación / duración random
+    s.style.setProperty('--s', rand(.55, 1.05).toFixed(2));
+    s.style.setProperty('--r', rand(-35, 35).toFixed(1) + 'deg');
+    s.style.setProperty('--dur', Math.round(rand(650, 1050)) + 'ms');
+
+    layer.appendChild(s);
+    s.addEventListener('animationend', ()=> s.remove(), { once:true });
+  }
+
+  // loop
+  setInterval(spawn, EVERY);
+
+  // extra: destello al tap/click (se siente premium)
+  window.addEventListener('pointerdown', (e)=>{
+    const s = document.createElement('span');
+    s.className = 'spark';
+    s.style.left = e.clientX + 'px';
+    s.style.top  = e.clientY + 'px';
+    s.style.setProperty('--s', rand(.9, 1.3).toFixed(2));
+    s.style.setProperty('--r', rand(-45, 45).toFixed(1) + 'deg');
+    s.style.setProperty('--dur', Math.round(rand(700, 1100)) + 'ms');
+    layer.appendChild(s);
+    s.addEventListener('animationend', ()=> s.remove(), { once:true });
+  }, { passive:true });
+})();
+
   </script>
 </body>
 </html>
